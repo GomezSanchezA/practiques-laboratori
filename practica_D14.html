@@ -681,25 +681,38 @@ function updateSim() {
 
   let fillColor, labelText, labelBg, status, phase;
 
-  // Organic drop: pale red when I₂ present, colorless at endpoint
-  let orgColor;
-  const orgProgress = Math.min(1, v / EQ_POINT);
-  orgColor = `rgba(${Math.round(lerp(200,200,orgProgress))},${Math.round(lerp(60,200,orgProgress))},${Math.round(lerp(60,200,orgProgress))},${lerp(0.4,0.05,orgProgress)})`;
-  flaskOrganic.setAttribute('fill', orgColor);
+  // Organic CH₂Cl₂ drop at bottom:
+  // At the start, hidden under dark brown aqueous layer (not visible)
+  // Becomes visible when aqueous clears (pale yellow stage)
+  // Stays pale red/pink persistently — last thing to decolorize (need to shake!)
+  // Only disappears at the very end with vigorous shaking
+  let orgAlpha, orgR;
+  if (v < STARCH_POINT * 0.7) {
+    // Hidden under brown — not visible
+    orgAlpha = 0;
+  } else if (v < EQ_POINT) {
+    // Becomes visible as aqueous clears — pale red, persistent
+    const t = (v - STARCH_POINT * 0.7) / (EQ_POINT - STARCH_POINT * 0.7);
+    orgAlpha = lerp(0.15, 0.45, Math.min(t * 2, 1));
+  } else {
+    // Endpoint — finally colorless after shaking
+    orgAlpha = 0.05;
+  }
+  flaskOrganic.setAttribute('fill', `rgba(200,60,60,${orgAlpha})`);
 
   if (v < STARCH_POINT * 0.5) {
     const t = v / (STARCH_POINT * 0.5);
     fillColor = lerpRGBA(BROWN, YELLOW, t, 0.65 - t * 0.2);
-    labelText = 'Marró fosc (I₂) + gota rosada (CH₂Cl₂)';
+    labelText = 'Marró fosc intens (I₂)';
     labelBg = 'rgba(120,53,15,0.85)';
-    status = "Dues fases: la capa aquosa (marró intens, I₂) i una gota arrodonida de CH₂Cl₂ al fons (rosada per l'I₂ dissolt). Agiteu fort entre addicions!";
+    status = "La dissolució és marró molt fosc pel I₂. No es veu el fons del matràs. Hi ha una gota de CH₂Cl₂ al fons, però no es veu sota el marró.";
     phase = 'Fase 1 — Sense midó';
   } else if (v < STARCH_POINT * 0.85) {
     const t = (v - STARCH_POINT * 0.5) / (STARCH_POINT * 0.35);
     fillColor = lerpRGBA(YELLOW, PALE_YEL, t, 0.35 - t * 0.15);
     labelText = 'Groc — queda poc I₂';
     labelBg = 'rgba(202,138,4,0.85)';
-    status = "El color va aclarint-se. La gota de CH₂Cl₂ al fons també s'aclareix. Agiteu fort! Prepareu el midó però NO l'afegiu encara.";
+    status = "El color s'aclareix i ara es comença a veure la gota de CH₂Cl₂ al fons — és rosada/vermellosa per l'I₂ dissolt. Agiteu fort! Prepareu el midó.";
     phase = 'Fase 1 — Sense midó';
   } else if (v < STARCH_POINT) {
     const t = (v - STARCH_POINT * 0.85) / (STARCH_POINT * 0.15);
@@ -714,7 +727,7 @@ function updateSim() {
     if (t < 0.3) {
       labelText = 'Blau fosc (complex midó-I₂)';
       labelBg = 'rgba(30,58,138,0.85)';
-      status = "Heu afegit el midó i la dissolució és blau fosc. Continueu valorant gota a gota amb tiosulfat.";
+      status = "Heu afegit el midó i la capa aquosa és blau fosc. La gota de CH₂Cl₂ al fons segueix rosada — és normal, l'I₂ hi queda retingut.";
     } else if (t < 0.8) {
       labelText = 'Blau — a prop del viratge';
       labelBg = 'rgba(30,58,138,0.7)';
@@ -722,14 +735,14 @@ function updateSim() {
     } else {
       labelText = 'Blau molt pàl·lid — mitja gota!';
       labelBg = 'rgba(80,100,180,0.7)';
-      status = "Esteu a punt! Una sola gota pot fer el viratge a incolor. Afegiu mitja gota i espereu.";
+      status = "La capa aquosa quasi incolora, però la gota de CH₂Cl₂ segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica.";
     }
     phase = 'Fase 2 — Amb midó';
   } else {
     fillColor = 'rgba(200,200,200,0.05)';
     labelText = '✓ INCOLOR — Punt final';
     labelBg = 'rgba(100,116,139,0.8)';
-    status = "Tot el I₂ ha estat reduït. Tant la capa aquosa com la gota de CH₂Cl₂ són incolores. Agiteu i comproveu que les dues fases siguin clares. Viratge persistent ≥ 30 s.";
+    status = "Tot el I₂ ha estat reduït. La gota de CH₂Cl₂ finalment és incolora — cal haver agitat molt fort per aconseguir-ho. Comproveu que ambdues fases siguin clares. Viratge persistent ≥ 30 s.";
     phase = '✓ Valoració completada';
   }
 
