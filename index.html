@@ -586,16 +586,21 @@
   </div>
 
   <nav class="sidebar-nav">
-    <button class="menu-item menu-home" data-page="home" onclick="navigateTo('home')">
-      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      Inici
-    </button>
+    <!-- Inici -->
+    <div class="menu-section">
+      <button class="menu-section-header" onclick="navigateTo('home')">
+        <div class="menu-section-icon" style="background:var(--gray-100);">🏠</div>
+        <span class="menu-section-label">Inici</span>
+      </button>
+    </div>
 
     <!-- Llibreta -->
-    <button class="menu-item menu-home" data-page="LLIBRETA" onclick="navigateTo('LLIBRETA')" style="margin-bottom:4px;">
-      <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--gray-500);flex-shrink:0;"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-      La llibreta
-    </button>
+    <div class="menu-section">
+      <button class="menu-section-header" data-page="LLIBRETA" onclick="navigateTo('LLIBRETA')">
+        <div class="menu-section-icon" style="background:var(--blue-100);">📓</div>
+        <span class="menu-section-label">La llibreta</span>
+      </button>
+    </div>
 
     <!-- Seminaris -->
     <div class="menu-section" id="sec-seminaris">
@@ -654,6 +659,14 @@
     </div>
 
     <div class="landing-cards">
+      <div class="landing-card" onclick="navigateTo('LLIBRETA')">
+        <div class="landing-card-icon" style="background:var(--blue-100);">📓</div>
+        <div class="landing-card-body">
+          <h3>La llibreta de laboratori</h3>
+          <p>Com s'ha d'escriure, què ha de contenir, com corregir errors i un exemple complet.</p>
+          <span class="card-count">Guia essencial</span>
+        </div>
+      </div>
       <div class="landing-card" onclick="openSection('sec-seminaris')">
         <div class="landing-card-icon" style="background:#fef3c7;">📋</div>
         <div class="landing-card-body">
