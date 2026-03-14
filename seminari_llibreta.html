@@ -485,55 +485,90 @@
   <div class="transition-section reveal">
     <div class="divider-line"></div>
     <h2>Exemple complet</h2>
-    <p>Així hauria de quedar la llibreta per a una pràctica de clor actiu en un lleixiu.</p>
+    <p>Vegem com quedaria la llibreta per a una determinació d'àcid acetilsalicílic (AAS) en comprimits.</p>
+  </div>
+
+  <div class="highlight-box info reveal">
+    <div class="highlight-icon">💊</div>
+    <h3>Nota sobre aquesta pràctica</h3>
+    <p>La determinació d'AAS en comprimits es pot fer de dues maneres:<br>
+    <strong>a) Per retrocés amb hidròlisi</strong> — s'afegeix un excés de NaOH, es bull per hidrolitzar l'AAS, i es valora l'excés de NaOH amb H₂SO₄. Aquesta és la versió que fareu al laboratori.<br>
+    <strong>b) Directa amb NaOH</strong> — es dissol l'AAS i es valora directament amb NaOH. Més senzilla, sense hidròlisi.<br><br>
+    En aquest exemple de llibreta farem servir la <strong>versió directa (b)</strong>, perquè és més fàcil d'entendre i serveix perfectament per veure com s'estructura la llibreta.</p>
   </div>
 
   <!-- Page 1 -->
   <div class="notebook reveal">
     <span class="nb-label">Pàgina 1 — Preparació (a casa)</span>
-    <div class="nb-title">Determinació del clor actiu en un lleixiu</div>
-    Data: 15/03/2026 &emsp; Pàg. 1/4<br><br>
+    <div class="nb-title">Determinació d'AAS en comprimits analgèsics</div>
+    Data: 15/03/2026 &emsp; Pàg. 12/15<br><br>
 
     <span class="nb-section">Objectiu</span><br>
-    Determinar la quantitat de Cl₂ actiu en g/L en una mostra de lleixiu comercial.<br><br>
+    Determinar la quantitat d'àcid acetilsalicílic (AAS) en mg per comprimit d'un analgèsic comercial, mitjançant una valoració directa amb NaOH.<br><br>
 
     <span class="nb-section">Tipus de volumetria</span><br>
-    Per reacció: redox (iodometria indirecta)<br>
-    Per mode: indirecta<br><br>
+    Per tipus de reacció: àcid-base (neutralització)<br>
+    Per mode operatiu: directa<br><br>
 
     <span class="nb-section">Reaccions</span><br>
-    ClO⁻ + 2I⁻ + 2H⁺ → Cl⁻ + I₂ + H₂O<br>
-    I₂ + 2S₂O₃²⁻ → 2I⁻ + S₄O₆²⁻<br><br>
-
+    Reacció principal (neutralització de l'AAS amb NaOH):<br>
+    <div class="nb-data">
+      C₉H₈O₄ + NaOH → C₉H₇O₄Na + H₂O<br>
+      (AAS)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(acetilsalicilat de sodi)<br><br>
+      Estequiometria: 1 mol AAS : 1 mol NaOH<br>
+      L'AAS és un àcid monopròtic — el grup carboxílic (-COOH) reacciona amb l'OH⁻
+    </div>
+    <br>
     <span class="nb-section">Indicador</span><br>
-    Midó 1%. Afegir quan groc pàl·lid.<br>
-    Viratge: blau intens → incolor
+    Fenolftaleïna 0,05% (m/v)<br>
+    Viratge: incolor → rosa pàl·lid persistent (≥ 15-20 s)<br>
+    El viratge indica que tot l'AAS ha estat neutralitzat i hi ha un lleuger excés de NaOH (pH ≈ 8,2)
   </div>
 
   <!-- Page 2 -->
   <div class="notebook reveal">
-    <span class="nb-label">Pàgina 2 — Càlculs previs</span>
+    <span class="nb-label">Pàgina 2 — Càlculs previs i procediment</span>
     <span class="nb-section">Càlculs previs</span><br><br>
 
-    Regla del 80%: bureta 25 mL → objectiu ≈ 20 mL<br><br>
+    M(AAS) = 180,16 g/mol<br>
+    C(NaOH) ≈ 0,1 mol/L (estandaritzat: 0,1012 mol/L)<br>
+    Bureta: 25 mL<br><br>
 
+    Regla del 80%: objectiu ≈ 0,80 × 25 = 20,0 mL de NaOH<br><br>
+
+    Quanta massa d'AAS necessito per gastar ~20 mL?<br>
     <div class="nb-data">
-      70 mg Cl₂ × (1g/1000mg) × (1mol Cl₂/70,91g) × (2mol S₂O₃²⁻/1mol Cl₂) × (1000mL/0,1mol S₂O₃²⁻) = 19,8 mL ✓
+      20,0 mL × (1L/1000mL) × (0,1 mol NaOH/1L) × (1 mol AAS/1 mol NaOH) × (180,16 g/1 mol AAS) = 0,360 g AAS
     </div>
     <br>
-    Cal mostra amb ~70 mg de Cl₂<br>
-    Si lleixiu ~40 g/L → 70 mg / 40 g/L = 1,75 mL<br>
-    Diluir: 10 mL mostra → 100 mL (pipeta aforada + matràs aforat)<br>
-    Alíquota: 15 mL (pipeta aforada) → ~17,5 mL valorant ✓<br><br>
+    Necessito ~360 mg d'AAS per assaig.<br>
+    Un comprimit d'aspirina conté ~500 mg d'AAS (segons el prospecte).<br>
+    Per tant, una mica menys d'un comprimit sencer hauria de ser suficient.<br><br>
+
+    Triturar els comprimits al morter i pesar ~0,36 g per diferència (balança analítica, pesasubstàncies).<br>
+    Volum esperat de NaOH: ~20 mL → bureta de 25 mL, adequada.<br>
+    No cal dilució: dissolem directament en aigua a l'erlenmeyer.<br><br>
+
+    <span class="nb-section">Material necessari</span><br>
+    - Morter de vidre — per triturar els comprimits fins a pols fina i homogènia<br>
+    - Balança analítica — per pesar per diferència amb 4 decimals<br>
+    - Pesasubstàncies amb tapa — per contenir la pols durant la pesada<br>
+    - 3 erlenmeyers de 300 mL — un per cada assaig (triplicat)<br>
+    - Bureta de 25 mL — per dispensar el NaOH amb precisió (V esperat ~20 mL, és el 80%)<br>
+    - Proveta de 100 mL — per afegir ~100 mL d'aigua (no cal precisió, és el dissolvent)<br>
+    - Comptagotes — per afegir les gotes d'indicador<br>
+    - Paper blanc — per col·locar sota l'erlenmeyer i veure millor el viratge<br><br>
 
     <span class="nb-section">Procediment</span><br>
-    1. Diluir mostra (pipeta aforada → matràs aforat)<br>
-    2. Alíquota en erlenmeyer<br>
-    3. + KI (ABANS d'acidificar!)<br>
-    4. + H₂SO₄ → es forma I₂ (marró)<br>
-    5. Valorar amb S₂O₃²⁻ fins groc pàl·lid<br>
-    6. + midó → blau<br>
-    7. Continuar fins incolor<br>
+    1. Pesar els comprimits sencers individualment a la balança granatària per calcular el pes mitjà d'un comprimit<br>
+    2. Triturar tots els comprimits al morter fins a pols fina i homogènia. Això és necessari perquè cada pesada sigui representativa del conjunt<br>
+    3. Pesar per diferència ~0,36 g de pols de comprimits (per triplicat, des del pesasubstàncies amb tapa, a la balança analítica). Transferir cada pesada a un erlenmeyer de 300 mL<br>
+    4. Afegir ~100 mL d'aigua desionitzada a cada erlenmeyer (proveta). Agitar fins a dissoldre. L'AAS és poc soluble — pot quedar una mica de residu dels excipients, és normal<br>
+    5. Afegir 2-3 gotes de fenolftaleïna 0,05% a cada erlenmeyer<br>
+    6. Acondicionar la bureta de 25 mL amb NaOH 0,1012 mol/L (3 enjuagues). Omplir. Eliminar bombolles. Anotar volum inicial<br>
+    7. Valorar afegint NaOH des de la bureta, agitant constantment. A prop del viratge, anar gota a gota<br>
+    8. Punt final: rosa pàl·lid persistent ≥ 15-20 s. Anotar volum final<br>
+    9. Repetir amb els altres dos erlenmeyers
   </div>
 
   <!-- Page 3 -->
@@ -541,49 +576,77 @@
     <span class="nb-label">Pàgina 3 — Dades experimentals (al laboratori)</span>
     <span class="nb-section">Dades experimentals</span><br><br>
 
-    C(S₂O₃²⁻) = 0,1043 mol/L<br>
-    Dilució: 10/100. Alíquota: 15,00 mL<br><br>
+    C(NaOH) = 0,1012 mol/L (estandaritzat)<br>
+    Pes mitjà d'un comprimit: 0,6215 g (mitjana de 5 comprimits)<br><br>
 
+    Pesades per diferència (balança analítica):<br>
     <div class="nb-data" style="font-family:'Inter',sans-serif; font-size:0.75rem;">
       <table style="width:100%; border-collapse:collapse; text-align:center;">
         <tr style="border-bottom:1px solid #cbd5e1;">
           <td></td><td><strong>Assaig 1</strong></td><td><strong>Assaig 2</strong></td><td><strong>Assaig 3</strong></td>
         </tr>
-        <tr><td style="text-align:left;">V_inicial (mL)</td><td>0,15</td><td>0,20</td><td>0,10</td></tr>
-        <tr><td style="text-align:left;">V_final (mL)</td><td>22,33</td><td>22,40</td><td>22,25</td></tr>
+        <tr><td style="text-align:left;">m₁ (g)</td><td>32,4518</td><td>32,0876</td><td>31,7234</td></tr>
+        <tr><td style="text-align:left;">m₂ (g)</td><td>32,0876</td><td>31,7234</td><td>31,3598</td></tr>
         <tr style="border-top:1px solid #cbd5e1;">
-          <td style="text-align:left;"><strong>V_gastat (mL)</strong></td><td><strong>22,18</strong></td><td><strong>22,20</strong></td><td><strong>22,15</strong></td>
+          <td style="text-align:left;"><strong>Δm (g)</strong></td><td><strong>0,3642</strong></td><td><strong>0,3642</strong></td><td><strong>0,3636</strong></td>
         </tr>
       </table>
     </div>
     <br>
-    Viratge: marró → groc pàl·lid → (midó) → blau → incolor ✓ en els 3 assajos<br>
-    Incidència: assaig 1, vaig afegir el midó una mica massa aviat (color marró encara)
+    Nota: m₂ d'un assaig = m₁ del següent (pesada consecutiva del mateix pesasubstàncies)<br><br>
+
+    Lectures de bureta:<br>
+    <div class="nb-data" style="font-family:'Inter',sans-serif; font-size:0.75rem;">
+      <table style="width:100%; border-collapse:collapse; text-align:center;">
+        <tr style="border-bottom:1px solid #cbd5e1;">
+          <td></td><td><strong>Assaig 1</strong></td><td><strong>Assaig 2</strong></td><td><strong>Assaig 3</strong></td>
+        </tr>
+        <tr><td style="text-align:left;">V_inicial (mL)</td><td>0,10</td><td>0,15</td><td>0,20</td></tr>
+        <tr><td style="text-align:left;">V_final (mL)</td><td><span class="nb-strikethrough">19,45</span> <span class="nb-correction">19,55</span></td><td>19,50</td><td>19,40</td></tr>
+        <tr style="border-top:1px solid #cbd5e1;">
+          <td style="text-align:left;"><strong>V_gastat (mL)</strong></td><td><strong>19,45</strong></td><td><strong>19,35</strong></td><td><strong>19,20</strong></td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    Observacions del viratge:<br>
+    - Assaig 1: rosa pàl·lid persistent, clar. He corregit la lectura final perquè primer havia llegit malament el menisc (mirava des de dalt)<br>
+    - Assaig 2: rosa pàl·lid, correcte<br>
+    - Assaig 3: rosa una mica més intens que els altres dos — potser una gota de més. Resultat pot sortir lleugerament baix
   </div>
 
   <!-- Page 4 -->
   <div class="notebook reveal">
-    <span class="nb-label">Pàgina 4 — Càlculs i resultat</span>
-    <span class="nb-section">Càlculs (assaig 1)</span><br><br>
+    <span class="nb-label">Pàgina 4 — Càlculs, resultat i interpretació</span>
+    <span class="nb-section">Càlculs</span><br><br>
 
+    Assaig 1 (detallat):<br>
     <div class="nb-data">
-      22,18 mL × (0,1043 mol S₂O₃²⁻/1000 mL) × (1 mol I₂/2 mol S₂O₃²⁻) × (1 mol Cl₂/1 mol I₂) × (70,91 g/1 mol Cl₂) × (100 mL/15 mL) × (1/0,010 L) = 54,83 g/L
+      19,45 mL × (1L/1000mL) × (0,1012 mol NaOH/1L) × (1 mol AAS/1 mol NaOH) × (180,16 g/1 mol AAS) = 0,3546 g AAS
     </div>
     <br>
-    Assaig 2: 54,88 g/L<br>
-    Assaig 3: 54,76 g/L<br><br>
+    mg AAS per comprimit:<br>
+    <div class="nb-data">
+      (0,3546 g AAS / 0,3642 g pols) × 0,6215 g/comprimit × 1000 = 604,8 mg/comprimit
+    </div>
+    <br>
+    Assaig 2: 0,3528 g AAS → (0,3528/0,3642) × 0,6215 × 1000 = 602,2 mg/comprimit<br>
+    Assaig 3: 0,3500 g AAS → (0,3500/0,3636) × 0,6215 × 1000 = 598,4 mg/comprimit<br><br>
 
     <span class="nb-section">Resultat</span><br>
     <div class="nb-data" style="text-align:center; font-weight:700; font-size:0.9rem;">
-      Cl₂ = 54,8 ± 0,1 g/L &emsp; (n=3, RSD = 0,1%)
+      AAS = 602 ± 3 mg/comprimit &emsp; (n=3, RSD = 0,5%)
     </div>
     <br>
-    <span class="nb-section">Interpretació</span><br>
-    El resultat (54,8 g/L) és coherent amb un lleixiu comercial (40-50 g/L per a lleixiu estàndard, pot arribar a 50-60 g/L si és concentrat). El RSD és molt baix, cosa que indica bona reproductibilitat.<br><br>
+    <span class="nb-section">Interpretació dels resultats</span><br>
+    El prospecte indica 500 mg d'AAS per comprimit, però el nostre resultat és de 602 mg. Això és superior al declarat, però cal tenir en compte que la valoració directa sense hidròlisi valora l'AAS com a àcid monopròtic sense descomposar-lo. El resultat és internament consistent (RSD = 0,5%, bona reproductibilitat).<br><br>
+
+    La diferència amb els 500 mg declarats podria ser deguda a que el comprimit conté altres substàncies àcides (excipients) que també reaccionen amb el NaOH, o a que la puresa real de l'AAS és superior al mínim declarat pel fabricant.<br><br>
 
     <span class="nb-section">Observacions</span><br>
-    - Vaig afegir el midó massa aviat al primer assaig → viratge una mica menys net, però el resultat no sembla afectat<br>
-    - Important: afegir KI ABANS de l'àcid, si no el clor s'escapa com a gas
+    - L'AAS no es dissol completament en aigua freda — queden partícules blanques en suspensió. Són excipients insolubles (midó, cel·lulosa). No afecten la valoració perquè no són àcids<br>
+    - L'assaig 3 ha donat un resultat lleugerament inferior — probablement per la gota de més de NaOH que vaig notar (rosa més intens). El volum anotat inclou aquesta gota extra, fent que el resultat sigui lleugerament alt en volum de NaOH però el càlcul compensa<br>
+    - He après que cal anar molt a poc a poc a prop del viratge — la fenolftaleïna canvia en mitja gota
   </div>
 
   <!-- ═══════ RULES ═══════ -->
