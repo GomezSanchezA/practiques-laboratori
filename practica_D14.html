@@ -636,8 +636,10 @@ const flaskOrganic = document.getElementById('flaskOrganic');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
-const STARCH_POINT = 700;
-const EQ_POINT = 950;
+const STARCH_POINT = 650;
+const AQ_CLEAR = 880;   // aqueous becomes colorless
+const DROP_CLEAR = 960;  // organic drop finally decolorizes (need shaking!)
+const EQ_POINT = 960;
 
 const BROWN      = { r:120, g:53,  b:15  };
 const YELLOW     = { r:234, g:179, b:8   };
@@ -681,22 +683,23 @@ function updateSim() {
 
   let fillColor, labelText, labelBg, status, phase;
 
-  // Organic CH₂Cl₂ drop at bottom:
-  // At the start, hidden under dark brown aqueous layer (not visible)
-  // Becomes visible when aqueous clears (pale yellow stage)
-  // Stays pale red/pink persistently — last thing to decolorize (need to shake!)
-  // Only disappears at the very end with vigorous shaking
-  let orgAlpha, orgR;
-  if (v < STARCH_POINT * 0.7) {
-    // Hidden under brown — not visible
-    orgAlpha = 0;
-  } else if (v < EQ_POINT) {
-    // Becomes visible as aqueous clears — pale red, persistent
-    const t = (v - STARCH_POINT * 0.7) / (EQ_POINT - STARCH_POINT * 0.7);
-    orgAlpha = lerp(0.15, 0.45, Math.min(t * 2, 1));
+  // Organic CH₂Cl₂ drop:
+  // Hidden under dark brown at start → becomes visible when aqueous clears →
+  // STAYS PINK even when aqueous is already colorless → finally disappears with shaking
+  let orgAlpha;
+  if (v < STARCH_POINT * 0.6) {
+    orgAlpha = 0; // hidden under dark brown
+  } else if (v < AQ_CLEAR) {
+    // Gradually becomes visible as aqueous clears
+    const t = (v - STARCH_POINT * 0.6) / (AQ_CLEAR - STARCH_POINT * 0.6);
+    orgAlpha = lerp(0.1, 0.45, t);
+  } else if (v < DROP_CLEAR) {
+    // Aqueous is ALREADY colorless but drop STAYS pink — this is the key moment
+    orgAlpha = 0.45;
   } else {
-    // Endpoint — finally colorless after shaking
-    orgAlpha = 0.05;
+    // Finally decolorizes after vigorous shaking
+    const t = (v - DROP_CLEAR) / (1000 - DROP_CLEAR);
+    orgAlpha = lerp(0.45, 0.02, t);
   }
   flaskOrganic.setAttribute('fill', `rgba(200,60,60,${orgAlpha})`);
 
@@ -721,28 +724,37 @@ function updateSim() {
     labelBg = 'rgba(234,179,8,0.9)';
     status = "⚠️ AFEGIU MIDÓ ARA! La dissolució és groc pàl·lid — és el moment d'afegir l'indicador de midó 1%.";
     phase = '⚠️ AFEGIU EL MIDÓ ABANS DE CONTINUAR!';
-  } else if (v < EQ_POINT) {
-    const t = (v - STARCH_POINT) / (EQ_POINT - STARCH_POINT);
-    fillColor = lerpRGBA(DARK_BLUE, COLORLESS, t * 0.85, 0.6 - t * 0.45);
+  } else if (v < AQ_CLEAR) {
+    // Starch phase: blue → colorless in aqueous
+    const t = (v - STARCH_POINT) / (AQ_CLEAR - STARCH_POINT);
+    fillColor = lerpRGBA(DARK_BLUE, COLORLESS, t, 0.6 - t * 0.55);
     if (t < 0.3) {
       labelText = 'Blau fosc (complex midó-I₂)';
       labelBg = 'rgba(30,58,138,0.85)';
-      status = "Heu afegit el midó i la capa aquosa és blau fosc. La gota de CH₂Cl₂ al fons segueix rosada — és normal, l'I₂ hi queda retingut.";
-    } else if (t < 0.8) {
+      status = "Heu afegit el midó i la capa aquosa és blau fosc. La gota de CH₂Cl₂ al fons es veu rosada.";
+    } else if (t < 0.7) {
       labelText = 'Blau — a prop del viratge';
       labelBg = 'rgba(30,58,138,0.7)';
-      status = "El blau va aclarint-se. Aneu gota a gota! El punt final és molt a prop.";
+      status = "El blau va aclarint-se. Aneu gota a gota! La gota de CH₂Cl₂ segueix rosada.";
     } else {
-      labelText = 'Blau molt pàl·lid — mitja gota!';
+      labelText = 'Blau molt pàl·lid';
       labelBg = 'rgba(80,100,180,0.7)';
-      status = "La capa aquosa quasi incolora, però la gota de CH₂Cl₂ segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica.";
+      status = "La capa aquosa quasi incolora... però la gota de CH₂Cl₂ segueix rosada!";
     }
     phase = 'Fase 2 — Amb midó';
-  } else {
+  } else if (v < DROP_CLEAR) {
+    // Aqueous is colorless but organic drop STILL PINK
     fillColor = 'rgba(200,200,200,0.05)';
-    labelText = '✓ INCOLOR — Punt final';
+    labelText = '⚠️ Aquosa incolora — gota CH₂Cl₂ encara rosa!';
+    labelBg = 'rgba(200,60,60,0.8)';
+    status = "La capa aquosa ja és transparent, però la gota de CH₂Cl₂ al fons segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica. Afegiu una mica més de tiosulfat si cal.";
+    phase = '⚠️ Cal agitar fort!';
+  } else {
+    // Both phases colorless — true endpoint
+    fillColor = 'rgba(200,200,200,0.03)';
+    labelText = '✓ TOT INCOLOR — Punt final';
     labelBg = 'rgba(100,116,139,0.8)';
-    status = "Tot el I₂ ha estat reduït. La gota de CH₂Cl₂ finalment és incolora — cal haver agitat molt fort per aconseguir-ho. Comproveu que ambdues fases siguin clares. Viratge persistent ≥ 30 s.";
+    status = "Ara sí! Tant la capa aquosa com la gota de CH₂Cl₂ són incolores. Ha calgut agitar molt fort. Viratge persistent ≥ 30 s.";
     phase = '✓ Valoració completada';
   }
 
