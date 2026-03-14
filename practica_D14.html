@@ -508,10 +508,17 @@
           <!-- ══ ERLENMEYER ══ -->
           <path d="M97 215 L97 248 Q97 253 88 263 L58 315 Q50 327 62 333 L158 333 Q170 327 162 315 L132 263 Q123 253 123 248 L123 215"
                 fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
+          <!-- Aqueous layer (top) -->
           <path id="flaskLiquid"
                 d="M90 265 Q97 258 110 258 Q123 258 130 265 L162 315 Q170 327 158 333 L62 333 Q50 327 58 315 Z"
                 fill="rgba(120,53,15,0.5)"/>
-          <ellipse id="flaskSurface" cx="110" cy="260" rx="22" ry="3" fill="rgba(255,255,255,0.15)"/>
+          <!-- CH₂Cl₂ organic drop at bottom (denser, rounded blob) -->
+          <ellipse id="flaskOrganic" cx="110" cy="326" rx="28" ry="8" fill="rgba(200,60,60,0.4)"/>
+          <!-- Label for phases -->
+          <text id="phaseAqLabel" x="70" y="290" font-size="6" fill="rgba(100,100,100,0.6)" font-family="Inter,sans-serif">aquosa</text>
+          <text id="phaseOrgLabel" x="93" y="335" font-size="5.5" fill="rgba(100,100,100,0.6)" font-family="Inter,sans-serif">CH₂Cl₂</text>
+          <!-- Surface shimmer -->
+          <ellipse cx="110" cy="260" rx="22" ry="3" fill="rgba(255,255,255,0.15)"/>
           <path d="M97 248 Q97 253 90 262 L65 305"
                 fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
           <rect x="97" y="205" width="26" height="12" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
@@ -625,6 +632,7 @@ const colorLabel = document.getElementById('simColorLabel');
 const statusText = document.getElementById('simStatus');
 const phaseLabel = document.getElementById('simPhaseLabel');
 const flaskLiquid = document.getElementById('flaskLiquid');
+const flaskOrganic = document.getElementById('flaskOrganic');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
@@ -673,19 +681,25 @@ function updateSim() {
 
   let fillColor, labelText, labelBg, status, phase;
 
+  // Organic drop: pale red when I₂ present, colorless at endpoint
+  let orgColor;
+  const orgProgress = Math.min(1, v / EQ_POINT);
+  orgColor = `rgba(${Math.round(lerp(200,200,orgProgress))},${Math.round(lerp(60,200,orgProgress))},${Math.round(lerp(60,200,orgProgress))},${lerp(0.4,0.05,orgProgress)})`;
+  flaskOrganic.setAttribute('fill', orgColor);
+
   if (v < STARCH_POINT * 0.5) {
     const t = v / (STARCH_POINT * 0.5);
-    fillColor = lerpRGBA(BROWN, YELLOW, t, 0.5 - t * 0.15);
-    labelText = 'Marró fosc (I₂)';
+    fillColor = lerpRGBA(BROWN, YELLOW, t, 0.65 - t * 0.2);
+    labelText = 'Marró fosc (I₂) + gota rosada (CH₂Cl₂)';
     labelBg = 'rgba(120,53,15,0.85)';
-    status = "El tiosulfat va reduint el I₂. Encara queda molt de iode lliure — la dissolució és marró.";
+    status = "Dues fases: la capa aquosa (marró intens, I₂) i una gota arrodonida de CH₂Cl₂ al fons (rosada per l'I₂ dissolt). Agiteu fort entre addicions!";
     phase = 'Fase 1 — Sense midó';
   } else if (v < STARCH_POINT * 0.85) {
     const t = (v - STARCH_POINT * 0.5) / (STARCH_POINT * 0.35);
     fillColor = lerpRGBA(YELLOW, PALE_YEL, t, 0.35 - t * 0.15);
     labelText = 'Groc — queda poc I₂';
     labelBg = 'rgba(202,138,4,0.85)';
-    status = "El color va aclarint-se. Queda poc iode. Prepareu el midó però NO l'afegiu encara!";
+    status = "El color va aclarint-se. La gota de CH₂Cl₂ al fons també s'aclareix. Agiteu fort! Prepareu el midó però NO l'afegiu encara.";
     phase = 'Fase 1 — Sense midó';
   } else if (v < STARCH_POINT) {
     const t = (v - STARCH_POINT * 0.85) / (STARCH_POINT * 0.15);
@@ -715,7 +729,7 @@ function updateSim() {
     fillColor = 'rgba(200,200,200,0.05)';
     labelText = '✓ INCOLOR — Punt final';
     labelBg = 'rgba(100,116,139,0.8)';
-    status = "Tot el I₂ ha estat reduït a I⁻ pel tiosulfat. El midó ja no té iode per complexar i la dissolució és incolora. Viratge persistent ≥ 30 s.";
+    status = "Tot el I₂ ha estat reduït. Tant la capa aquosa com la gota de CH₂Cl₂ són incolores. Agiteu i comproveu que les dues fases siguin clares. Viratge persistent ≥ 30 s.";
     phase = '✓ Valoració completada';
   }
 
