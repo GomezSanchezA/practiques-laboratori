@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#ffffff">
-  <title>S04 — Estandardització d'EDTA 0,1 mol/L</title>
+  <title>S06 — Estandardització de Ce(IV) 0,05 mol/L</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,10 +30,10 @@
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-      /* EDTA-specific colors */
-      --wine: #881337;
-      --violet: #6d28d9;
-      --endpoint-blue: #2563eb;
+      /* Ce(IV)/Ferroin-specific colors */
+      --pale-blue: #93c5fd;
+      --transition-purple: #a855f7;
+      --endpoint-red: #dc2626;
     }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -76,14 +76,6 @@
     }
     .hero h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.4rem; }
     .hero p { font-size: 0.85rem; opacity: 0.85; }
-    .hero-meta {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    .hero-tag {
-      font-size: 0.7rem; font-weight: 600; padding: 3px 10px;
-      border-radius: 8px; background: rgba(255,255,255,0.15);
-    }
 
     /* ───────── Tabs ───────── */
     .tab-bar {
@@ -156,6 +148,13 @@
       font-size: 0.7rem; font-weight: 700; color: #fff;
     }
 
+    .part-label {
+      display: inline-block; background: var(--blue-100); color: var(--blue-700);
+      font-size: 0.7rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 8px; margin-bottom: 0.5rem;
+      letter-spacing: 0.3px; text-transform: uppercase;
+    }
+
     /* ───────── Procediment ───────── */
     .proc-step {
       display: flex; gap: 1rem; padding: 1rem 0;
@@ -169,6 +168,9 @@
       font-size: 0.8rem; font-weight: 800;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; margin-top: 2px;
+    }
+    .proc-num.part-b {
+      background: var(--amber-100); color: var(--amber-700);
     }
     .proc-body { flex: 1; }
     .proc-body h4 {
@@ -187,6 +189,18 @@
     .proc-note.danger { background: var(--red-50); color: var(--red-700); }
     .proc-note.info { background: var(--blue-50); color: var(--blue-700); }
     .proc-note-icon { flex-shrink: 0; }
+
+    .proc-divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 0 0.5rem;
+    }
+    .proc-divider span {
+      font-size: 0.75rem; font-weight: 700; color: var(--amber-700);
+      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+    }
+    .proc-divider::before, .proc-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--amber-200);
+    }
 
     /* ───────── Simulator ───────── */
     .sim-wrap {
@@ -241,6 +255,13 @@
       margin-top: 0.25rem;
     }
 
+    .sim-context {
+      text-align: center; font-size: 0.75rem; color: var(--gray-500);
+      background: var(--amber-50); border: 1px solid var(--amber-100);
+      border-radius: 8px; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
     /* Drop animation */
     @keyframes dropFall {
       0% { opacity: 1; transform: translateY(0); }
@@ -252,7 +273,7 @@
       left: 108px; top: 220px;
       width: 6px; height: 8px;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      background: rgba(59, 130, 246, 0.5);
+      background: rgba(34,197,94,0.5);
       opacity: 0;
       pointer-events: none;
     }
@@ -305,9 +326,9 @@
 
 <!-- Hero -->
 <section class="hero">
-  <span class="hero-badge">S04 — Estandarització</span>
-  <h1>Estandardització d'EDTA 0,1 mol/L</h1>
-  <p>Amb zinc metàl·lic com a patró primari</p>
+  <span class="hero-badge">S06 — Estandarització</span>
+  <h1>Estandardització de Ce(IV) 0,05 mol/L</h1>
+  <p>Amb oxalat de sodi com a patró primari (valoració per retrocés)</p>
 </section>
 
 <!-- Tabs -->
@@ -325,47 +346,61 @@
     <div class="resum-section">
       <h3>⚗️ Reaccions</h3>
 
+      <span class="part-label">Part A — Relació Ce(IV)/Fe(II)</span>
+
       <div class="reaction-block">
-        <div class="reaction-label">Dissolució del zinc</div>
-        <div class="reaction-eq">$\text{Zn} + 2\text{HCl} \rightarrow \text{ZnCl}_2 + \text{H}_2\uparrow$</div>
+        <div class="reaction-label">Semireacció de reducció (ceri)</div>
+        <div class="reaction-eq">$\text{Ce}^{4+} + \text{e}^- \rightarrow \text{Ce}^{3+}$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Neutralització (precipitat blanc)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + 2\text{OH}^- \rightarrow \text{Zn(OH)}_2 \downarrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Redissolució</div>
-        <div class="reaction-eq">$\text{Zn(OH)}_2 + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + 2\text{H}_2\text{O}$</div>
+        <div class="reaction-label">Semireacció d'oxidació (ferro)</div>
+        <div class="reaction-eq">$\text{Fe}^{2+} \rightarrow \text{Fe}^{3+} + \text{e}^-$</div>
       </div>
 
       <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
-        <div class="reaction-label">Valoració (reacció principal)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{Y}^{4-} \rightarrow \text{ZnY}^{2-}$</div>
+        <div class="reaction-label">Valoració directa Ce(IV) amb Fe(II)</div>
+        <div class="reaction-eq">$\text{Ce}^{4+} + \text{Fe}^{2+} \rightarrow \text{Ce}^{3+} + \text{Fe}^{3+}$</div>
+      </div>
+
+      <span class="part-label" style="margin-top:1rem;">Part B — Valoració per retrocés amb oxalat</span>
+
+      <div class="reaction-block">
+        <div class="reaction-label">Semireacció d'oxidació (oxalat)</div>
+        <div class="reaction-eq">$\text{C}_2\text{O}_4^{2-} \rightarrow 2\text{CO}_2 + 2\text{e}^-$</div>
+      </div>
+
+      <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
+        <div class="reaction-label">Reacció amb excés de Ce(IV)</div>
+        <div class="reaction-eq">$2\text{Ce}^{4+} + \text{C}_2\text{O}_4^{2-} \rightarrow 2\text{Ce}^{3+} + 2\text{CO}_2$</div>
+      </div>
+
+      <div class="reaction-block" style="border-color: var(--amber-500); border-width: 2px;">
+        <div class="reaction-label">Retrovaloració de l'excés de Ce(IV) amb Fe(II)</div>
+        <div class="reaction-eq">$\text{Ce}^{4+}_{\text{(excés)}} + \text{Fe}^{2+} \rightarrow \text{Ce}^{3+} + \text{Fe}^{3+}$</div>
       </div>
     </div>
 
     <div class="resum-section">
-      <h3>🎨 Indicador: NET (negre d'eriocrom T)</h3>
+      <h3>🎨 Indicador: ferroïna (1,10-fenantrolina-Fe(II))</h3>
       <div class="color-strip">
-        <div style="background: var(--wine);">Roig vinós</div>
-        <div style="background: var(--violet);">Violeta</div>
-        <div style="background: var(--endpoint-blue);">Blau pur</div>
+        <div style="background: rgba(147,197,253,0.8); color: var(--gray-700);">Blau pàl·lid</div>
+        <div style="background: rgba(168,85,247,0.7);">Transició</div>
+        <div style="background: rgba(220,38,38,0.8);">Vermell</div>
       </div>
 
       <div class="reaction-block" style="margin-top:0.75rem;">
-        <div class="reaction-label">Abans de la valoració — el NET està unit al zinc</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{NET} \rightarrow \underbrace{\text{Zn-NET}}_{\text{roig vinós}}$</div>
+        <div class="reaction-label">Abans del punt final — excés de Ce(IV)</div>
+        <div class="reaction-eq">$\underbrace{\text{Fe(phen)}_3^{3+}}_{\text{blau pàl·lid}} \leftarrow \text{Ce}^{4+}\text{ oxida la ferroïna}$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Durant la valoració — l'EDTA roba el zinc al NET</div>
-        <div class="reaction-eq">$\text{Zn-NET}_{\text{(roig)}} + \text{EDTA} \rightarrow \text{Zn-EDTA} + \underbrace{\text{NET lliure}}_{\text{blau}}$</div>
+        <div class="reaction-label">Al punt final — el Fe(II) redueix la ferroïna</div>
+        <div class="reaction-eq">$\text{Fe(phen)}_3^{3+} + \text{Fe}^{2+}_{\text{(excés)}} \rightarrow \underbrace{\text{Fe(phen)}_3^{2+}}_{\text{vermell}}$</div>
       </div>
 
       <div class="resum-card" style="margin-top:0.75rem;">
-        <p>L'EDTA forma un complex <strong>més estable</strong> amb el Zn²⁺ que el NET. Per això, quan s'afegeix EDTA, "roba" el zinc al NET. Mentre queda Zn²⁺ lliure, el NET el complexa i la dissolució és <strong>roig vinós</strong>. A mesura que l'EDTA va captant tot el zinc, el NET va quedant lliure i el color passa a <strong>violeta</strong> (mescla de NET lliure + NET-Zn). Quan tot el zinc és complexat per l'EDTA, tot el NET és lliure i la dissolució és <strong>blau pur</strong> (el color natural del NET a pH 10).</p>
+        <p>La ferroïna conté ferro complexat amb 1,10-fenantrolina. Quan hi ha excés de Ce(IV), la ferroïna està <strong>oxidada</strong> (Fe³⁺-phen, <strong>blau pàl·lid</strong>). Quan s'afegeix Fe(II) en excés durant la retrovaloració, la ferroïna es <strong>redueix</strong> (Fe²⁺-phen, <strong>vermell</strong>). El viratge de blau pàl·lid a vermell indica que tot el Ce(IV) en excés ha estat consumit pel Fe(II).</p>
       </div>
     </div>
 
@@ -376,79 +411,103 @@
 <div class="tab-panel" id="panel-procediment">
   <div class="content">
 
+    <div class="proc-divider">
+      <span>Part A — Relació Ce(IV)/Fe(II)</span>
+    </div>
+
     <div class="proc-step">
       <div class="proc-num">1</div>
       <div class="proc-body">
-        <h4>Peseu el patró primari</h4>
-        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament. Recordeu la tècnica del seminari.</p>
+        <h4>Prepareu la dissolució de Fe(II)</h4>
+        <p>Dissoleu la sal de Fe(II) en àcid sulfúric diluït i porteu a volum en un matràs aforat. La dissolució ha de quedar <strong>verda pàl·lida</strong>.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">⏳</span>
+          El Fe(II) s'oxida amb el temps. Prepareu la dissolució el mateix dia que la fareu servir.
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">2</div>
       <div class="proc-body">
-        <h4>Dissoleu el zinc en àcid</h4>
-        <p>Afegiu HCl concentrat en petites porcions. El zinc es dissol amb efervescència (bombolles de H₂).</p>
-        <div class="proc-note danger">
-          <span class="proc-note-icon">⚠️</span>
-          L'hidrogen és inflamable. No acosteu flames. Treballeu amb ventilació.
-        </div>
-        <div class="proc-note info">
-          <span class="proc-note-icon">👁️</span>
-          Heu de veure efervescència. Si no n'hi ha, el zinc no s'està dissolent — potser cal més àcid o agitar.
-        </div>
+        <h4>Pipetejeu Ce(IV) i acidifiqueu</h4>
+        <p>Transferiu una alíquota de Ce(IV) a l'erlenmeyer i afegiu àcid sulfúric diluït. La dissolució serà <strong>groga/ataronjada</strong> (color del Ce⁴⁺).</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">3</div>
       <div class="proc-body">
-        <h4>Neutralitzeu amb NaOH</h4>
-        <p>Afegiu NaOH gota a gota fins que aparegui un <strong>precipitat blanc permanent</strong> de Zn(OH)₂. Això indica que heu neutralitzat l'excés d'àcid.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">⚡</span>
-          No us passeu! Si afegiu massa NaOH, el precipitat es redissol (es forma zincat, un complex soluble) i la dissolució torna transparent. Si passa, afegiu unes gotes d'àcid i torneu a començar la neutralització.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">4</div>
-      <div class="proc-body">
-        <h4>Redissoleu el precipitat</h4>
-        <p>Afegiu H₂SO₄ diluït fins que el precipitat blanc es dissolgui completament. La dissolució ha de quedar <strong>transparent</strong>.</p>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">5</div>
-      <div class="proc-body">
-        <h4>Afegiu tampó i indicador</h4>
-        <p>Afegiu el tampó pH 10 i després el NET. La dissolució es tornarà <strong>roig vinós</strong>.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">💡</span>
-          El NET s'afegeix amb punta d'espàtula — molt poca quantitat. Massa indicador fa que el viratge sigui difús i difícil de veure.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">6</div>
-      <div class="proc-body">
-        <h4>Valoreu amb EDTA</h4>
-        <p>Afegiu l'EDTA des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
+        <h4>Afegiu ferroïna i valoreu amb Fe(II)</h4>
+        <p>Afegiu unes gotes de ferroïna. La dissolució serà <strong>blau pàl·lid</strong> (ferroïna oxidada pel Ce⁴⁺). Valoreu amb Fe(II) des de la bureta fins a <strong>vermell persistent</strong>.</p>
         <div class="proc-note info">
           <span class="proc-note-icon">🎯</span>
-          A prop del final, aneu gota a gota. El punt final és <strong>blau pur persistent</strong> (≥ 30 segons sense tornar a violeta). Si torna a violeta, encara queda Zn²⁺ lliure.
+          El viratge és molt net: blau pàl·lid → vermell en una sola gota. Repetiu per triplicat.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-divider">
+      <span>Part B — Estandardització amb oxalat</span>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num part-b">4</div>
+      <div class="proc-body">
+        <h4>Peseu l'oxalat de sodi</h4>
+        <p>Peseu per diferència la quantitat d'oxalat de sodi sec que heu calculat. Dissoleu-lo en àcid sulfúric diluït i porteu a volum en un matràs aforat.</p>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num part-b">5</div>
+      <div class="proc-body">
+        <h4>Preneu alíquota i acidifiqueu</h4>
+        <p>Pipetejeu una alíquota de la dissolució d'oxalat a l'erlenmeyer. Afegiu àcid sulfúric diluït.</p>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num part-b">6</div>
+      <div class="proc-body">
+        <h4>Escalfeu i afegiu Ce(IV) en excés</h4>
+        <p>Escalfeu a ~60 °C i afegiu ràpidament un volum conegut de Ce(IV) <strong>en excés</strong> des de la bureta. El Ce(IV) oxida tot l'oxalat.</p>
+        <div class="proc-note danger">
+          <span class="proc-note-icon">🔥</span>
+          No porteu a ebullició! Escalfeu suaument fins a ~60 °C. Recalfeu si cal.
+        </div>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          Afegiu el Ce(IV) ràpidament (no gota a gota). Ha de ser en excés respecte a l'oxalat.
         </div>
       </div>
     </div>
 
     <div class="proc-step">
-      <div class="proc-num">7</div>
+      <div class="proc-num part-b">7</div>
+      <div class="proc-body">
+        <h4>Deixeu reposar i refredeu</h4>
+        <p>Deixeu reposar uns minuts perquè la reacció Ce(IV)-oxalat es completi. Després, refredeu a temperatura ambient.</p>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num part-b">8</div>
+      <div class="proc-body">
+        <h4>Retrovaloreu l'excés de Ce(IV) amb Fe(II)</h4>
+        <p>Afegiu unes gotes de ferroïna (blau pàl·lid) i valoreu l'excés de Ce(IV) amb Fe(II) des de la bureta fins a <strong>vermell persistent</strong>.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          El viratge blau → vermell indica que tot el Ce(IV) en excés s'ha consumit. Anoteu el volum de Fe(II) gastat.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num part-b">9</div>
       <div class="proc-body">
         <h4>Anoteu i repetiu</h4>
-        <p>Anoteu les lectures de la bureta. Repetiu tot el procés amb les altres pesades.</p>
+        <p>Anoteu les lectures de les dues buretes. Repetiu amb les altres alíquotes d'oxalat.</p>
       </div>
     </div>
 
@@ -460,6 +519,10 @@
   <div class="content">
     <div class="sim-wrap">
 
+      <div class="sim-context">
+        Simulador de la <strong>Part B</strong> — Retrovaloració de l'excés de Ce(IV) amb Fe(II) (bureta amb Fe²⁺)
+      </div>
+
       <!-- Apparatus: bureta + flask -->
       <div class="sim-apparatus">
         <svg viewBox="0 0 220 340" width="220" height="340">
@@ -470,11 +533,11 @@
               <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
               <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
             </linearGradient>
-            <!-- EDTA liquid in bureta (slightly blue/transparent) -->
-            <linearGradient id="edtaG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.35)"/>
-              <stop offset="50%" stop-color="rgba(191,219,254,0.25)"/>
-              <stop offset="100%" stop-color="rgba(147,197,253,0.35)"/>
+            <!-- Fe(II) liquid in bureta (pale green/transparent) -->
+            <linearGradient id="feIIG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(134,239,172,0.3)"/>
+              <stop offset="50%" stop-color="rgba(187,247,208,0.2)"/>
+              <stop offset="100%" stop-color="rgba(134,239,172,0.3)"/>
             </linearGradient>
             <!-- Clip for bureta liquid -->
             <clipPath id="buretaClip">
@@ -499,8 +562,8 @@
           <!-- Glass reflection -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
 
-          <!-- EDTA liquid in bureta -->
-          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#edtaG)" clip-path="url(#buretaClip)"/>
+          <!-- Fe(II) liquid in bureta -->
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#feIIG)" clip-path="url(#buretaClip)"/>
 
           <!-- Bureta scale marks -->
           <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
@@ -529,7 +592,7 @@
           <!-- Flask liquid -->
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
-                fill="rgba(136,19,55,0.4)"/>
+                fill="rgba(147,197,253,0.35)"/>
           <!-- Liquid surface shimmer -->
           <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
           <!-- Glass reflection -->
@@ -546,18 +609,18 @@
       </div>
 
       <!-- Color label -->
-      <div class="sim-color-label" id="simColorLabel" style="background: rgba(136,19,55,0.8); color:#fff;">
-        Roig vinós
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(147,197,253,0.7); color: var(--gray-700);">
+        Blau pàl·lid
       </div>
 
       <!-- Controls -->
       <div class="sim-controls">
-        <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
+        <div class="sim-vol"><span id="simVol">0,0</span> mL Fe(II)</div>
         <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
         <div class="sim-status" id="simStatus">
-          Encara no heu afegit EDTA. La dissolució conté Zn²⁺ lliure complexat amb el NET (roig vinós).
+          Encara no heu afegit Fe(II). La dissolució conté excés de Ce(IV) — la ferroïna està oxidada (blau pàl·lid).
         </div>
-        <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
+        <div class="sim-hint">↔ Arrossegueu per simular la retrovaloració</div>
       </div>
 
     </div>
@@ -571,40 +634,40 @@
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si no veieu efervescència al pas 2</div>
-        <strong>El zinc no es dissol.</strong> Potser no heu afegit prou àcid, o no esteu agitant. Afegiu una mica més d'HCl i agiteu. El zinc ha de desaparèixer completament.
+        <div class="consell-label problem">Si la dissolució de Fe(II) no és verda pàl·lida</div>
+        <strong>El Fe(II) pot estar oxidat.</strong> Si és de color groc/marró intens, el ferro ja s'ha oxidat a Fe(III). Prepareu una dissolució fresca — el Fe(II) és inestable.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el precipitat blanc desapareix amb el NaOH</div>
-        <strong>Us heu passat de NaOH.</strong> S'ha format zincat (complex soluble). Afegiu unes gotes d'àcid fins que torni el precipitat blanc, i continueu amb més cura.
+        <div class="consell-label problem">Si el viratge de la Part A no és net</div>
+        <strong>Potser heu afegit massa o poca ferroïna.</strong> Amb 5-6 gotes n'hi ha prou. Massa indicador pot fer que el viratge sigui difús. Reviseu també que la dissolució estigui ben acidificada.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el color inicial no és roig vinós sinó blau</div>
-        <strong>No hi ha prou Zn²⁺ lliure</strong> perquè el NET el complexi, o el pH no és correcte. Reviseu que heu afegit el tampó pH 10 i que el zinc s'ha dissolt completament.
+        <div class="consell-label problem">Si la reacció oxalat-Ce(IV) no sembla completar-se</div>
+        <strong>Pot ser que no hàgiu escalfat prou.</strong> La reacció Ce(IV)-oxalat necessita calor (~60 °C). Recalfeu i deixeu reposar uns minuts.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si no distingiu bé el viratge</div>
-        <strong>Potser heu afegit massa NET.</strong> Una punta d'espàtula molt petita és suficient. Massa indicador fa que el canvi de roig a blau sigui gradual i difícil de veure. Poseu un paper blanc sota el matràs per veure millor el color.
+        <div class="consell-label tip">Si no enteneu la lògica del retrocés</div>
+        <strong>Penseu-ho així:</strong> afegiu Ce(IV) en excés perquè reaccioni amb tot l'oxalat. Després, mesureu quant Ce(IV) ha sobrat valorant-lo amb Fe(II). Per diferència, sabeu quant Ce(IV) ha reaccionat amb l'oxalat.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si el color torna a violeta després del viratge</div>
-        <strong>Encara queda Zn²⁺ lliure.</strong> No heu arribat al punt final. Continueu afegint EDTA gota a gota fins que el blau sigui persistent durant almenys 30 segons.
+        <div class="consell-label tip">Si els resultats de la Part A i la Part B no concorden</div>
+        <strong>Reviseu els càlculs.</strong> La relació Ce(IV)/Fe(II) de la Part A és essencial per calcular la molaritat de Ce(IV) a la Part B. Un error aquí es propaga a tot el resultat.
       </div>
     </div>
 
@@ -612,7 +675,7 @@
       <div class="consell-icon ok">✅</div>
       <div class="consell-text">
         <div class="consell-label ok">Sabeu que ho heu fet bé quan...</div>
-        El color és <strong>blau pur net</strong> (sense cap toc violeta), persistent almenys 30 segons. Si agiteu i el blau no canvia, heu trobat el punt final.
+        El viratge blau → <strong>vermell</strong> és net i persistent. El vermell es manté sense tornar a blau. Els volums de Fe(II) gastats en les tres repeticions són concordants (RSD &lt; 0,5 %).
       </div>
     </div>
 
@@ -650,9 +713,10 @@ const simDrop = document.getElementById('simDrop');
 const EQ_POINT = 800; // 80% of slider
 
 // Realistic transparent colors (rgba for liquid look)
-const WINE   = { r:136, g:19,  b:55  }; // roig vinós
-const VIOLET = { r:109, g:40,  b:217 }; // violeta
-const BLUE   = { r:37,  g:99,  b:235 }; // blau pur
+// Pale blue (Ce4+ excess) → purple transition → red (endpoint)
+const PALE_BLUE = { r:147, g:197, b:253 };
+const PURPLE    = { r:168, g:85,  b:247 };
+const RED       = { r:220, g:38,  b:38  };
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 function lerpRGBA(c1, c2, t, alpha) {
@@ -677,8 +741,6 @@ function updateSim() {
   volLabel.textContent = vol;
 
   // Bureta liquid level: full at v=0, empty at v=1000
-  // Liquid rect starts at y=10, height=200 when full
-  // As we pour, the top of the liquid moves down
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
@@ -694,37 +756,41 @@ function updateSim() {
   lastV = v;
 
   // Flask color — transparent, like real liquid
-  let fillColor, labelText, labelBg, status;
-  const ALPHA = 0.4; // transparent liquid
+  let fillColor, labelText, labelBg, labelColor, status;
 
   if (v < EQ_POINT * 0.7) {
+    // Pale blue — still lots of Ce(IV) excess
     const t = v / (EQ_POINT * 0.7);
-    fillColor = lerpRGBA(WINE, VIOLET, t * 0.3, ALPHA);
-    labelText = 'Roig vinós';
-    labelBg = 'rgba(136,19,55,0.8)';
-    status = "L'EDTA va complexant el Zn²⁺, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
+    fillColor = lerpRGBA(PALE_BLUE, PURPLE, t * 0.2, 0.35 + t * 0.02);
+    labelText = 'Blau pàl·lid';
+    labelBg = 'rgba(147,197,253,0.7)';
+    labelColor = 'var(--gray-700)';
+    status = "El Fe(II) va reduint el Ce(IV) en excés, però encara en queda molt. La ferroïna segueix oxidada (blau pàl·lid).";
   } else if (v < EQ_POINT * 0.95) {
     const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
-    fillColor = lerpRGBA(WINE, VIOLET, 0.3 + t * 0.7, ALPHA + 0.05);
-    labelText = 'Violeta — a prop del viratge';
-    labelBg = 'rgba(109,40,217,0.8)';
-    status = "Queda poc Zn²⁺ lliure. Aneu gota a gota! El color violeta indica que us acosteu al punt final.";
+    fillColor = lerpRGBA(PALE_BLUE, PURPLE, 0.2 + t * 0.8, 0.30 + t * 0.05);
+    labelText = 'Transició — a prop del viratge';
+    labelBg = 'rgba(168,85,247,0.6)';
+    labelColor = '#fff';
+    status = "Queda poc Ce(IV) en excés. El color comença a canviar. Aneu gota a gota!";
   } else if (v < EQ_POINT) {
     const t = (v - EQ_POINT * 0.95) / (EQ_POINT * 0.05);
-    fillColor = lerpRGBA(VIOLET, BLUE, t, ALPHA + 0.1);
-    labelText = 'Quasi blau — mitja gota!';
-    labelBg = 'rgba(67,56,202,0.8)';
-    status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu 30 segons.";
+    fillColor = lerpRGBA(PURPLE, RED, t, 0.35 + t * 0.05);
+    labelText = 'Quasi vermell — mitja gota!';
+    labelBg = 'rgba(190,50,100,0.7)';
+    labelColor = '#fff';
+    status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu.";
   } else {
-    fillColor = lerpRGBA(BLUE, BLUE, 1, ALPHA + 0.15);
-    labelText = '✓ BLAU PUR — Punt final';
-    labelBg = 'rgba(37,99,235,0.85)';
-    status = "Tot el Zn²⁺ està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
+    fillColor = lerpRGBA(RED, RED, 1, 0.4);
+    labelText = '✓ VERMELL — Punt final';
+    labelBg = 'rgba(220,38,38,0.8)';
+    labelColor = '#fff';
+    status = "Tot el Ce(IV) en excés s'ha consumit. El Fe(II) redueix la ferroïna i el color vira a vermell persistent.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
   colorLabel.style.background = labelBg;
-  colorLabel.style.color = '#fff';
+  colorLabel.style.color = labelColor;
   colorLabel.textContent = labelText;
   statusText.textContent = status;
 }
@@ -733,17 +799,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
-  </p>
-</footer>
-
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>

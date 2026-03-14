@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#ffffff">
-  <title>S04 — Estandardització d'EDTA 0,1 mol/L</title>
+  <title>S02b — Estandardització de HCl 0,1 mol/L</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,10 +30,10 @@
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-      /* EDTA-specific colors */
-      --wine: #881337;
-      --violet: #6d28d9;
-      --endpoint-blue: #2563eb;
+      /* S02b-specific colors */
+      --yellow: rgba(234,179,8,0.3);
+      --orange: rgba(249,115,22,0.4);
+      --red-indicator: rgba(220,38,38,0.45);
     }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -76,14 +76,6 @@
     }
     .hero h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.4rem; }
     .hero p { font-size: 0.85rem; opacity: 0.85; }
-    .hero-meta {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    .hero-tag {
-      font-size: 0.7rem; font-weight: 600; padding: 3px 10px;
-      border-radius: 8px; background: rgba(255,255,255,0.15);
-    }
 
     /* ───────── Tabs ───────── */
     .tab-bar {
@@ -252,7 +244,7 @@
       left: 108px; top: 220px;
       width: 6px; height: 8px;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      background: rgba(59, 130, 246, 0.5);
+      background: rgba(200,200,200,0.3);
       opacity: 0;
       pointer-events: none;
     }
@@ -305,9 +297,9 @@
 
 <!-- Hero -->
 <section class="hero">
-  <span class="hero-badge">S04 — Estandarització</span>
-  <h1>Estandardització d'EDTA 0,1 mol/L</h1>
-  <p>Amb zinc metàl·lic com a patró primari</p>
+  <span class="hero-badge">S02b — Estandarització</span>
+  <h1>Estandardització de HCl 0,1 mol/L</h1>
+  <p>Amb TRIS (tris(hidroximetil)aminometà) com a patró primari</p>
 </section>
 
 <!-- Tabs -->
@@ -325,47 +317,36 @@
     <div class="resum-section">
       <h3>⚗️ Reaccions</h3>
 
-      <div class="reaction-block">
-        <div class="reaction-label">Dissolució del zinc</div>
-        <div class="reaction-eq">$\text{Zn} + 2\text{HCl} \rightarrow \text{ZnCl}_2 + \text{H}_2\uparrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Neutralització (precipitat blanc)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + 2\text{OH}^- \rightarrow \text{Zn(OH)}_2 \downarrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Redissolució</div>
-        <div class="reaction-eq">$\text{Zn(OH)}_2 + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + 2\text{H}_2\text{O}$</div>
-      </div>
-
       <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
         <div class="reaction-label">Valoració (reacció principal)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{Y}^{4-} \rightarrow \text{ZnY}^{2-}$</div>
+        <div class="reaction-eq">$\text{(HOCH}_2\text{)}_3\text{CNH}_2 + \text{H}_3\text{O}^+ \rightarrow \text{(HOCH}_2\text{)}_3\text{CNH}_3^{\ +} + \text{H}_2\text{O}$</div>
+      </div>
+
+      <div class="resum-card" style="margin-top:0.75rem;">
+        <p>El TRIS és una base feble que reacciona amb l'HCl en proporció <strong>1:1</strong>. Com que el TRIS és un patró primari (pur, estable, massa molar moderada), es pot pesar directament per conèixer els mols exactes. A diferència de l'estandarització amb Na₂CO₃, aquí <strong>no es forma CO₂</strong>, i per tant no cal bullir.</p>
       </div>
     </div>
 
     <div class="resum-section">
-      <h3>🎨 Indicador: NET (negre d'eriocrom T)</h3>
+      <h3>🎨 Indicador: roig de metil</h3>
       <div class="color-strip">
-        <div style="background: var(--wine);">Roig vinós</div>
-        <div style="background: var(--violet);">Violeta</div>
-        <div style="background: var(--endpoint-blue);">Blau pur</div>
+        <div style="background: rgba(234,179,8,0.8); color: #333;">Groc</div>
+        <div style="background: rgba(249,115,22,0.8);">Taronja</div>
+        <div style="background: rgba(220,38,38,0.8);">Roig</div>
       </div>
 
       <div class="reaction-block" style="margin-top:0.75rem;">
-        <div class="reaction-label">Abans de la valoració — el NET està unit al zinc</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{NET} \rightarrow \underbrace{\text{Zn-NET}}_{\text{roig vinós}}$</div>
+        <div class="reaction-label">En medi bàsic — forma desprotonada (groc)</div>
+        <div class="reaction-eq">$\text{In}^- \quad \text{(groc, pH} > 6{,}2\text{)}$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Durant la valoració — l'EDTA roba el zinc al NET</div>
-        <div class="reaction-eq">$\text{Zn-NET}_{\text{(roig)}} + \text{EDTA} \rightarrow \text{Zn-EDTA} + \underbrace{\text{NET lliure}}_{\text{blau}}$</div>
+        <div class="reaction-label">En medi àcid — forma protonada (roig)</div>
+        <div class="reaction-eq">$\text{In}^- + \text{H}^+ \rightarrow \underbrace{\text{HIn}}_{\text{roig}} \quad \text{(pH} < 4{,}4\text{)}$</div>
       </div>
 
       <div class="resum-card" style="margin-top:0.75rem;">
-        <p>L'EDTA forma un complex <strong>més estable</strong> amb el Zn²⁺ que el NET. Per això, quan s'afegeix EDTA, "roba" el zinc al NET. Mentre queda Zn²⁺ lliure, el NET el complexa i la dissolució és <strong>roig vinós</strong>. A mesura que l'EDTA va captant tot el zinc, el NET va quedant lliure i el color passa a <strong>violeta</strong> (mescla de NET lliure + NET-Zn). Quan tot el zinc és complexat per l'EDTA, tot el NET és lliure i la dissolució és <strong>blau pur</strong> (el color natural del NET a pH 10).</p>
+        <p>El roig de metil és <strong>groc</strong> en medi bàsic (on hi ha TRIS lliure) i vira a <strong>roig</strong> en medi àcid. Durant la valoració, mentre queda TRIS sense reaccionar, la dissolució és bàsica i l'indicador és groc. Quan tot el TRIS ha reaccionat, l'excés d'HCl fa baixar el pH i l'indicador vira de groc a taronja i finalment a <strong>roig persistent</strong>.</p>
       </div>
     </div>
 
@@ -380,22 +361,22 @@
       <div class="proc-num">1</div>
       <div class="proc-body">
         <h4>Peseu el patró primari</h4>
-        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament. Recordeu la tècnica del seminari.</p>
+        <p>Peseu per diferència i per triplicat la quantitat de TRIS que heu calculat. El TRIS ha d'haver estat prèviament assecat a l'estufa.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">👁️</span>
+          Comproveu que el TRIS és sec i no forma grumolls. Si n'hi ha, tritureu-los suaument abans de pesar.
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">2</div>
       <div class="proc-body">
-        <h4>Dissoleu el zinc en àcid</h4>
-        <p>Afegiu HCl concentrat en petites porcions. El zinc es dissol amb efervescència (bombolles de H₂).</p>
-        <div class="proc-note danger">
-          <span class="proc-note-icon">⚠️</span>
-          L'hidrogen és inflamable. No acosteu flames. Treballeu amb ventilació.
-        </div>
-        <div class="proc-note info">
-          <span class="proc-note-icon">👁️</span>
-          Heu de veure efervescència. Si no n'hi ha, el zinc no s'està dissolent — potser cal més àcid o agitar.
+        <h4>Dissoleu el TRIS</h4>
+        <p>Transferiu cada pesada quantitativament a un erlenmeyer i dissoleu amb aigua desionitzada. El TRIS es dissol fàcilment.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          Renteu bé el vas de pesada amb el flascó rentador per transferir tots els cristalls. No perdeu mostra!
         </div>
       </div>
     </div>
@@ -403,52 +384,28 @@
     <div class="proc-step">
       <div class="proc-num">3</div>
       <div class="proc-body">
-        <h4>Neutralitzeu amb NaOH</h4>
-        <p>Afegiu NaOH gota a gota fins que aparegui un <strong>precipitat blanc permanent</strong> de Zn(OH)₂. Això indica que heu neutralitzat l'excés d'àcid.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">⚡</span>
-          No us passeu! Si afegiu massa NaOH, el precipitat es redissol (es forma zincat, un complex soluble) i la dissolució torna transparent. Si passa, afegiu unes gotes d'àcid i torneu a començar la neutralització.
-        </div>
+        <h4>Afegiu l'indicador</h4>
+        <p>Afegiu unes gotes de roig de metil. La dissolució ha de quedar <strong>groga</strong> (el TRIS és una base, el medi és bàsic).</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">4</div>
       <div class="proc-body">
-        <h4>Redissoleu el precipitat</h4>
-        <p>Afegiu H₂SO₄ diluït fins que el precipitat blanc es dissolgui completament. La dissolució ha de quedar <strong>transparent</strong>.</p>
+        <h4>Valoreu amb HCl</h4>
+        <p>Afegiu l'HCl des de la bureta, agitant constantment. El color anirà canviant de <strong>groc → taronja → roig</strong>.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          A prop del final, aneu gota a gota. El punt final és <strong>roig persistent</strong>. Amb TRIS no cal bullir (no es forma CO₂).
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">5</div>
       <div class="proc-body">
-        <h4>Afegiu tampó i indicador</h4>
-        <p>Afegiu el tampó pH 10 i després el NET. La dissolució es tornarà <strong>roig vinós</strong>.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">💡</span>
-          El NET s'afegeix amb punta d'espàtula — molt poca quantitat. Massa indicador fa que el viratge sigui difús i difícil de veure.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">6</div>
-      <div class="proc-body">
-        <h4>Valoreu amb EDTA</h4>
-        <p>Afegiu l'EDTA des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
-        <div class="proc-note info">
-          <span class="proc-note-icon">🎯</span>
-          A prop del final, aneu gota a gota. El punt final és <strong>blau pur persistent</strong> (≥ 30 segons sense tornar a violeta). Si torna a violeta, encara queda Zn²⁺ lliure.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">7</div>
-      <div class="proc-body">
         <h4>Anoteu i repetiu</h4>
-        <p>Anoteu les lectures de la bureta. Repetiu tot el procés amb les altres pesades.</p>
+        <p>Anoteu les lectures de la bureta (inicial i final). Repetiu tot el procés amb les altres pesades.</p>
       </div>
     </div>
 
@@ -464,45 +421,35 @@
       <div class="sim-apparatus">
         <svg viewBox="0 0 220 340" width="220" height="340">
           <defs>
-            <!-- Glass reflection gradient -->
             <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#fff" stop-opacity="0.15"/>
               <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
               <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
             </linearGradient>
-            <!-- EDTA liquid in bureta (slightly blue/transparent) -->
-            <linearGradient id="edtaG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.35)"/>
-              <stop offset="50%" stop-color="rgba(191,219,254,0.25)"/>
-              <stop offset="100%" stop-color="rgba(147,197,253,0.35)"/>
+            <linearGradient id="hclG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(200,200,200,0.2)"/>
+              <stop offset="50%" stop-color="rgba(220,220,220,0.15)"/>
+              <stop offset="100%" stop-color="rgba(200,200,200,0.2)"/>
             </linearGradient>
-            <!-- Clip for bureta liquid -->
             <clipPath id="buretaClip">
               <rect x="101" y="10" width="18" height="200"/>
             </clipPath>
-            <!-- Clip for flask liquid -->
             <clipPath id="flaskClip">
               <path d="M80 230 Q80 235 70 245 L42 295 Q34 312 50 320 L170 320 Q186 312 178 295 L150 245 Q140 235 140 230 Z"/>
             </clipPath>
           </defs>
 
           <!-- ══ BURETA ══ -->
-          <!-- Support stand -->
           <rect x="85" y="0" width="4" height="335" rx="2" fill="#94a3b8"/>
           <rect x="60" y="325" width="100" height="6" rx="3" fill="#94a3b8"/>
-          <!-- Clamp -->
           <rect x="87" y="45" width="14" height="6" rx="2" fill="#64748b"/>
           <rect x="87" y="185" width="14" height="6" rx="2" fill="#64748b"/>
 
-          <!-- Bureta tube (glass) -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="rgba(226,232,240,0.3)" stroke="#cbd5e1" stroke-width="1.5"/>
-          <!-- Glass reflection -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
 
-          <!-- EDTA liquid in bureta -->
-          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#edtaG)" clip-path="url(#buretaClip)"/>
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#hclG)" clip-path="url(#buretaClip)"/>
 
-          <!-- Bureta scale marks -->
           <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
           <text x="127" y="21" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">0</text>
           <line x1="119" y1="56" x2="124" y2="56" stroke="#94a3b8" stroke-width="0.5"/>
@@ -514,30 +461,21 @@
           <line x1="119" y1="200" x2="125" y2="200" stroke="#94a3b8" stroke-width="0.8"/>
           <text x="127" y="203" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">25</text>
 
-          <!-- Bureta rim -->
           <rect x="98" y="8" width="24" height="4" rx="2" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
-          <!-- Stopcock -->
           <rect x="105" y="210" width="10" height="8" rx="2" fill="#64748b"/>
           <rect x="100" y="212" width="20" height="4" rx="2" fill="#475569"/>
-          <!-- Drip tip -->
           <line x1="110" y1="218" x2="110" y2="230" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
 
           <!-- ══ ERLENMEYER ══ -->
-          <!-- Flask body -->
           <path d="M80 230 L80 250 Q80 255 70 265 L42 300 Q34 315 50 322 L170 322 Q186 315 178 300 L150 265 Q140 255 140 250 L140 230"
                 fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
-          <!-- Flask liquid -->
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
-                fill="rgba(136,19,55,0.4)"/>
-          <!-- Liquid surface shimmer -->
+                fill="rgba(234,179,8,0.3)"/>
           <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
-          <!-- Glass reflection -->
           <path d="M80 250 Q80 255 70 265 L50 293"
                 fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
-          <!-- Flask neck -->
           <rect x="80" y="222" width="60" height="10" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
-          <!-- Flask rim -->
           <rect x="76" y="220" width="68" height="4" rx="2" fill="#e2e8f0"/>
         </svg>
 
@@ -546,8 +484,8 @@
       </div>
 
       <!-- Color label -->
-      <div class="sim-color-label" id="simColorLabel" style="background: rgba(136,19,55,0.8); color:#fff;">
-        Roig vinós
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(234,179,8,0.7); color:#333;">
+        Groc
       </div>
 
       <!-- Controls -->
@@ -555,7 +493,7 @@
         <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
         <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
         <div class="sim-status" id="simStatus">
-          Encara no heu afegit EDTA. La dissolució conté Zn²⁺ lliure complexat amb el NET (roig vinós).
+          Encara no heu afegit HCl. La dissolució de TRIS amb roig de metil és groga (medi bàsic).
         </div>
         <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
       </div>
@@ -571,40 +509,40 @@
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si no veieu efervescència al pas 2</div>
-        <strong>El zinc no es dissol.</strong> Potser no heu afegit prou àcid, o no esteu agitant. Afegiu una mica més d'HCl i agiteu. El zinc ha de desaparèixer completament.
+        <div class="consell-label problem">Si la dissolució inicial no és groga</div>
+        <strong>Reviseu que el TRIS s'ha dissolt bé.</strong> El TRIS dóna un medi bàsic (pH ~ 10) i el roig de metil ha de ser groc. Si és taronja o roig, pot ser que hàgiu afegit massa indicador o que hi hagi contaminació àcida a l'erlenmeyer.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el precipitat blanc desapareix amb el NaOH</div>
-        <strong>Us heu passat de NaOH.</strong> S'ha format zincat (complex soluble). Afegiu unes gotes d'àcid fins que torni el precipitat blanc, i continueu amb més cura.
+        <div class="consell-label problem">Si el color vira de cop de groc a roig</div>
+        <strong>Heu anat massa ràpid.</strong> A prop del punt final, el viratge és brusc. Si us heu passat, no podeu fer res amb aquesta mostra. A la següent pesada, reduïu el ritme quan el color comenci a canviar cap a taronja.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el color inicial no és roig vinós sinó blau</div>
-        <strong>No hi ha prou Zn²⁺ lliure</strong> perquè el NET el complexi, o el pH no és correcte. Reviseu que heu afegit el tampó pH 10 i que el zinc s'ha dissolt completament.
+        <div class="consell-label problem">Si la dissolució torna de taronja a groc en agitar</div>
+        <strong>Encara no heu arribat al punt final.</strong> El TRIS que queda neutralitza l'àcid de la gota que heu afegit. Continueu gota a gota fins que el roig sigui persistent.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si no distingiu bé el viratge</div>
-        <strong>Potser heu afegit massa NET.</strong> Una punta d'espàtula molt petita és suficient. Massa indicador fa que el canvi de roig a blau sigui gradual i difícil de veure. Poseu un paper blanc sota el matràs per veure millor el color.
+        <div class="consell-label tip">Avantatge del TRIS respecte al Na₂CO₃</div>
+        Amb TRIS <strong>no es forma CO₂</strong>, i per tant no cal bullir per confirmar el punt final. El viratge és directe: quan veieu roig persistent, ja heu acabat. Això fa la valoració més senzilla i ràpida.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si el color torna a violeta després del viratge</div>
-        <strong>Encara queda Zn²⁺ lliure.</strong> No heu arribat al punt final. Continueu afegint EDTA gota a gota fins que el blau sigui persistent durant almenys 30 segons.
+        <div class="consell-label tip">Feu servir llum natural o blanca</div>
+        El viratge groc → taronja → roig es veu millor amb <strong>llum blanca</strong>. Eviteu la llum groga dels fluorescents vells, que pot confondre el groc de l'indicador. Poseu un paper blanc sota l'erlenmeyer.
       </div>
     </div>
 
@@ -612,7 +550,7 @@
       <div class="consell-icon ok">✅</div>
       <div class="consell-text">
         <div class="consell-label ok">Sabeu que ho heu fet bé quan...</div>
-        El color és <strong>blau pur net</strong> (sense cap toc violeta), persistent almenys 30 segons. Si agiteu i el blau no canvia, heu trobat el punt final.
+        El color és <strong>roig persistent</strong> durant almenys 30 segons sense retornar a taronja en agitar. No cal bullir. Si el roig no canvia, heu trobat el punt final.
       </div>
     </div>
 
@@ -624,15 +562,13 @@
 // ── Tabs ──
 function showTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', btn.textContent.trim().toLowerCase().replace('ú','u') === tabId ||
-      ['resum','procediment','simulador','consells'][i] === tabId);
+    btn.classList.toggle('active', ['resum','procediment','simulador','consells'][i] === tabId);
   });
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('panel-' + tabId);
   if (panel) panel.classList.add('active');
 }
 
-// Fix tab switching
 document.querySelectorAll('.tab-btn').forEach((btn, i) => {
   const tabs = ['resum','procediment','simulador','consells'];
   btn.onclick = () => showTab(tabs[i]);
@@ -649,10 +585,10 @@ const simDrop = document.getElementById('simDrop');
 
 const EQ_POINT = 800; // 80% of slider
 
-// Realistic transparent colors (rgba for liquid look)
-const WINE   = { r:136, g:19,  b:55  }; // roig vinós
-const VIOLET = { r:109, g:40,  b:217 }; // violeta
-const BLUE   = { r:37,  g:99,  b:235 }; // blau pur
+// Realistic transparent colors
+const YELLOW = { r:234, g:179, b:8   };
+const ORANGE = { r:249, g:115, b:22  };
+const RED    = { r:220, g:38,  b:38  };
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 function lerpRGBA(c1, c2, t, alpha) {
@@ -664,7 +600,7 @@ let dropTimeout = null;
 
 function triggerDrop() {
   simDrop.classList.remove('falling');
-  void simDrop.offsetWidth; // reflow
+  void simDrop.offsetWidth;
   simDrop.classList.add('falling');
 }
 
@@ -672,19 +608,14 @@ function updateSim() {
   const v = parseInt(slider.value);
   const ratio = v / 1000;
 
-  // Volume display
   const vol = (ratio * 25).toFixed(1).replace('.', ',');
   volLabel.textContent = vol;
 
-  // Bureta liquid level: full at v=0, empty at v=1000
-  // Liquid rect starts at y=10, height=200 when full
-  // As we pour, the top of the liquid moves down
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
   buretaLiquid.setAttribute('height', liquidHeight);
 
-  // Trigger drop animation when slider moves forward
   if (v > lastV && v < 990) {
     if (!dropTimeout) {
       triggerDrop();
@@ -693,38 +624,52 @@ function updateSim() {
   }
   lastV = v;
 
-  // Flask color — transparent, like real liquid
-  let fillColor, labelText, labelBg, status;
-  const ALPHA = 0.4; // transparent liquid
+  let fillColor, labelText, labelBg, labelColor, status;
 
-  if (v < EQ_POINT * 0.7) {
-    const t = v / (EQ_POINT * 0.7);
-    fillColor = lerpRGBA(WINE, VIOLET, t * 0.3, ALPHA);
-    labelText = 'Roig vinós';
-    labelBg = 'rgba(136,19,55,0.8)';
-    status = "L'EDTA va complexant el Zn²⁺, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
+  if (v < EQ_POINT * 0.65) {
+    // Yellow — plenty of TRIS remaining
+    const t = v / (EQ_POINT * 0.65);
+    fillColor = lerpRGBA(YELLOW, YELLOW, 0, 0.3 + t * 0.05);
+    labelText = 'Groc';
+    labelBg = 'rgba(234,179,8,0.7)';
+    labelColor = '#333';
+    status = "L'HCl reacciona amb el TRIS. Encara queda molt TRIS sense reaccionar. El roig de metil es manté groc.";
+  } else if (v < EQ_POINT * 0.85) {
+    // Yellow to orange transition
+    const t = (v - EQ_POINT * 0.65) / (EQ_POINT * 0.2);
+    fillColor = lerpRGBA(YELLOW, ORANGE, t, 0.3 + t * 0.1);
+    labelText = 'Groc-taronja — acostant-se';
+    labelBg = 'rgba(245,158,11,0.7)';
+    labelColor = '#fff';
+    status = "El color comença a canviar. Queda poc TRIS. Reduïu el ritme d'addició d'HCl.";
   } else if (v < EQ_POINT * 0.95) {
-    const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
-    fillColor = lerpRGBA(WINE, VIOLET, 0.3 + t * 0.7, ALPHA + 0.05);
-    labelText = 'Violeta — a prop del viratge';
-    labelBg = 'rgba(109,40,217,0.8)';
-    status = "Queda poc Zn²⁺ lliure. Aneu gota a gota! El color violeta indica que us acosteu al punt final.";
+    // Orange
+    const t = (v - EQ_POINT * 0.85) / (EQ_POINT * 0.1);
+    fillColor = lerpRGBA(ORANGE, RED, t * 0.4, 0.35 + t * 0.05);
+    labelText = 'Taronja — a prop del viratge';
+    labelBg = 'rgba(249,115,22,0.8)';
+    labelColor = '#fff';
+    status = "Color taronja. Us acosteu al punt final. Aneu gota a gota!";
   } else if (v < EQ_POINT) {
+    // Orange-red — almost at endpoint
     const t = (v - EQ_POINT * 0.95) / (EQ_POINT * 0.05);
-    fillColor = lerpRGBA(VIOLET, BLUE, t, ALPHA + 0.1);
-    labelText = 'Quasi blau — mitja gota!';
-    labelBg = 'rgba(67,56,202,0.8)';
+    fillColor = lerpRGBA(ORANGE, RED, 0.4 + t * 0.6, 0.4 + t * 0.05);
+    labelText = 'Quasi roig — mitja gota!';
+    labelBg = 'rgba(234,88,30,0.8)';
+    labelColor = '#fff';
     status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu 30 segons.";
   } else {
-    fillColor = lerpRGBA(BLUE, BLUE, 1, ALPHA + 0.15);
-    labelText = '✓ BLAU PUR — Punt final';
-    labelBg = 'rgba(37,99,235,0.85)';
-    status = "Tot el Zn²⁺ està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
+    // Red — endpoint
+    fillColor = `rgba(220,38,38,0.45)`;
+    labelText = '✓ ROIG — Punt final';
+    labelBg = 'rgba(220,38,38,0.8)';
+    labelColor = '#fff';
+    status = "Roig persistent ≥ 30 s. Tot el TRIS ha reaccionat amb l'HCl. No cal bullir. Punt final!";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
   colorLabel.style.background = labelBg;
-  colorLabel.style.color = '#fff';
+  colorLabel.style.color = labelColor;
   colorLabel.textContent = labelText;
   statusText.textContent = status;
 }
@@ -733,17 +678,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
-  </p>
-</footer>
-
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>

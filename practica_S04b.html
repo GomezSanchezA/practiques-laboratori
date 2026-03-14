@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#ffffff">
-  <title>S04 — Estandardització d'EDTA 0,1 mol/L</title>
+  <title>S04b — Estandardització d'EDTA 0,02 mol/L</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -305,9 +305,9 @@
 
 <!-- Hero -->
 <section class="hero">
-  <span class="hero-badge">S04 — Estandarització</span>
-  <h1>Estandardització d'EDTA 0,1 mol/L</h1>
-  <p>Amb zinc metàl·lic com a patró primari</p>
+  <span class="hero-badge">S04b — Estandarització</span>
+  <h1>Estandardització d'EDTA 0,02 mol/L</h1>
+  <p>Amb zinc metàl·lic com a patró primari (mètode d'alíquotes)</p>
 </section>
 
 <!-- Tabs -->
@@ -331,7 +331,12 @@
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Neutralització (precipitat blanc)</div>
+        <div class="reaction-label">Preparació de la dissolució patró (matràs aforat)</div>
+        <div class="reaction-eq">$\text{Zn}^{2+} \text{ en dissolució} \xrightarrow{\text{enrasar}} \text{concentració exacta coneguda}$</div>
+      </div>
+
+      <div class="reaction-block">
+        <div class="reaction-label">Neutralització de l'alíquota (precipitat blanc)</div>
         <div class="reaction-eq">$\text{Zn}^{2+} + 2\text{OH}^- \rightarrow \text{Zn(OH)}_2 \downarrow$</div>
       </div>
 
@@ -369,6 +374,13 @@
       </div>
     </div>
 
+    <div class="resum-section">
+      <h3>📋 Diferència amb S04a (EDTA 0,1 M)</h3>
+      <div class="resum-card">
+        <p>En l'S04a peseu directament en l'erlenmeyer i valoreu. Aquí, com la concentració és menor (0,02 M), cal més zinc per obtenir un volum de valoració raonable. Per això <strong>dissoleu el zinc, enraseu en un matràs aforat</strong> i preneu <strong>alíquotes</strong> amb pipeta aforada. Cada alíquota es tracta exactament igual que en l'S04a (neutralitzar, redissoldre, tampó, NET, valorar).</p>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -380,7 +392,7 @@
       <div class="proc-num">1</div>
       <div class="proc-body">
         <h4>Peseu el patró primari</h4>
-        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament. Recordeu la tècnica del seminari.</p>
+        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament, per triplicat. Cada pesada va a un vas de precipitats diferent.</p>
       </div>
     </div>
 
@@ -388,7 +400,7 @@
       <div class="proc-num">2</div>
       <div class="proc-body">
         <h4>Dissoleu el zinc en àcid</h4>
-        <p>Afegiu HCl concentrat en petites porcions. El zinc es dissol amb efervescència (bombolles de H₂).</p>
+        <p>Afegiu HCl concentrat en petites porcions al vas. El zinc es dissol amb efervescència (bombolles de H₂).</p>
         <div class="proc-note danger">
           <span class="proc-note-icon">⚠️</span>
           L'hidrogen és inflamable. No acosteu flames. Treballeu amb ventilació.
@@ -403,6 +415,34 @@
     <div class="proc-step">
       <div class="proc-num">3</div>
       <div class="proc-body">
+        <h4>Transferiu al matràs aforat i enraseu</h4>
+        <p>Afegiu aigua al vas, i transferiu <strong>quantitativament</strong> (amb rentats) tota la dissolució a un matràs aforat. Enraseu fins a l'enràs amb aigua destil·lada.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          Quantitativament vol dir que no podeu perdre ni una gota. Renteu el vas diverses vegades amb petites porcions d'aigua i aboqueu-les al matràs.
+        </div>
+        <div class="proc-note info">
+          <span class="proc-note-icon">👁️</span>
+          Enraseu amb cura: l'últim mil·lilitre afegiu-lo amb comptagotes. El menisc ha de tocar la marca a l'alçada dels ulls.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">4</div>
+      <div class="proc-body">
+        <h4>Preneu una alíquota</h4>
+        <p>Amb una pipeta aforada, preneu una alíquota de la dissolució del matràs i transferiu-la a un erlenmeyer.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          Homogeneïtzeu la dissolució del matràs (tapeu i invertiu diverses vegades) abans de pipetejar.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">5</div>
+      <div class="proc-body">
         <h4>Neutralitzeu amb NaOH</h4>
         <p>Afegiu NaOH gota a gota fins que aparegui un <strong>precipitat blanc permanent</strong> de Zn(OH)₂. Això indica que heu neutralitzat l'excés d'àcid.</p>
         <div class="proc-note warn">
@@ -413,7 +453,7 @@
     </div>
 
     <div class="proc-step">
-      <div class="proc-num">4</div>
+      <div class="proc-num">6</div>
       <div class="proc-body">
         <h4>Redissoleu el precipitat</h4>
         <p>Afegiu H₂SO₄ diluït fins que el precipitat blanc es dissolgui completament. La dissolució ha de quedar <strong>transparent</strong>.</p>
@@ -421,7 +461,7 @@
     </div>
 
     <div class="proc-step">
-      <div class="proc-num">5</div>
+      <div class="proc-num">7</div>
       <div class="proc-body">
         <h4>Afegiu tampó i indicador</h4>
         <p>Afegiu el tampó pH 10 i després el NET. La dissolució es tornarà <strong>roig vinós</strong>.</p>
@@ -433,10 +473,10 @@
     </div>
 
     <div class="proc-step">
-      <div class="proc-num">6</div>
+      <div class="proc-num">8</div>
       <div class="proc-body">
         <h4>Valoreu amb EDTA</h4>
-        <p>Afegiu l'EDTA des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
+        <p>Afegiu l'EDTA 0,02 M des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
         <div class="proc-note info">
           <span class="proc-note-icon">🎯</span>
           A prop del final, aneu gota a gota. El punt final és <strong>blau pur persistent</strong> (≥ 30 segons sense tornar a violeta). Si torna a violeta, encara queda Zn²⁺ lliure.
@@ -445,10 +485,10 @@
     </div>
 
     <div class="proc-step">
-      <div class="proc-num">7</div>
+      <div class="proc-num">9</div>
       <div class="proc-body">
         <h4>Anoteu i repetiu</h4>
-        <p>Anoteu les lectures de la bureta. Repetiu tot el procés amb les altres pesades.</p>
+        <p>Anoteu les lectures de la bureta. Preneu una altra alíquota del mateix matràs i repetiu els passos 4–8. Feu el mateix amb els altres matrassos aforats.</p>
       </div>
     </div>
 
@@ -555,7 +595,7 @@
         <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
         <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
         <div class="sim-status" id="simStatus">
-          Encara no heu afegit EDTA. La dissolució conté Zn²⁺ lliure complexat amb el NET (roig vinós).
+          Encara no heu afegit EDTA. L'alíquota conté Zn²⁺ lliure complexat amb el NET (roig vinós).
         </div>
         <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
       </div>
@@ -571,7 +611,7 @@
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si no veieu efervescència al pas 2</div>
+        <div class="consell-label problem">Si no veieu efervescència al dissoldre el zinc</div>
         <strong>El zinc no es dissol.</strong> Potser no heu afegit prou àcid, o no esteu agitant. Afegiu una mica més d'HCl i agiteu. El zinc ha de desaparèixer completament.
       </div>
     </div>
@@ -589,6 +629,14 @@
       <div class="consell-text">
         <div class="consell-label problem">Si el color inicial no és roig vinós sinó blau</div>
         <strong>No hi ha prou Zn²⁺ lliure</strong> perquè el NET el complexi, o el pH no és correcte. Reviseu que heu afegit el tampó pH 10 i que el zinc s'ha dissolt completament.
+      </div>
+    </div>
+
+    <div class="consell-card">
+      <div class="consell-icon tip">💡</div>
+      <div class="consell-text">
+        <div class="consell-label tip">Transferència quantitativa al matràs aforat</div>
+        <strong>No perdeu gens de dissolució.</strong> Renteu el vas de precipitats 3-4 vegades amb petites porcions d'aigua i aboqueu cada rentat al matràs aforat. Si en perdeu, la concentració calculada serà errònia.
       </div>
     </div>
 
@@ -624,8 +672,7 @@
 // ── Tabs ──
 function showTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', btn.textContent.trim().toLowerCase().replace('ú','u') === tabId ||
-      ['resum','procediment','simulador','consells'][i] === tabId);
+    btn.classList.toggle('active', ['resum','procediment','simulador','consells'][i] === tabId);
   });
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('panel-' + tabId);
@@ -677,8 +724,6 @@ function updateSim() {
   volLabel.textContent = vol;
 
   // Bureta liquid level: full at v=0, empty at v=1000
-  // Liquid rect starts at y=10, height=200 when full
-  // As we pour, the top of the liquid moves down
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
@@ -702,7 +747,7 @@ function updateSim() {
     fillColor = lerpRGBA(WINE, VIOLET, t * 0.3, ALPHA);
     labelText = 'Roig vinós';
     labelBg = 'rgba(136,19,55,0.8)';
-    status = "L'EDTA va complexant el Zn²⁺, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
+    status = "L'EDTA va complexant el Zn²⁺ de l'alíquota, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
   } else if (v < EQ_POINT * 0.95) {
     const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
     fillColor = lerpRGBA(WINE, VIOLET, 0.3 + t * 0.7, ALPHA + 0.05);
@@ -719,7 +764,7 @@ function updateSim() {
     fillColor = lerpRGBA(BLUE, BLUE, 1, ALPHA + 0.15);
     labelText = '✓ BLAU PUR — Punt final';
     labelBg = 'rgba(37,99,235,0.85)';
-    status = "Tot el Zn²⁺ està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
+    status = "Tot el Zn²⁺ de l'alíquota està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
@@ -733,17 +778,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
-  </p>
-</footer>
-
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>

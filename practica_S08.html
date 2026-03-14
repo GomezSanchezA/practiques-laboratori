@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#ffffff">
-  <title>S04 — Estandardització d'EDTA 0,1 mol/L</title>
+  <title>S08 — Estandardització d'AgNO₃ 0,1 mol/L</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,10 +30,9 @@
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-      /* EDTA-specific colors */
-      --wine: #881337;
-      --violet: #6d28d9;
-      --endpoint-blue: #2563eb;
+      /* S08-specific colors */
+      --chromate-yellow: #eab308;
+      --precipitate-red: #b91c1c;
     }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -153,7 +152,7 @@
     }
     .color-strip div {
       flex: 1; display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 700; color: #fff;
+      font-size: 0.65rem; font-weight: 700; color: #fff;
     }
 
     /* ───────── Procediment ───────── */
@@ -252,7 +251,7 @@
       left: 108px; top: 220px;
       width: 6px; height: 8px;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      background: rgba(59, 130, 246, 0.5);
+      background: rgba(200,200,200,0.4);
       opacity: 0;
       pointer-events: none;
     }
@@ -305,9 +304,9 @@
 
 <!-- Hero -->
 <section class="hero">
-  <span class="hero-badge">S04 — Estandarització</span>
-  <h1>Estandardització d'EDTA 0,1 mol/L</h1>
-  <p>Amb zinc metàl·lic com a patró primari</p>
+  <span class="hero-badge">S08 — Estandarització</span>
+  <h1>Estandardització d'AgNO₃ 0,1 mol/L</h1>
+  <p>Amb clorur de sodi com a patró primari (mètode de Mohr)</p>
 </section>
 
 <!-- Tabs -->
@@ -325,47 +324,37 @@
     <div class="resum-section">
       <h3>⚗️ Reaccions</h3>
 
-      <div class="reaction-block">
-        <div class="reaction-label">Dissolució del zinc</div>
-        <div class="reaction-eq">$\text{Zn} + 2\text{HCl} \rightarrow \text{ZnCl}_2 + \text{H}_2\uparrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Neutralització (precipitat blanc)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + 2\text{OH}^- \rightarrow \text{Zn(OH)}_2 \downarrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Redissolució</div>
-        <div class="reaction-eq">$\text{Zn(OH)}_2 + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + 2\text{H}_2\text{O}$</div>
-      </div>
-
       <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
-        <div class="reaction-label">Valoració (reacció principal)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{Y}^{4-} \rightarrow \text{ZnY}^{2-}$</div>
+        <div class="reaction-label">Precipitació (reacció principal)</div>
+        <div class="reaction-eq">$\text{Ag}^+ + \text{Cl}^- \rightarrow \text{AgCl} \downarrow \text{ (blanc)}$</div>
+      </div>
+
+      <div class="reaction-block">
+        <div class="reaction-label">Reacció de l'indicador (punt final)</div>
+        <div class="reaction-eq">$2\text{Ag}^+ + \text{CrO}_4^{2-} \rightarrow \text{Ag}_2\text{CrO}_4 \downarrow \text{ (vermell)}$</div>
       </div>
     </div>
 
     <div class="resum-section">
-      <h3>🎨 Indicador: NET (negre d'eriocrom T)</h3>
+      <h3>🎨 Indicador: K₂CrO₄ (cromat de potassi)</h3>
       <div class="color-strip">
-        <div style="background: var(--wine);">Roig vinós</div>
-        <div style="background: var(--violet);">Violeta</div>
-        <div style="background: var(--endpoint-blue);">Blau pur</div>
+        <div style="background: rgba(234,179,8,0.7); color: #333;">Groc (cromat)</div>
+        <div style="background: rgba(200,200,190,0.8); color: #333;">Blanc tèrbol (AgCl)</div>
+        <div style="background: rgba(185,28,28,0.7);">Vermell (Ag₂CrO₄)</div>
       </div>
 
       <div class="reaction-block" style="margin-top:0.75rem;">
-        <div class="reaction-label">Abans de la valoració — el NET està unit al zinc</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{NET} \rightarrow \underbrace{\text{Zn-NET}}_{\text{roig vinós}}$</div>
+        <div class="reaction-label">Durant la valoració — precipita AgCl blanc</div>
+        <div class="reaction-eq">$\text{Ag}^+ + \text{Cl}^- \rightarrow \underbrace{\text{AgCl}\downarrow}_{\text{blanc}}$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Durant la valoració — l'EDTA roba el zinc al NET</div>
-        <div class="reaction-eq">$\text{Zn-NET}_{\text{(roig)}} + \text{EDTA} \rightarrow \text{Zn-EDTA} + \underbrace{\text{NET lliure}}_{\text{blau}}$</div>
+        <div class="reaction-label">Punt final — apareix precipitat vermellós</div>
+        <div class="reaction-eq">$2\text{Ag}^+_{\text{(excés)}} + \text{CrO}_4^{2-} \rightarrow \underbrace{\text{Ag}_2\text{CrO}_4\downarrow}_{\text{vermell}}$</div>
       </div>
 
       <div class="resum-card" style="margin-top:0.75rem;">
-        <p>L'EDTA forma un complex <strong>més estable</strong> amb el Zn²⁺ que el NET. Per això, quan s'afegeix EDTA, "roba" el zinc al NET. Mentre queda Zn²⁺ lliure, el NET el complexa i la dissolució és <strong>roig vinós</strong>. A mesura que l'EDTA va captant tot el zinc, el NET va quedant lliure i el color passa a <strong>violeta</strong> (mescla de NET lliure + NET-Zn). Quan tot el zinc és complexat per l'EDTA, tot el NET és lliure i la dissolució és <strong>blau pur</strong> (el color natural del NET a pH 10).</p>
+        <p>La dissolució comença <strong>groga</strong> pel cromat indicador. Mentre hi ha Cl⁻ lliure, l'Ag⁺ que afegim precipita com a <strong>AgCl blanc</strong> i la dissolució es va fent tèrbola/blanquinosa. Quan s'esgota tot el Cl⁻, el primer excés d'Ag⁺ reacciona amb el CrO₄²⁻ indicador formant <strong>Ag₂CrO₄ vermell</strong>. El punt final és l'aparició d'una <strong>coloració vermellosa persistent</strong> sobre el fons blanc del precipitat d'AgCl.</p>
       </div>
     </div>
 
@@ -380,72 +369,56 @@
       <div class="proc-num">1</div>
       <div class="proc-body">
         <h4>Peseu el patró primari</h4>
-        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament. Recordeu la tècnica del seminari.</p>
+        <p>Peseu per diferència la quantitat de clorur de sodi sec que heu calculat prèviament.</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">2</div>
       <div class="proc-body">
-        <h4>Dissoleu el zinc en àcid</h4>
-        <p>Afegiu HCl concentrat en petites porcions. El zinc es dissol amb efervescència (bombolles de H₂).</p>
-        <div class="proc-note danger">
-          <span class="proc-note-icon">⚠️</span>
-          L'hidrogen és inflamable. No acosteu flames. Treballeu amb ventilació.
-        </div>
-        <div class="proc-note info">
-          <span class="proc-note-icon">👁️</span>
-          Heu de veure efervescència. Si no n'hi ha, el zinc no s'està dissolent — potser cal més àcid o agitar.
-        </div>
+        <h4>Dissoleu i enraseu</h4>
+        <p>Dissoleu el NaCl en aigua i transferiu quantitativament al matràs aforat. Enraseu amb cura.</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">3</div>
       <div class="proc-body">
-        <h4>Neutralitzeu amb NaOH</h4>
-        <p>Afegiu NaOH gota a gota fins que aparegui un <strong>precipitat blanc permanent</strong> de Zn(OH)₂. Això indica que heu neutralitzat l'excés d'àcid.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">⚡</span>
-          No us passeu! Si afegiu massa NaOH, el precipitat es redissol (es forma zincat, un complex soluble) i la dissolució torna transparent. Si passa, afegiu unes gotes d'àcid i torneu a començar la neutralització.
-        </div>
+        <h4>Preneu l'alíquota i diluïu</h4>
+        <p>Transferiu l'alíquota a l'erlenmeyer amb la pipeta aforada. Afegiu aigua per diluir.</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">4</div>
       <div class="proc-body">
-        <h4>Redissoleu el precipitat</h4>
-        <p>Afegiu H₂SO₄ diluït fins que el precipitat blanc es dissolgui completament. La dissolució ha de quedar <strong>transparent</strong>.</p>
+        <h4>Afegiu l'indicador</h4>
+        <p>Afegiu la dissolució de K₂CrO₄ al 5%. La dissolució es tornarà <strong>groga</strong>.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          No afegiu massa indicador. Un excés de cromat fa que el punt final sigui difícil de veure perquè el groc intens emmascara el vermell.
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">5</div>
       <div class="proc-body">
-        <h4>Afegiu tampó i indicador</h4>
-        <p>Afegiu el tampó pH 10 i després el NET. La dissolució es tornarà <strong>roig vinós</strong>.</p>
+        <h4>Valoreu amb AgNO₃</h4>
+        <p>Afegiu AgNO₃ des de la bureta, agitant vigorosament. Veureu com es forma un <strong>precipitat blanc</strong> d'AgCl que fa la dissolució tèrbola.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          A prop del final, aneu gota a gota. El punt final és l'aparició d'una <strong>coloració vermellosa persistent</strong> (≥ 30 segons). Si desapareix amb l'agitació, encara queda Cl⁻ lliure.
+        </div>
         <div class="proc-note warn">
-          <span class="proc-note-icon">💡</span>
-          El NET s'afegeix amb punta d'espàtula — molt poca quantitat. Massa indicador fa que el viratge sigui difús i difícil de veure.
+          <span class="proc-note-icon">⚡</span>
+          Agiteu bé! Si no agiteu, el precipitat vermell pot aparèixer localment i desaparèixer, donant un fals punt final.
         </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">6</div>
-      <div class="proc-body">
-        <h4>Valoreu amb EDTA</h4>
-        <p>Afegiu l'EDTA des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
-        <div class="proc-note info">
-          <span class="proc-note-icon">🎯</span>
-          A prop del final, aneu gota a gota. El punt final és <strong>blau pur persistent</strong> (≥ 30 segons sense tornar a violeta). Si torna a violeta, encara queda Zn²⁺ lliure.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">7</div>
       <div class="proc-body">
         <h4>Anoteu i repetiu</h4>
         <p>Anoteu les lectures de la bureta. Repetiu tot el procés amb les altres pesades.</p>
@@ -464,45 +437,35 @@
       <div class="sim-apparatus">
         <svg viewBox="0 0 220 340" width="220" height="340">
           <defs>
-            <!-- Glass reflection gradient -->
             <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#fff" stop-opacity="0.15"/>
               <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
               <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
             </linearGradient>
-            <!-- EDTA liquid in bureta (slightly blue/transparent) -->
-            <linearGradient id="edtaG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.35)"/>
-              <stop offset="50%" stop-color="rgba(191,219,254,0.25)"/>
-              <stop offset="100%" stop-color="rgba(147,197,253,0.35)"/>
+            <linearGradient id="agnoG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(200,200,200,0.25)"/>
+              <stop offset="50%" stop-color="rgba(220,220,220,0.15)"/>
+              <stop offset="100%" stop-color="rgba(200,200,200,0.25)"/>
             </linearGradient>
-            <!-- Clip for bureta liquid -->
             <clipPath id="buretaClip">
               <rect x="101" y="10" width="18" height="200"/>
             </clipPath>
-            <!-- Clip for flask liquid -->
             <clipPath id="flaskClip">
               <path d="M80 230 Q80 235 70 245 L42 295 Q34 312 50 320 L170 320 Q186 312 178 295 L150 245 Q140 235 140 230 Z"/>
             </clipPath>
           </defs>
 
           <!-- ══ BURETA ══ -->
-          <!-- Support stand -->
           <rect x="85" y="0" width="4" height="335" rx="2" fill="#94a3b8"/>
           <rect x="60" y="325" width="100" height="6" rx="3" fill="#94a3b8"/>
-          <!-- Clamp -->
           <rect x="87" y="45" width="14" height="6" rx="2" fill="#64748b"/>
           <rect x="87" y="185" width="14" height="6" rx="2" fill="#64748b"/>
 
-          <!-- Bureta tube (glass) -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="rgba(226,232,240,0.3)" stroke="#cbd5e1" stroke-width="1.5"/>
-          <!-- Glass reflection -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
 
-          <!-- EDTA liquid in bureta -->
-          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#edtaG)" clip-path="url(#buretaClip)"/>
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#agnoG)" clip-path="url(#buretaClip)"/>
 
-          <!-- Bureta scale marks -->
           <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
           <text x="127" y="21" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">0</text>
           <line x1="119" y1="56" x2="124" y2="56" stroke="#94a3b8" stroke-width="0.5"/>
@@ -514,30 +477,23 @@
           <line x1="119" y1="200" x2="125" y2="200" stroke="#94a3b8" stroke-width="0.8"/>
           <text x="127" y="203" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">25</text>
 
-          <!-- Bureta rim -->
           <rect x="98" y="8" width="24" height="4" rx="2" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
-          <!-- Stopcock -->
           <rect x="105" y="210" width="10" height="8" rx="2" fill="#64748b"/>
           <rect x="100" y="212" width="20" height="4" rx="2" fill="#475569"/>
-          <!-- Drip tip -->
           <line x1="110" y1="218" x2="110" y2="230" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
 
           <!-- ══ ERLENMEYER ══ -->
-          <!-- Flask body -->
           <path d="M80 230 L80 250 Q80 255 70 265 L42 300 Q34 315 50 322 L170 322 Q186 315 178 300 L150 265 Q140 255 140 250 L140 230"
                 fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
-          <!-- Flask liquid -->
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
-                fill="rgba(136,19,55,0.4)"/>
-          <!-- Liquid surface shimmer -->
+                fill="rgba(234,179,8,0.2)"/>
+          <!-- Precipitate layer at bottom of flask -->
+          <ellipse id="flaskPrecipitate" cx="110" cy="318" rx="45" ry="5" fill="rgba(255,255,255,0.0)"/>
           <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
-          <!-- Glass reflection -->
           <path d="M80 250 Q80 255 70 265 L50 293"
                 fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
-          <!-- Flask neck -->
           <rect x="80" y="222" width="60" height="10" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
-          <!-- Flask rim -->
           <rect x="76" y="220" width="68" height="4" rx="2" fill="#e2e8f0"/>
         </svg>
 
@@ -546,8 +502,8 @@
       </div>
 
       <!-- Color label -->
-      <div class="sim-color-label" id="simColorLabel" style="background: rgba(136,19,55,0.8); color:#fff;">
-        Roig vinós
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(234,179,8,0.8); color:#333;">
+        Groc clar (cromat)
       </div>
 
       <!-- Controls -->
@@ -555,7 +511,7 @@
         <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
         <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
         <div class="sim-status" id="simStatus">
-          Encara no heu afegit EDTA. La dissolució conté Zn²⁺ lliure complexat amb el NET (roig vinós).
+          Encara no heu afegit AgNO₃. La dissolució és groga pel cromat indicador (K₂CrO₄). Tot el Cl⁻ està en dissolució.
         </div>
         <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
       </div>
@@ -571,40 +527,40 @@
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si no veieu efervescència al pas 2</div>
-        <strong>El zinc no es dissol.</strong> Potser no heu afegit prou àcid, o no esteu agitant. Afegiu una mica més d'HCl i agiteu. El zinc ha de desaparèixer completament.
+        <div class="consell-label problem">Si apareix color vermell que desapareix en agitar</div>
+        <strong>No és el punt final.</strong> El vermell local (Ag₂CrO₄) es forma on cau la gota, però es redissol perquè encara queda Cl⁻ que consumeix l'Ag⁺ en excés. Continueu valorant.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el precipitat blanc desapareix amb el NaOH</div>
-        <strong>Us heu passat de NaOH.</strong> S'ha format zincat (complex soluble). Afegiu unes gotes d'àcid fins que torni el precipitat blanc, i continueu amb més cura.
+        <div class="consell-label problem">Si la dissolució és massa groga i no veieu el vermell</div>
+        <strong>Heu afegit massa indicador.</strong> El groc intens del cromat emmascara l'aparició del precipitat vermell. Si és possible, diluïu una mica amb aigua. Per la pròxima vegada, afegiu menys K₂CrO₄.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el color inicial no és roig vinós sinó blau</div>
-        <strong>No hi ha prou Zn²⁺ lliure</strong> perquè el NET el complexi, o el pH no és correcte. Reviseu que heu afegit el tampó pH 10 i que el zinc s'ha dissolt completament.
+        <div class="consell-label problem">Si no veieu precipitat blanc durant la valoració</div>
+        <strong>Comproveu que heu dissolt bé el NaCl</strong> i que esteu valorant amb AgNO₃. L'AgCl blanc s'ha de formar des de la primera gota — agiteu i observeu contra un fons fosc.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si no distingiu bé el viratge</div>
-        <strong>Potser heu afegit massa NET.</strong> Una punta d'espàtula molt petita és suficient. Massa indicador fa que el canvi de roig a blau sigui gradual i difícil de veure. Poseu un paper blanc sota el matràs per veure millor el color.
+        <div class="consell-label tip">Com distingir el punt final</div>
+        <strong>Poseu un paper blanc sota l'erlenmeyer.</strong> El precipitat d'AgCl és blanc i el de Ag₂CrO₄ és vermellós. El contrast es veu millor sobre fons blanc. El punt final és una coloració salmó/vermellosa que NO desapareix en agitar durant 30 segons.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si el color torna a violeta després del viratge</div>
-        <strong>Encara queda Zn²⁺ lliure.</strong> No heu arribat al punt final. Continueu afegint EDTA gota a gota fins que el blau sigui persistent durant almenys 30 segons.
+        <div class="consell-label tip">Atenció amb les taques de plata</div>
+        <strong>Les sals de plata taquen la pell i la roba de forma permanent.</strong> Les taques negres apareixen amb la llum i no es renten. Treballeu amb cura i renteu immediatament si us esquitxa.
       </div>
     </div>
 
@@ -612,7 +568,7 @@
       <div class="consell-icon ok">✅</div>
       <div class="consell-text">
         <div class="consell-label ok">Sabeu que ho heu fet bé quan...</div>
-        El color és <strong>blau pur net</strong> (sense cap toc violeta), persistent almenys 30 segons. Si agiteu i el blau no canvia, heu trobat el punt final.
+        Veieu una <strong>coloració vermellosa/salmó persistent</strong> sobre el fons blanc del precipitat d'AgCl, que no desapareix en agitar durant almenys 30 segons. Això indica que tot el Cl⁻ ha precipitat i l'Ag⁺ en excés comença a precipitar amb el cromat.
       </div>
     </div>
 
@@ -624,15 +580,13 @@
 // ── Tabs ──
 function showTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', btn.textContent.trim().toLowerCase().replace('ú','u') === tabId ||
-      ['resum','procediment','simulador','consells'][i] === tabId);
+    btn.classList.toggle('active', ['resum','procediment','simulador','consells'][i] === tabId);
   });
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('panel-' + tabId);
   if (panel) panel.classList.add('active');
 }
 
-// Fix tab switching
 document.querySelectorAll('.tab-btn').forEach((btn, i) => {
   const tabs = ['resum','procediment','simulador','consells'];
   btn.onclick = () => showTab(tabs[i]);
@@ -644,47 +598,38 @@ const volLabel = document.getElementById('simVol');
 const colorLabel = document.getElementById('simColorLabel');
 const statusText = document.getElementById('simStatus');
 const flaskLiquid = document.getElementById('flaskLiquid');
+const flaskPrecipitate = document.getElementById('flaskPrecipitate');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
-const EQ_POINT = 800; // 80% of slider
+const EQ_POINT = 820; // 82% of slider
 
-// Realistic transparent colors (rgba for liquid look)
-const WINE   = { r:136, g:19,  b:55  }; // roig vinós
-const VIOLET = { r:109, g:40,  b:217 }; // violeta
-const BLUE   = { r:37,  g:99,  b:235 }; // blau pur
-
-function lerp(a, b, t) { return a + (b - a) * t; }
-function lerpRGBA(c1, c2, t, alpha) {
-  return `rgba(${Math.round(lerp(c1.r,c2.r,t))},${Math.round(lerp(c1.g,c2.g,t))},${Math.round(lerp(c1.b,c2.b,t))},${alpha})`;
-}
+// Colors for precipitation titration (Mohr)
+// Start: pale yellow (chromate). During: yellow + white turbid (AgCl). End: red precipitate (Ag2CrO4).
 
 let lastV = 0;
 let dropTimeout = null;
 
 function triggerDrop() {
   simDrop.classList.remove('falling');
-  void simDrop.offsetWidth; // reflow
+  void simDrop.offsetWidth;
   simDrop.classList.add('falling');
 }
+
+function lerp(a, b, t) { return a + (b - a) * t; }
 
 function updateSim() {
   const v = parseInt(slider.value);
   const ratio = v / 1000;
 
-  // Volume display
   const vol = (ratio * 25).toFixed(1).replace('.', ',');
   volLabel.textContent = vol;
 
-  // Bureta liquid level: full at v=0, empty at v=1000
-  // Liquid rect starts at y=10, height=200 when full
-  // As we pour, the top of the liquid moves down
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
   buretaLiquid.setAttribute('height', liquidHeight);
 
-  // Trigger drop animation when slider moves forward
   if (v > lastV && v < 990) {
     if (!dropTimeout) {
       triggerDrop();
@@ -693,38 +638,70 @@ function updateSim() {
   }
   lastV = v;
 
-  // Flask color — transparent, like real liquid
-  let fillColor, labelText, labelBg, status;
-  const ALPHA = 0.4; // transparent liquid
+  let fillColor, labelText, labelBg, labelColor, status;
+  let precipColor = 'rgba(255,255,255,0.0)';
 
-  if (v < EQ_POINT * 0.7) {
-    const t = v / (EQ_POINT * 0.7);
-    fillColor = lerpRGBA(WINE, VIOLET, t * 0.3, ALPHA);
-    labelText = 'Roig vinós';
-    labelBg = 'rgba(136,19,55,0.8)';
-    status = "L'EDTA va complexant el Zn²⁺, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
-  } else if (v < EQ_POINT * 0.95) {
-    const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
-    fillColor = lerpRGBA(WINE, VIOLET, 0.3 + t * 0.7, ALPHA + 0.05);
-    labelText = 'Violeta — a prop del viratge';
-    labelBg = 'rgba(109,40,217,0.8)';
-    status = "Queda poc Zn²⁺ lliure. Aneu gota a gota! El color violeta indica que us acosteu al punt final.";
+  if (v === 0) {
+    // Pure yellow (chromate indicator)
+    fillColor = 'rgba(234,179,8,0.2)';
+    labelText = 'Groc clar (cromat)';
+    labelBg = 'rgba(234,179,8,0.8)';
+    labelColor = '#333';
+    status = "Encara no heu afegit AgNO₃. La dissolució és groga pel cromat indicador (K₂CrO₄). Tot el Cl⁻ està en dissolució.";
+  } else if (v < EQ_POINT * 0.4) {
+    // Early: yellow becoming turbid with white AgCl
+    const t = v / (EQ_POINT * 0.4);
+    const whiteR = Math.round(lerp(234, 220, t));
+    const whiteG = Math.round(lerp(179, 210, t));
+    const whiteB = Math.round(lerp(8, 190, t));
+    const alpha = lerp(0.2, 0.3, t);
+    fillColor = `rgba(${whiteR},${whiteG},${whiteB},${alpha})`;
+    precipColor = `rgba(255,255,255,${t * 0.3})`;
+    labelText = 'Groc tèrbol (precipitat AgCl)';
+    labelBg = 'rgba(202,178,80,0.8)';
+    labelColor = '#333';
+    status = "Es forma precipitat blanc d'AgCl. La dissolució es va fent tèrbola. Encara queda molt de Cl⁻ lliure.";
+  } else if (v < EQ_POINT * 0.8) {
+    // Middle: increasingly white/turbid
+    const t = (v - EQ_POINT * 0.4) / (EQ_POINT * 0.4);
+    const whiteR = Math.round(lerp(220, 210, t));
+    const whiteG = Math.round(lerp(210, 210, t));
+    const whiteB = Math.round(lerp(190, 200, t));
+    const alpha = lerp(0.3, 0.4, t);
+    fillColor = `rgba(${whiteR},${whiteG},${whiteB},${alpha})`;
+    precipColor = `rgba(255,255,255,${0.3 + t * 0.25})`;
+    labelText = 'Blanc tèrbol (molt AgCl)';
+    labelBg = 'rgba(190,190,180,0.85)';
+    labelColor = '#333';
+    status = "La dissolució és molt tèrbola pel precipitat blanc d'AgCl. El groc del cromat queda emmascarat.";
   } else if (v < EQ_POINT) {
-    const t = (v - EQ_POINT * 0.95) / (EQ_POINT * 0.05);
-    fillColor = lerpRGBA(VIOLET, BLUE, t, ALPHA + 0.1);
-    labelText = 'Quasi blau — mitja gota!';
-    labelBg = 'rgba(67,56,202,0.8)';
-    status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu 30 segons.";
+    // Near endpoint: very white/turbid
+    const t = (v - EQ_POINT * 0.8) / (EQ_POINT * 0.2);
+    fillColor = `rgba(210,210,200,${lerp(0.4, 0.45, t)})`;
+    precipColor = `rgba(255,255,255,${0.55 + t * 0.1})`;
+    labelText = 'Blanc tèrbol — a prop del punt final';
+    labelBg = 'rgba(180,180,175,0.85)';
+    labelColor = '#333';
+    status = "Queda molt poc Cl⁻ lliure. Aneu gota a gota! Observeu si apareix una coloració vermellosa que no desapareix.";
   } else {
-    fillColor = lerpRGBA(BLUE, BLUE, 1, ALPHA + 0.15);
-    labelText = '✓ BLAU PUR — Punt final';
-    labelBg = 'rgba(37,99,235,0.85)';
-    status = "Tot el Zn²⁺ està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
+    // Endpoint: red precipitate appears (Ag2CrO4)
+    const t = Math.min(1, (v - EQ_POINT) / (1000 - EQ_POINT));
+    const redR = Math.round(lerp(210, 195, t));
+    const redG = Math.round(lerp(200, 140, t));
+    const redB = Math.round(lerp(190, 140, t));
+    const alpha = lerp(0.45, 0.5, t);
+    fillColor = `rgba(${redR},${redG},${redB},${alpha})`;
+    precipColor = `rgba(185,28,28,${0.15 + t * 0.35})`;
+    labelText = '✓ VERMELL — Punt final (Ag₂CrO₄)';
+    labelBg = 'rgba(185,28,28,0.8)';
+    labelColor = '#fff';
+    status = "Tot el Cl⁻ ha precipitat com AgCl. L'Ag⁺ en excés ara precipita amb el CrO₄²⁻ formant Ag₂CrO₄ vermell. Coloració persistent ≥ 30 s.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
+  flaskPrecipitate.setAttribute('fill', precipColor);
   colorLabel.style.background = labelBg;
-  colorLabel.style.color = '#fff';
+  colorLabel.style.color = labelColor;
   colorLabel.textContent = labelText;
   statusText.textContent = status;
 }
@@ -733,17 +710,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
-  </p>
-</footer>
-
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>

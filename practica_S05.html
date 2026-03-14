@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#ffffff">
-  <title>S04 — Estandardització d'EDTA 0,1 mol/L</title>
+  <title>S05 — Estandardització de KMnO₄ 0,02 mol/L</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,10 +30,10 @@
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-      /* EDTA-specific colors */
-      --wine: #881337;
-      --violet: #6d28d9;
-      --endpoint-blue: #2563eb;
+      /* KMnO4-specific colors */
+      --colorless: #e2e8f0;
+      --faint-pink: #c084fc;
+      --endpoint-pink: #a855f7;
     }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -76,14 +76,6 @@
     }
     .hero h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.4rem; }
     .hero p { font-size: 0.85rem; opacity: 0.85; }
-    .hero-meta {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    .hero-tag {
-      font-size: 0.7rem; font-weight: 600; padding: 3px 10px;
-      border-radius: 8px; background: rgba(255,255,255,0.15);
-    }
 
     /* ───────── Tabs ───────── */
     .tab-bar {
@@ -252,7 +244,7 @@
       left: 108px; top: 220px;
       width: 6px; height: 8px;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      background: rgba(59, 130, 246, 0.5);
+      background: rgba(168,85,247,0.5);
       opacity: 0;
       pointer-events: none;
     }
@@ -305,9 +297,9 @@
 
 <!-- Hero -->
 <section class="hero">
-  <span class="hero-badge">S04 — Estandarització</span>
-  <h1>Estandardització d'EDTA 0,1 mol/L</h1>
-  <p>Amb zinc metàl·lic com a patró primari</p>
+  <span class="hero-badge">S05 — Estandarització</span>
+  <h1>Estandardització de KMnO₄ 0,02 mol/L</h1>
+  <p>Amb oxalat de sodi com a patró primari</p>
 </section>
 
 <!-- Tabs -->
@@ -326,46 +318,41 @@
       <h3>⚗️ Reaccions</h3>
 
       <div class="reaction-block">
-        <div class="reaction-label">Dissolució del zinc</div>
-        <div class="reaction-eq">$\text{Zn} + 2\text{HCl} \rightarrow \text{ZnCl}_2 + \text{H}_2\uparrow$</div>
+        <div class="reaction-label">Semireacció de reducció (permanganat)</div>
+        <div class="reaction-eq">$\text{MnO}_4^- + 8\text{H}^+ + 5\text{e}^- \rightarrow \text{Mn}^{2+} + 4\text{H}_2\text{O}$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Neutralització (precipitat blanc)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + 2\text{OH}^- \rightarrow \text{Zn(OH)}_2 \downarrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Redissolució</div>
-        <div class="reaction-eq">$\text{Zn(OH)}_2 + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + 2\text{H}_2\text{O}$</div>
+        <div class="reaction-label">Semireacció d'oxidació (oxalat)</div>
+        <div class="reaction-eq">$\text{C}_2\text{O}_4^{2-} \rightarrow 2\text{CO}_2 + 2\text{e}^-$</div>
       </div>
 
       <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
-        <div class="reaction-label">Valoració (reacció principal)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{Y}^{4-} \rightarrow \text{ZnY}^{2-}$</div>
+        <div class="reaction-label">Reacció global (valoració)</div>
+        <div class="reaction-eq">$2\text{MnO}_4^- + 5\text{C}_2\text{O}_4^{2-} + 16\text{H}^+ \rightarrow 2\text{Mn}^{2+} + 10\text{CO}_2 + 8\text{H}_2\text{O}$</div>
       </div>
     </div>
 
     <div class="resum-section">
-      <h3>🎨 Indicador: NET (negre d'eriocrom T)</h3>
+      <h3>🎨 Indicador: autoindicador (KMnO₄)</h3>
       <div class="color-strip">
-        <div style="background: var(--wine);">Roig vinós</div>
-        <div style="background: var(--violet);">Violeta</div>
-        <div style="background: var(--endpoint-blue);">Blau pur</div>
+        <div style="background: rgba(200,200,200,0.6); color: var(--gray-700);">Incolor</div>
+        <div style="background: rgba(168,85,247,0.4); color: #fff;">Rosa pàl·lid</div>
+        <div style="background: rgba(168,85,247,0.75); color: #fff;">Rosa persistent</div>
       </div>
 
       <div class="reaction-block" style="margin-top:0.75rem;">
-        <div class="reaction-label">Abans de la valoració — el NET està unit al zinc</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{NET} \rightarrow \underbrace{\text{Zn-NET}}_{\text{roig vinós}}$</div>
+        <div class="reaction-label">Durant la valoració — el permanganat es redueix</div>
+        <div class="reaction-eq">$\text{MnO}_{4\text{ (violeta)}}^- + \text{C}_2\text{O}_4^{2-} \rightarrow \underbrace{\text{Mn}^{2+}}_{\text{incolor}} + \text{CO}_2$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Durant la valoració — l'EDTA roba el zinc al NET</div>
-        <div class="reaction-eq">$\text{Zn-NET}_{\text{(roig)}} + \text{EDTA} \rightarrow \text{Zn-EDTA} + \underbrace{\text{NET lliure}}_{\text{blau}}$</div>
+        <div class="reaction-label">Al punt final — excés de permanganat no reacciona</div>
+        <div class="reaction-eq">$\text{MnO}_{4}^{-}\text{ (excés)} \rightarrow \underbrace{\text{rosa persistent}}_{\geq 30\text{ s}}$</div>
       </div>
 
       <div class="resum-card" style="margin-top:0.75rem;">
-        <p>L'EDTA forma un complex <strong>més estable</strong> amb el Zn²⁺ que el NET. Per això, quan s'afegeix EDTA, "roba" el zinc al NET. Mentre queda Zn²⁺ lliure, el NET el complexa i la dissolució és <strong>roig vinós</strong>. A mesura que l'EDTA va captant tot el zinc, el NET va quedant lliure i el color passa a <strong>violeta</strong> (mescla de NET lliure + NET-Zn). Quan tot el zinc és complexat per l'EDTA, tot el NET és lliure i la dissolució és <strong>blau pur</strong> (el color natural del NET a pH 10).</p>
+        <p>El KMnO₄ és el seu propi indicador (<strong>autoindicador</strong>). Mentre queda oxalat per reaccionar, el MnO₄⁻ que afegiu es redueix a Mn²⁺, que és <strong>pràcticament incolor</strong>. Per això la dissolució es decolora després de cada addició. Quan tot l'oxalat s'ha consumit, la següent gota de KMnO₄ ja no es redueix i la dissolució adquireix un <strong>rosa pàl·lid persistent</strong> (≥ 30 s). No cal afegir cap indicador extern.</p>
       </div>
     </div>
 
@@ -380,22 +367,22 @@
       <div class="proc-num">1</div>
       <div class="proc-body">
         <h4>Peseu el patró primari</h4>
-        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament. Recordeu la tècnica del seminari.</p>
+        <p>Peseu per diferència i per triplicat la quantitat d'oxalat de sodi sec que heu calculat prèviament.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">💡</span>
+          L'oxalat ha d'estar prèviament assecat a l'estufa. Si és humit, la pesada no serà correcta.
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">2</div>
       <div class="proc-body">
-        <h4>Dissoleu el zinc en àcid</h4>
-        <p>Afegiu HCl concentrat en petites porcions. El zinc es dissol amb efervescència (bombolles de H₂).</p>
+        <h4>Dissoleu en àcid sulfúric</h4>
+        <p>Dissoleu l'oxalat en H₂SO₄ diluït i porteu a volum amb aigua. La dissolució ha de quedar <strong>transparent i incolora</strong>.</p>
         <div class="proc-note danger">
           <span class="proc-note-icon">⚠️</span>
-          L'hidrogen és inflamable. No acosteu flames. Treballeu amb ventilació.
-        </div>
-        <div class="proc-note info">
-          <span class="proc-note-icon">👁️</span>
-          Heu de veure efervescència. Si no n'hi ha, el zinc no s'està dissolent — potser cal més àcid o agitar.
+          L'àcid sulfúric és corrosiu. Manipuleu amb cura i afegiu sempre l'àcid sobre l'aigua, mai al revés.
         </div>
       </div>
     </div>
@@ -403,11 +390,11 @@
     <div class="proc-step">
       <div class="proc-num">3</div>
       <div class="proc-body">
-        <h4>Neutralitzeu amb NaOH</h4>
-        <p>Afegiu NaOH gota a gota fins que aparegui un <strong>precipitat blanc permanent</strong> de Zn(OH)₂. Això indica que heu neutralitzat l'excés d'àcid.</p>
+        <h4>Inicieu la valoració en fred</h4>
+        <p>Afegiu els primers mL de KMnO₄ des de la bureta i agiteu. El color violeta <strong>trigarà a desaparèixer</strong> — és normal, la reacció és lenta en fred.</p>
         <div class="proc-note warn">
-          <span class="proc-note-icon">⚡</span>
-          No us passeu! Si afegiu massa NaOH, el precipitat es redissol (es forma zincat, un complex soluble) i la dissolució torna transparent. Si passa, afegiu unes gotes d'àcid i torneu a començar la neutralització.
+          <span class="proc-note-icon">⏳</span>
+          No us impacienteu! Els primers mL poden trigar fins a 1-2 minuts a decolorar-se. Això és completament normal — el Mn²⁺ producte encara no s'ha acumulat per catalitzar la reacció.
         </div>
       </div>
     </div>
@@ -415,37 +402,33 @@
     <div class="proc-step">
       <div class="proc-num">4</div>
       <div class="proc-body">
-        <h4>Redissoleu el precipitat</h4>
-        <p>Afegiu H₂SO₄ diluït fins que el precipitat blanc es dissolgui completament. La dissolució ha de quedar <strong>transparent</strong>.</p>
+        <h4>Escalfeu a 50-60 °C</h4>
+        <p>Escalfeu la dissolució fins a 50-60 °C. A aquesta temperatura, la reacció s'accelera notablement i la decoloració és ràpida.</p>
+        <div class="proc-note danger">
+          <span class="proc-note-icon">🔥</span>
+          No porteu a ebullició! Per sobre de 60 °C l'oxalat es pot descompondre parcialment, causant un error positiu en la concentració.
+        </div>
+        <div class="proc-note info">
+          <span class="proc-note-icon">👁️</span>
+          Ara cada addició de KMnO₄ es decolora en pocs segons. Si triga molt, la temperatura ha baixat — recalfeu suaument.
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">5</div>
       <div class="proc-body">
-        <h4>Afegiu tampó i indicador</h4>
-        <p>Afegiu el tampó pH 10 i després el NET. La dissolució es tornarà <strong>roig vinós</strong>.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">💡</span>
-          El NET s'afegeix amb punta d'espàtula — molt poca quantitat. Massa indicador fa que el viratge sigui difús i difícil de veure.
+        <h4>Valoreu fins a rosa persistent</h4>
+        <p>Continueu afegint KMnO₄ des de la bureta. A prop del final, aneu gota a gota. El punt final és un <strong>rosa pàl·lid persistent</strong> durant almenys 30 segons.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          El rosa ha de ser molt tènue — una sola gota d'excés és suficient. Si la dissolució es torna violeta intens, us heu passat.
         </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">6</div>
-      <div class="proc-body">
-        <h4>Valoreu amb EDTA</h4>
-        <p>Afegiu l'EDTA des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
-        <div class="proc-note info">
-          <span class="proc-note-icon">🎯</span>
-          A prop del final, aneu gota a gota. El punt final és <strong>blau pur persistent</strong> (≥ 30 segons sense tornar a violeta). Si torna a violeta, encara queda Zn²⁺ lliure.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">7</div>
       <div class="proc-body">
         <h4>Anoteu i repetiu</h4>
         <p>Anoteu les lectures de la bureta. Repetiu tot el procés amb les altres pesades.</p>
@@ -470,11 +453,11 @@
               <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
               <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
             </linearGradient>
-            <!-- EDTA liquid in bureta (slightly blue/transparent) -->
-            <linearGradient id="edtaG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.35)"/>
-              <stop offset="50%" stop-color="rgba(191,219,254,0.25)"/>
-              <stop offset="100%" stop-color="rgba(147,197,253,0.35)"/>
+            <!-- KMnO4 liquid in bureta (purple/violet) -->
+            <linearGradient id="kmno4G" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(168,85,247,0.6)"/>
+              <stop offset="50%" stop-color="rgba(147,51,234,0.5)"/>
+              <stop offset="100%" stop-color="rgba(168,85,247,0.6)"/>
             </linearGradient>
             <!-- Clip for bureta liquid -->
             <clipPath id="buretaClip">
@@ -499,8 +482,8 @@
           <!-- Glass reflection -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
 
-          <!-- EDTA liquid in bureta -->
-          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#edtaG)" clip-path="url(#buretaClip)"/>
+          <!-- KMnO4 liquid in bureta -->
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#kmno4G)" clip-path="url(#buretaClip)"/>
 
           <!-- Bureta scale marks -->
           <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
@@ -529,7 +512,7 @@
           <!-- Flask liquid -->
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
-                fill="rgba(136,19,55,0.4)"/>
+                fill="rgba(200,200,200,0.08)"/>
           <!-- Liquid surface shimmer -->
           <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
           <!-- Glass reflection -->
@@ -546,8 +529,8 @@
       </div>
 
       <!-- Color label -->
-      <div class="sim-color-label" id="simColorLabel" style="background: rgba(136,19,55,0.8); color:#fff;">
-        Roig vinós
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(200,200,200,0.5); color: var(--gray-700);">
+        Incolor
       </div>
 
       <!-- Controls -->
@@ -555,7 +538,7 @@
         <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
         <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
         <div class="sim-status" id="simStatus">
-          Encara no heu afegit EDTA. La dissolució conté Zn²⁺ lliure complexat amb el NET (roig vinós).
+          Encara no heu afegit KMnO₄. La dissolució conté oxalat en medi àcid (incolora).
         </div>
         <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
       </div>
@@ -571,40 +554,40 @@
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si no veieu efervescència al pas 2</div>
-        <strong>El zinc no es dissol.</strong> Potser no heu afegit prou àcid, o no esteu agitant. Afegiu una mica més d'HCl i agiteu. El zinc ha de desaparèixer completament.
+        <div class="consell-label problem">Si el color violeta no desapareix al principi</div>
+        <strong>És normal!</strong> La reacció entre permanganat i oxalat és lenta en fred. Els primers mL poden trigar 1-2 minuts a decolorar-se. Espereu i agiteu — quan es formi prou Mn²⁺, la reacció s'autocatalitza.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el precipitat blanc desapareix amb el NaOH</div>
-        <strong>Us heu passat de NaOH.</strong> S'ha format zincat (complex soluble). Afegiu unes gotes d'àcid fins que torni el precipitat blanc, i continueu amb més cura.
+        <div class="consell-label problem">Si la dissolució es torna marró/terrosa</div>
+        <strong>Heu escalfat massa!</strong> Per sobre de 60 °C el permanganat es descompon a MnO₂ (precipitat marró). La mostra ja no és vàlida — haureu de repetir amb una nova pesada.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el color inicial no és roig vinós sinó blau</div>
-        <strong>No hi ha prou Zn²⁺ lliure</strong> perquè el NET el complexi, o el pH no és correcte. Reviseu que heu afegit el tampó pH 10 i que el zinc s'ha dissolt completament.
+        <div class="consell-label problem">Si la decoloració triga molt després d'escalfar</div>
+        <strong>La temperatura ha baixat.</strong> Recalfeu suaument fins a 50-60 °C. La reacció necessita calor per funcionar a un ritme adequat.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si no distingiu bé el viratge</div>
-        <strong>Potser heu afegit massa NET.</strong> Una punta d'espàtula molt petita és suficient. Massa indicador fa que el canvi de roig a blau sigui gradual i difícil de veure. Poseu un paper blanc sota el matràs per veure millor el color.
+        <div class="consell-label tip">Si no sabeu si el rosa és persistent</div>
+        <strong>Espereu 30 segons complets.</strong> Afegiu la gota, agiteu i espereu. Si el rosa desapareix, encara queda oxalat. Si el rosa es manté 30 s sense canviar, heu trobat el punt final.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si el color torna a violeta després del viratge</div>
-        <strong>Encara queda Zn²⁺ lliure.</strong> No heu arribat al punt final. Continueu afegint EDTA gota a gota fins que el blau sigui persistent durant almenys 30 segons.
+        <div class="consell-label tip">Si la dissolució es torna violeta intens</div>
+        <strong>Us heu passat del punt final.</strong> El rosa ha de ser molt tènue. Una dissolució violeta intensa indica un gran excés de KMnO₄. A la pròxima pesada, aneu més a poc a poc a prop del final.
       </div>
     </div>
 
@@ -612,7 +595,7 @@
       <div class="consell-icon ok">✅</div>
       <div class="consell-text">
         <div class="consell-label ok">Sabeu que ho heu fet bé quan...</div>
-        El color és <strong>blau pur net</strong> (sense cap toc violeta), persistent almenys 30 segons. Si agiteu i el blau no canvia, heu trobat el punt final.
+        La dissolució mostra un <strong>rosa molt pàl·lid</strong> (quasi imperceptible) que persisteix almenys 30 segons. La decoloració era ràpida a 50-60 °C i es va alentir gradualment a prop del final.
       </div>
     </div>
 
@@ -650,9 +633,10 @@ const simDrop = document.getElementById('simDrop');
 const EQ_POINT = 800; // 80% of slider
 
 // Realistic transparent colors (rgba for liquid look)
-const WINE   = { r:136, g:19,  b:55  }; // roig vinós
-const VIOLET = { r:109, g:40,  b:217 }; // violeta
-const BLUE   = { r:37,  g:99,  b:235 }; // blau pur
+// Nearly colorless → very faint pink → persistent pale pink
+const COLORLESS = { r:200, g:200, b:200 };
+const FAINT_PINK = { r:168, g:85, b:247 };
+const ENDPOINT_PINK = { r:168, g:85, b:247 };
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 function lerpRGBA(c1, c2, t, alpha) {
@@ -677,8 +661,6 @@ function updateSim() {
   volLabel.textContent = vol;
 
   // Bureta liquid level: full at v=0, empty at v=1000
-  // Liquid rect starts at y=10, height=200 when full
-  // As we pour, the top of the liquid moves down
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
@@ -694,37 +676,41 @@ function updateSim() {
   lastV = v;
 
   // Flask color — transparent, like real liquid
-  let fillColor, labelText, labelBg, status;
-  const ALPHA = 0.4; // transparent liquid
+  let fillColor, labelText, labelBg, labelColor, status;
 
   if (v < EQ_POINT * 0.7) {
+    // Nearly colorless — the KMnO4 is being fully reduced
     const t = v / (EQ_POINT * 0.7);
-    fillColor = lerpRGBA(WINE, VIOLET, t * 0.3, ALPHA);
-    labelText = 'Roig vinós';
-    labelBg = 'rgba(136,19,55,0.8)';
-    status = "L'EDTA va complexant el Zn²⁺, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
+    fillColor = lerpRGBA(COLORLESS, FAINT_PINK, t * 0.15, 0.08 + t * 0.03);
+    labelText = 'Incolor';
+    labelBg = 'rgba(200,200,200,0.5)';
+    labelColor = 'var(--gray-700)';
+    status = "El KMnO₄ es redueix completament a Mn²⁺ (incolor). Cada gota es decolora — primer lentament (autocatàlisi), després cada cop més ràpid.";
   } else if (v < EQ_POINT * 0.95) {
     const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
-    fillColor = lerpRGBA(WINE, VIOLET, 0.3 + t * 0.7, ALPHA + 0.05);
-    labelText = 'Violeta — a prop del viratge';
-    labelBg = 'rgba(109,40,217,0.8)';
-    status = "Queda poc Zn²⁺ lliure. Aneu gota a gota! El color violeta indica que us acosteu al punt final.";
+    fillColor = lerpRGBA(COLORLESS, FAINT_PINK, 0.15 + t * 0.5, 0.11 + t * 0.04);
+    labelText = 'Rosa fugaç — a prop del final';
+    labelBg = 'rgba(168,85,247,0.4)';
+    labelColor = '#fff';
+    status = "La decoloració cada cop triga més. Pot aparèixer un rosa momentani que desapareix en agitar. Aneu gota a gota!";
   } else if (v < EQ_POINT) {
     const t = (v - EQ_POINT * 0.95) / (EQ_POINT * 0.05);
-    fillColor = lerpRGBA(VIOLET, BLUE, t, ALPHA + 0.1);
-    labelText = 'Quasi blau — mitja gota!';
-    labelBg = 'rgba(67,56,202,0.8)';
-    status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu 30 segons.";
+    fillColor = lerpRGBA(FAINT_PINK, ENDPOINT_PINK, t, 0.15 + t * 0.1);
+    labelText = 'Rosa tènue — espereu 30 s!';
+    labelBg = 'rgba(168,85,247,0.55)';
+    labelColor = '#fff';
+    status = "Esteu a punt! El rosa triga a desaparèixer. Afegiu mitja gota i espereu 30 segons complets.";
   } else {
-    fillColor = lerpRGBA(BLUE, BLUE, 1, ALPHA + 0.15);
-    labelText = '✓ BLAU PUR — Punt final';
-    labelBg = 'rgba(37,99,235,0.85)';
-    status = "Tot el Zn²⁺ està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
+    fillColor = lerpRGBA(ENDPOINT_PINK, ENDPOINT_PINK, 1, 0.35);
+    labelText = '✓ ROSA PERSISTENT — Punt final';
+    labelBg = 'rgba(168,85,247,0.75)';
+    labelColor = '#fff';
+    status = "Tot l'oxalat s'ha consumit. L'excés de KMnO₄ ja no es redueix i la dissolució manté un rosa pàl·lid persistent ≥ 30 s.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
   colorLabel.style.background = labelBg;
-  colorLabel.style.color = '#fff';
+  colorLabel.style.color = labelColor;
   colorLabel.textContent = labelText;
   statusText.textContent = status;
 }
@@ -733,17 +719,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
-  </p>
-</footer>
-
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>

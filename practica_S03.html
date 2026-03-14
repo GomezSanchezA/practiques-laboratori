@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#ffffff">
-  <title>S04 — Estandardització d'EDTA 0,1 mol/L</title>
+  <title>S03 — Estandardització d'HClO₄ 0,1 mol/L en àcid acètic glacial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,10 +30,11 @@
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-      /* EDTA-specific colors */
-      --wine: #881337;
-      --violet: #6d28d9;
-      --endpoint-blue: #2563eb;
+      /* S03-specific colors */
+      --cv-violet: #8b5cf6;
+      --cv-blue: #3b82f6;
+      --cv-bluegreen: #14b8a6;
+      --cv-green: #22c55e;
     }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -252,7 +253,7 @@
       left: 108px; top: 220px;
       width: 6px; height: 8px;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      background: rgba(59, 130, 246, 0.5);
+      background: rgba(200,200,200,0.4);
       opacity: 0;
       pointer-events: none;
     }
@@ -305,9 +306,9 @@
 
 <!-- Hero -->
 <section class="hero">
-  <span class="hero-badge">S04 — Estandarització</span>
-  <h1>Estandardització d'EDTA 0,1 mol/L</h1>
-  <p>Amb zinc metàl·lic com a patró primari</p>
+  <span class="hero-badge">S03 — Estandarització</span>
+  <h1>Estandardització d'HClO₄ 0,1 mol/L en àcid acètic glacial</h1>
+  <p>Amb hidrogenoftalat de potassi (KHP) com a patró primari</p>
 </section>
 
 <!-- Tabs -->
@@ -325,47 +326,37 @@
     <div class="resum-section">
       <h3>⚗️ Reaccions</h3>
 
-      <div class="reaction-block">
-        <div class="reaction-label">Dissolució del zinc</div>
-        <div class="reaction-eq">$\text{Zn} + 2\text{HCl} \rightarrow \text{ZnCl}_2 + \text{H}_2\uparrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Neutralització (precipitat blanc)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + 2\text{OH}^- \rightarrow \text{Zn(OH)}_2 \downarrow$</div>
-      </div>
-
-      <div class="reaction-block">
-        <div class="reaction-label">Redissolució</div>
-        <div class="reaction-eq">$\text{Zn(OH)}_2 + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + 2\text{H}_2\text{O}$</div>
-      </div>
-
       <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
         <div class="reaction-label">Valoració (reacció principal)</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{Y}^{4-} \rightarrow \text{ZnY}^{2-}$</div>
+        <div class="reaction-eq">$\text{C}_6\text{H}_4(\text{COOH})(\text{COOK}) + \text{HClO}_4 \rightarrow \text{C}_6\text{H}_4(\text{COOH})_2 + \text{KClO}_4$</div>
+      </div>
+
+      <div class="resum-card" style="margin-top:0.75rem;">
+        <p>En medi no aquós (àcid acètic glacial), el KHP actua com a <strong>base</strong> i l'HClO₄ com a àcid fort. L'àcid acètic glacial és el dissolvent i nivella la força àcida de l'HClO₄, permetent valorar bases que en aigua serien massa febles per titular.</p>
       </div>
     </div>
 
     <div class="resum-section">
-      <h3>🎨 Indicador: NET (negre d'eriocrom T)</h3>
+      <h3>🎨 Indicador: Violeta de cristall</h3>
       <div class="color-strip">
-        <div style="background: var(--wine);">Roig vinós</div>
-        <div style="background: var(--violet);">Violeta</div>
-        <div style="background: var(--endpoint-blue);">Blau pur</div>
+        <div style="background: #8b5cf6;">Violeta</div>
+        <div style="background: #3b82f6;">Blau</div>
+        <div style="background: #14b8a6;">Blau-verd</div>
+        <div style="background: #22c55e;">Verd</div>
       </div>
 
       <div class="reaction-block" style="margin-top:0.75rem;">
-        <div class="reaction-label">Abans de la valoració — el NET està unit al zinc</div>
-        <div class="reaction-eq">$\text{Zn}^{2+} + \text{NET} \rightarrow \underbrace{\text{Zn-NET}}_{\text{roig vinós}}$</div>
+        <div class="reaction-label">Abans de la valoració — indicador en forma bàsica</div>
+        <div class="reaction-eq">$\text{VC}^{+} \quad \text{(violeta)}$</div>
       </div>
 
       <div class="reaction-block">
-        <div class="reaction-label">Durant la valoració — l'EDTA roba el zinc al NET</div>
-        <div class="reaction-eq">$\text{Zn-NET}_{\text{(roig)}} + \text{EDTA} \rightarrow \text{Zn-EDTA} + \underbrace{\text{NET lliure}}_{\text{blau}}$</div>
+        <div class="reaction-label">Al punt final — l'HClO₄ protona l'indicador</div>
+        <div class="reaction-eq">$\text{VC}^{+} + \text{HClO}_4 \rightarrow \underbrace{\text{HVC}^{2+}}_{\text{blau-verd}} + \text{ClO}_4^{-}$</div>
       </div>
 
       <div class="resum-card" style="margin-top:0.75rem;">
-        <p>L'EDTA forma un complex <strong>més estable</strong> amb el Zn²⁺ que el NET. Per això, quan s'afegeix EDTA, "roba" el zinc al NET. Mentre queda Zn²⁺ lliure, el NET el complexa i la dissolució és <strong>roig vinós</strong>. A mesura que l'EDTA va captant tot el zinc, el NET va quedant lliure i el color passa a <strong>violeta</strong> (mescla de NET lliure + NET-Zn). Quan tot el zinc és complexat per l'EDTA, tot el NET és lliure i la dissolució és <strong>blau pur</strong> (el color natural del NET a pH 10).</p>
+        <p>La violeta de cristall canvia de color a mesura que es protona en medi àcid. Inicialment és <strong>violeta</strong> (forma bàsica). Quan l'HClO₄ ha reaccionat amb tot el KHP, comença a protonar l'indicador: el color passa a <strong>blau</strong>, després a <strong>blau-verd</strong> (punt final) i finalment a <strong>verd/groc</strong> (excés). Cal aturar-se al <strong>blau-verd</strong>.</p>
       </div>
     </div>
 
@@ -380,22 +371,22 @@
       <div class="proc-num">1</div>
       <div class="proc-body">
         <h4>Peseu el patró primari</h4>
-        <p>Peseu per diferència la quantitat de zinc metàl·lic que heu calculat prèviament. Recordeu la tècnica del seminari.</p>
+        <p>Peseu per diferència la quantitat de KHP sec que heu calculat prèviament. Feu-ho per triplicat.</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">2</div>
       <div class="proc-body">
-        <h4>Dissoleu el zinc en àcid</h4>
-        <p>Afegiu HCl concentrat en petites porcions. El zinc es dissol amb efervescència (bombolles de H₂).</p>
+        <h4>Dissoleu el KHP en àcid acètic glacial</h4>
+        <p>Introduïu el sòlid en un erlenmeyer <strong>completament sec</strong> i dissoleu-lo amb àcid acètic glacial.</p>
         <div class="proc-note danger">
           <span class="proc-note-icon">⚠️</span>
-          L'hidrogen és inflamable. No acosteu flames. Treballeu amb ventilació.
+          Tot el material ha d'estar perfectament sec. L'aigua interfereix en la valoració en medi no aquós — qualsevol resta d'humitat invalida el resultat.
         </div>
-        <div class="proc-note info">
-          <span class="proc-note-icon">👁️</span>
-          Heu de veure efervescència. Si no n'hi ha, el zinc no s'està dissolent — potser cal més àcid o agitar.
+        <div class="proc-note danger">
+          <span class="proc-note-icon">⚠️</span>
+          L'àcid acètic glacial és corrosiu i irritant. Treballeu sempre dins la campana extractora i eviteu la inhalació.
         </div>
       </div>
     </div>
@@ -403,49 +394,37 @@
     <div class="proc-step">
       <div class="proc-num">3</div>
       <div class="proc-body">
-        <h4>Neutralitzeu amb NaOH</h4>
-        <p>Afegiu NaOH gota a gota fins que aparegui un <strong>precipitat blanc permanent</strong> de Zn(OH)₂. Això indica que heu neutralitzat l'excés d'àcid.</p>
-        <div class="proc-note warn">
-          <span class="proc-note-icon">⚡</span>
-          No us passeu! Si afegiu massa NaOH, el precipitat es redissol (es forma zincat, un complex soluble) i la dissolució torna transparent. Si passa, afegiu unes gotes d'àcid i torneu a començar la neutralització.
-        </div>
+        <h4>Afegiu l'indicador</h4>
+        <p>Afegiu unes poques gotes de violeta de cristall. La dissolució es tornarà <strong>violeta</strong>.</p>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">4</div>
       <div class="proc-body">
-        <h4>Redissoleu el precipitat</h4>
-        <p>Afegiu H₂SO₄ diluït fins que el precipitat blanc es dissolgui completament. La dissolució ha de quedar <strong>transparent</strong>.</p>
+        <h4>Valoreu amb HClO₄</h4>
+        <p>Afegiu l'HClO₄ des de la bureta, agitant constantment. El color anirà canviant de <strong>violeta → blau → blau-verd</strong>.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          El punt final és <strong>blau-verd persistent</strong>. Si passeu a verd o groc, us heu excedit. A prop del final, aneu gota a gota.
+        </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">5</div>
       <div class="proc-body">
-        <h4>Afegiu tampó i indicador</h4>
-        <p>Afegiu el tampó pH 10 i després el NET. La dissolució es tornarà <strong>roig vinós</strong>.</p>
+        <h4>Feu el blanc de l'indicador</h4>
+        <p>En un erlenmeyer sec, poseu àcid acètic glacial i unes gotes d'indicador (sense KHP). Valoreu gota a gota amb HClO₄ fins al mateix color blau-verd. Resteu aquest volum de les lectures anteriors.</p>
         <div class="proc-note warn">
           <span class="proc-note-icon">💡</span>
-          El NET s'afegeix amb punta d'espàtula — molt poca quantitat. Massa indicador fa que el viratge sigui difús i difícil de veure.
+          El blanc corregeix el petit volum d'HClO₄ que es gasta en protonar l'indicador. No l'oblideu — afecta la precisió del resultat.
         </div>
       </div>
     </div>
 
     <div class="proc-step">
       <div class="proc-num">6</div>
-      <div class="proc-body">
-        <h4>Valoreu amb EDTA</h4>
-        <p>Afegiu l'EDTA des de la bureta, agitant constantment. El color anirà canviant de <strong>roig vinós → violeta → blau pur</strong>.</p>
-        <div class="proc-note info">
-          <span class="proc-note-icon">🎯</span>
-          A prop del final, aneu gota a gota. El punt final és <strong>blau pur persistent</strong> (≥ 30 segons sense tornar a violeta). Si torna a violeta, encara queda Zn²⁺ lliure.
-        </div>
-      </div>
-    </div>
-
-    <div class="proc-step">
-      <div class="proc-num">7</div>
       <div class="proc-body">
         <h4>Anoteu i repetiu</h4>
         <p>Anoteu les lectures de la bureta. Repetiu tot el procés amb les altres pesades.</p>
@@ -470,11 +449,11 @@
               <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
               <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
             </linearGradient>
-            <!-- EDTA liquid in bureta (slightly blue/transparent) -->
-            <linearGradient id="edtaG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.35)"/>
-              <stop offset="50%" stop-color="rgba(191,219,254,0.25)"/>
-              <stop offset="100%" stop-color="rgba(147,197,253,0.35)"/>
+            <!-- HClO4 liquid in bureta (transparent/colorless) -->
+            <linearGradient id="hclo4G" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(226,232,240,0.3)"/>
+              <stop offset="50%" stop-color="rgba(241,245,249,0.2)"/>
+              <stop offset="100%" stop-color="rgba(226,232,240,0.3)"/>
             </linearGradient>
             <!-- Clip for bureta liquid -->
             <clipPath id="buretaClip">
@@ -499,8 +478,8 @@
           <!-- Glass reflection -->
           <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
 
-          <!-- EDTA liquid in bureta -->
-          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#edtaG)" clip-path="url(#buretaClip)"/>
+          <!-- HClO4 liquid in bureta -->
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#hclo4G)" clip-path="url(#buretaClip)"/>
 
           <!-- Bureta scale marks -->
           <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
@@ -529,7 +508,7 @@
           <!-- Flask liquid -->
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
-                fill="rgba(136,19,55,0.4)"/>
+                fill="rgba(139,92,246,0.5)"/>
           <!-- Liquid surface shimmer -->
           <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
           <!-- Glass reflection -->
@@ -546,8 +525,8 @@
       </div>
 
       <!-- Color label -->
-      <div class="sim-color-label" id="simColorLabel" style="background: rgba(136,19,55,0.8); color:#fff;">
-        Roig vinós
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(139,92,246,0.85); color:#fff;">
+        Violeta
       </div>
 
       <!-- Controls -->
@@ -555,7 +534,7 @@
         <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
         <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
         <div class="sim-status" id="simStatus">
-          Encara no heu afegit EDTA. La dissolució conté Zn²⁺ lliure complexat amb el NET (roig vinós).
+          Encara no heu afegit HClO₄. La dissolució conté KHP + violeta de cristall (color violeta).
         </div>
         <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
       </div>
@@ -571,40 +550,40 @@
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si no veieu efervescència al pas 2</div>
-        <strong>El zinc no es dissol.</strong> Potser no heu afegit prou àcid, o no esteu agitant. Afegiu una mica més d'HCl i agiteu. El zinc ha de desaparèixer completament.
+        <div class="consell-label problem">Si el KHP no es dissol en l'àcid acètic</div>
+        <strong>El material pot estar humit o no heu afegit prou dissolvent.</strong> Comproveu que l'erlenmeyer era sec. Agiteu suaument i doneu temps — el KHP es dissol lentament en àcid acètic glacial.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el precipitat blanc desapareix amb el NaOH</div>
-        <strong>Us heu passat de NaOH.</strong> S'ha format zincat (complex soluble). Afegiu unes gotes d'àcid fins que torni el precipitat blanc, i continueu amb més cura.
+        <div class="consell-label problem">Si el color passa directament a verd o groc</div>
+        <strong>Us heu excedit d'HClO₄.</strong> El punt final era blau-verd, no verd. A la propera pesada, aneu molt més a poc a poc quan el color comenci a canviar de violeta a blau.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon problem">😟</div>
       <div class="consell-text">
-        <div class="consell-label problem">Si el color inicial no és roig vinós sinó blau</div>
-        <strong>No hi ha prou Zn²⁺ lliure</strong> perquè el NET el complexi, o el pH no és correcte. Reviseu que heu afegit el tampó pH 10 i que el zinc s'ha dissolt completament.
+        <div class="consell-label problem">Si obteniu resultats molt variables entre repeticions</div>
+        <strong>Probablement hi ha humitat en el sistema.</strong> En medi no aquós, traces d'aigua alteren la reacció. Assegureu-vos que tot el material (erlenmeyers, bureta) estigui completament sec.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si no distingiu bé el viratge</div>
-        <strong>Potser heu afegit massa NET.</strong> Una punta d'espàtula molt petita és suficient. Massa indicador fa que el canvi de roig a blau sigui gradual i difícil de veure. Poseu un paper blanc sota el matràs per veure millor el color.
+        <div class="consell-label tip">No oblideu el blanc d'indicador</div>
+        <strong>La violeta de cristall consumeix una mica d'HClO₄.</strong> Feu el blanc (àcid acètic + indicador, sense KHP) i resteu el volum gastat. Sense aquesta correcció, la molaritat calculada serà massa baixa.
       </div>
     </div>
 
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
-        <div class="consell-label tip">Si el color torna a violeta després del viratge</div>
-        <strong>Encara queda Zn²⁺ lliure.</strong> No heu arribat al punt final. Continueu afegint EDTA gota a gota fins que el blau sigui persistent durant almenys 30 segons.
+        <div class="consell-label tip">Treballeu sempre dins la campana</div>
+        <strong>L'àcid acètic glacial i l'HClO₄ són molt corrosius</strong> i els seus vapors són irritants. No traieu els erlenmeyers de la campana durant la valoració.
       </div>
     </div>
 
@@ -612,7 +591,7 @@
       <div class="consell-icon ok">✅</div>
       <div class="consell-text">
         <div class="consell-label ok">Sabeu que ho heu fet bé quan...</div>
-        El color és <strong>blau pur net</strong> (sense cap toc violeta), persistent almenys 30 segons. Si agiteu i el blau no canvia, heu trobat el punt final.
+        El color és <strong>blau-verd net i persistent</strong>. Si afegiu una gota més i passa a verd, us heu excedit lleugerament — però el blau-verd just abans era el punt final correcte.
       </div>
     </div>
 
@@ -624,8 +603,7 @@
 // ── Tabs ──
 function showTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', btn.textContent.trim().toLowerCase().replace('ú','u') === tabId ||
-      ['resum','procediment','simulador','consells'][i] === tabId);
+    btn.classList.toggle('active', ['resum','procediment','simulador','consells'][i] === tabId);
   });
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('panel-' + tabId);
@@ -647,12 +625,13 @@ const flaskLiquid = document.getElementById('flaskLiquid');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
-const EQ_POINT = 800; // 80% of slider
+const EQ_POINT = 780; // ~78% of slider = endpoint (blue-green)
 
-// Realistic transparent colors (rgba for liquid look)
-const WINE   = { r:136, g:19,  b:55  }; // roig vinós
-const VIOLET = { r:109, g:40,  b:217 }; // violeta
-const BLUE   = { r:37,  g:99,  b:235 }; // blau pur
+// Realistic transparent colors
+const VIOLET    = { r:139, g:92,  b:246 }; // violeta
+const BLUE      = { r:59,  g:130, b:246 }; // blau
+const BLUEGREEN = { r:20,  g:184, b:166 }; // blau-verd (endpoint)
+const GREEN     = { r:34,  g:197, b:94  }; // verd (excess)
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 function lerpRGBA(c1, c2, t, alpha) {
@@ -676,9 +655,7 @@ function updateSim() {
   const vol = (ratio * 25).toFixed(1).replace('.', ',');
   volLabel.textContent = vol;
 
-  // Bureta liquid level: full at v=0, empty at v=1000
-  // Liquid rect starts at y=10, height=200 when full
-  // As we pour, the top of the liquid moves down
+  // Bureta liquid level
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
@@ -693,33 +670,43 @@ function updateSim() {
   }
   lastV = v;
 
-  // Flask color — transparent, like real liquid
+  // Flask color
   let fillColor, labelText, labelBg, status;
-  const ALPHA = 0.4; // transparent liquid
 
-  if (v < EQ_POINT * 0.7) {
-    const t = v / (EQ_POINT * 0.7);
-    fillColor = lerpRGBA(WINE, VIOLET, t * 0.3, ALPHA);
-    labelText = 'Roig vinós';
-    labelBg = 'rgba(136,19,55,0.8)';
-    status = "L'EDTA va complexant el Zn²⁺, però encara en queda molt de lliure. El NET segueix unit al zinc (roig vinós).";
-  } else if (v < EQ_POINT * 0.95) {
-    const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
-    fillColor = lerpRGBA(WINE, VIOLET, 0.3 + t * 0.7, ALPHA + 0.05);
-    labelText = 'Violeta — a prop del viratge';
-    labelBg = 'rgba(109,40,217,0.8)';
-    status = "Queda poc Zn²⁺ lliure. Aneu gota a gota! El color violeta indica que us acosteu al punt final.";
+  if (v < EQ_POINT * 0.6) {
+    // Violet phase — KHP still being consumed
+    const t = v / (EQ_POINT * 0.6);
+    fillColor = lerpRGBA(VIOLET, BLUE, t * 0.2, 0.5);
+    labelText = 'Violeta';
+    labelBg = 'rgba(139,92,246,0.85)';
+    status = "L'HClO₄ reacciona amb el KHP. Encara en queda molt per titular. El color és violeta (indicador en forma bàsica).";
+  } else if (v < EQ_POINT * 0.85) {
+    // Transition violet → blue
+    const t = (v - EQ_POINT * 0.6) / (EQ_POINT * 0.25);
+    fillColor = lerpRGBA(VIOLET, BLUE, 0.2 + t * 0.8, 0.5);
+    labelText = 'Blau — a prop del viratge';
+    labelBg = 'rgba(59,130,246,0.85)';
+    status = "Queda poc KHP per reaccionar. El color blau indica que us acosteu al punt final. Aneu gota a gota!";
   } else if (v < EQ_POINT) {
-    const t = (v - EQ_POINT * 0.95) / (EQ_POINT * 0.05);
-    fillColor = lerpRGBA(VIOLET, BLUE, t, ALPHA + 0.1);
-    labelText = 'Quasi blau — mitja gota!';
-    labelBg = 'rgba(67,56,202,0.8)';
-    status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu 30 segons.";
+    // Blue → blue-green (approaching endpoint)
+    const t = (v - EQ_POINT * 0.85) / (EQ_POINT * 0.15);
+    fillColor = lerpRGBA(BLUE, BLUEGREEN, t, 0.5);
+    labelText = 'Quasi blau-verd — mitja gota!';
+    labelBg = 'rgba(20,140,180,0.85)';
+    status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i observeu el color.";
+  } else if (v < EQ_POINT + 80) {
+    // Endpoint: blue-green
+    fillColor = lerpRGBA(BLUEGREEN, BLUEGREEN, 1, 0.5);
+    labelText = '✓ BLAU-VERD — Punt final';
+    labelBg = 'rgba(20,184,166,0.85)';
+    status = "Tot el KHP ha reaccionat. L'indicador comença a protonar-se i mostra blau-verd. Atureu-vos aquí!";
   } else {
-    fillColor = lerpRGBA(BLUE, BLUE, 1, ALPHA + 0.15);
-    labelText = '✓ BLAU PUR — Punt final';
-    labelBg = 'rgba(37,99,235,0.85)';
-    status = "Tot el Zn²⁺ està complexat amb l'EDTA. El NET és lliure i mostra el seu color blau a pH 10. Viratge persistent ≥ 30 s.";
+    // Excess: green/yellow
+    const t = Math.min(1, (v - EQ_POINT - 80) / 142);
+    fillColor = lerpRGBA(BLUEGREEN, GREEN, t, 0.45);
+    labelText = '✗ Verd — Excés!';
+    labelBg = 'rgba(34,197,94,0.85)';
+    status = "Us heu excedit d'HClO₄. El color verd (o groc) indica excés d'àcid. El punt final era blau-verd, no verd.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
@@ -733,17 +720,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
-  </p>
-</footer>
-
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>

@@ -678,22 +678,34 @@
   <div id="dynamic-pages"></div>
 </main>
 
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
+  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
+    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
+    Universitat de Barcelona · Facultat de Química<br>
+    Departament d'Enginyeria Química i Química Analítica
+  </p>
+  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
+    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
+  </p>
+</footer>
+
 <script>
 // ═══════════ Data ═══════════
 const EDTA_URL = 'https://gomezsancheza.github.io/exempleIAG/';
 
 const estandaritzacions = [
-  { id: 'S01', title: "Estandardització de NaOH 0,1 mol/L" },
-  { id: 'S02a', title: "Estandardització de H₂SO₄ 0,01 mol/L" },
-  { id: 'S02b', title: "Estandardització de HCl 0,1 mol/L" },
-  { id: 'S03', title: "Estandardització de HClO₄ 0,1 mol/L en àcid acètic glacial" },
+  { id: 'S01', title: "Estandardització de NaOH 0,1 mol/L", hasContent: true },
+  { id: 'S02a', title: "Estandardització de H₂SO₄ 0,01 mol/L", hasContent: true },
+  { id: 'S02b', title: "Estandardització de HCl 0,1 mol/L", hasContent: true },
+  { id: 'S03', title: "Estandardització de HClO₄ 0,1 mol/L en àcid acètic glacial", hasContent: true },
   { id: 'S04a', title: "Estandardització d'EDTA 0,1 mol/L", hasContent: true },
-  { id: 'S04b', title: "Estandardització d'EDTA 0,02 mol/L" },
-  { id: 'S05', title: "Estandardització de KMnO₄ 0,02 mol/L" },
-  { id: 'S06', title: "Estandardització de Ce(IV) 0,05 mol/L" },
-  { id: 'S07', title: "Estandardització de Na₂S₂O₃ 0,1 mol/L" },
-  { id: 'S08', title: "Estandardització d'AgNO₃ 0,1 mol/L — Mohr" },
-  { id: 'S09', title: "Estandardització de KSCN 0,05 mol/L" },
+  { id: 'S04b', title: "Estandardització d'EDTA 0,02 mol/L", hasContent: true },
+  { id: 'S05', title: "Estandardització de KMnO₄ 0,02 mol/L", hasContent: true },
+  { id: 'S06', title: "Estandardització de Ce(IV) 0,05 mol/L", hasContent: true },
+  { id: 'S07', title: "Estandardització de Na₂S₂O₃ 0,1 mol/L", hasContent: true },
+  { id: 'S08', title: "Estandardització d'AgNO₃ 0,1 mol/L — Mohr", hasContent: true },
+  { id: 'S09', title: "Estandardització de KSCN 0,05 mol/L", hasContent: true },
 ];
 
 const determinacions = [
@@ -782,20 +794,28 @@ function buildPages() {
             <a href="seminari_volums.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
           </p>
         </div>`;
-    } else if (item.id === 'S04a') {
+    } else if (item.hasContent) {
+      // Map practice IDs to their HTML files
+      const fileMap = {
+        'S01': 'practica_S01.html', 'S02a': 'practica_S02a.html', 'S02b': 'practica_S02b.html',
+        'S03': 'practica_S03.html', 'S04a': 'practica_S04.html', 'S04b': 'practica_S04b.html',
+        'S05': 'practica_S05.html', 'S06': 'practica_S06.html', 'S07': 'practica_S07.html',
+        'S08': 'practica_S08.html', 'S09': 'practica_S09.html',
+      };
+      const href = fileMap[item.id] || '#';
       content = `
         <div class="mobile-only">
-          <a class="open-fullpage-btn" href="practica_S04.html">
+          <a class="open-fullpage-btn" href="${href}">
             <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
             Obrir guia interactiva
           </a>
         </div>
         <div class="desktop-only">
           <div class="embed-container">
-            <iframe src="practica_S04.html" loading="lazy" title="Estandardització d'EDTA 0,1 mol/L"></iframe>
+            <iframe src="${href}" loading="lazy" title="${item.title}"></iframe>
           </div>
           <p class="embed-hint" style="margin-top:0.5rem;">
-            <a href="practica_S04.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+            <a href="${href}" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
           </p>
         </div>`;
     } else {
