@@ -480,9 +480,33 @@
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
                 fill="rgba(202,138,4,0.15)"/>
-          <!-- Precipitate layer at bottom of flask -->
-          <ellipse id="flaskPrecipitate" cx="110" cy="318" rx="45" ry="5" fill="rgba(255,255,255,0.0)"/>
-          <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
+          <!-- Turbidity overlay -->
+          <path id="flaskTurbidity"
+                d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
+                fill="rgba(255,255,255,0)"/>
+          <!-- Floating particles -->
+          <g id="flaskParticles" clip-path="url(#flaskClip)">
+            <circle cx="88" cy="292" r="2.2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="128" cy="298" r="1.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="103" cy="307" r="2.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="138" cy="283" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="72" cy="302" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="113" cy="278" r="1.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="148" cy="308" r="2.3" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="93" cy="312" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="123" cy="273" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="68" cy="310" r="2.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="153" cy="293" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="98" cy="280" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+          </g>
+          <!-- Sediment at bottom -->
+          <ellipse id="flaskSediment" cx="110" cy="319" rx="50" ry="5" fill="rgba(240,240,235,0)"/>
+          <!-- Endpoint color overlay (orange-red FeSCN2+) -->
+          <path id="flaskEndpoint"
+                d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
+                fill="rgba(234,88,12,0)"/>
+          <!-- Surface shimmer -->
+          <ellipse cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
           <path d="M80 250 Q80 255 70 265 L50 293"
                 fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
           <rect x="80" y="222" width="60" height="10" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
@@ -590,14 +614,14 @@ const volLabel = document.getElementById('simVol');
 const colorLabel = document.getElementById('simColorLabel');
 const statusText = document.getElementById('simStatus');
 const flaskLiquid = document.getElementById('flaskLiquid');
-const flaskPrecipitate = document.getElementById('flaskPrecipitate');
+const flaskTurbidity = document.getElementById('flaskTurbidity');
+const flaskEndpoint = document.getElementById('flaskEndpoint');
+const flaskSediment = document.getElementById('flaskSediment');
+const particles = document.querySelectorAll('.particle');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
-const EQ_POINT = 820; // 82% of slider
-
-// Colors for Volhard precipitation
-// Start: pale yellow (Fe3+). During: yellow + white turbid (AgSCN). End: orange-red (FeSCN2+)
+const EQ_POINT = 820;
 
 let lastV = 0;
 let dropTimeout = null;
@@ -617,11 +641,13 @@ function updateSim() {
   const vol = (ratio * 25).toFixed(1).replace('.', ',');
   volLabel.textContent = vol;
 
+  // Bureta level
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
   buretaLiquid.setAttribute('height', liquidHeight);
 
+  // Drop
   if (v > lastV && v < 990) {
     if (!dropTimeout) {
       triggerDrop();
@@ -630,68 +656,73 @@ function updateSim() {
   }
   lastV = v;
 
-  let fillColor, labelText, labelBg, labelColor, status;
-  let precipColor = 'rgba(255,255,255,0.0)';
+  let labelText, labelBg, labelColor, status;
+  let turbidityAlpha = 0;
+  let particleAlpha = 0;
+  let sedimentAlpha = 0;
+  let endpointAlpha = 0;
+  let liquidAlpha = 0.15;
 
   if (v === 0) {
-    // Pale yellow (Fe3+ indicator)
-    fillColor = 'rgba(202,138,4,0.15)';
     labelText = 'Groc pàl·lid (Fe³⁺)';
     labelBg = 'rgba(202,138,4,0.7)';
     labelColor = '#333';
     status = "Encara no heu afegit KSCN. La dissolució és groc pàl·lid pel Fe(III) indicador en medi àcid. Tot l'Ag⁺ està en dissolució.";
-  } else if (v < EQ_POINT * 0.4) {
-    // Early: pale yellow becoming turbid with white AgSCN
-    const t = v / (EQ_POINT * 0.4);
-    const r = Math.round(lerp(202, 210, t));
-    const g = Math.round(lerp(138, 200, t));
-    const b = Math.round(lerp(4, 180, t));
-    const alpha = lerp(0.15, 0.25, t);
-    fillColor = `rgba(${r},${g},${b},${alpha})`;
-    precipColor = `rgba(255,255,255,${t * 0.25})`;
-    labelText = 'Groc tèrbol (precipitat AgSCN)';
+  } else if (v < EQ_POINT * 0.3) {
+    const t = v / (EQ_POINT * 0.3);
+    turbidityAlpha = t * 0.18;
+    particleAlpha = t * 0.45;
+    sedimentAlpha = t * 0.12;
+    labelText = 'Groc tèrbol — precipitat AgSCN';
     labelBg = 'rgba(190,170,60,0.75)';
     labelColor = '#333';
-    status = "Es forma precipitat blanc d'AgSCN. La dissolució es va fent tèrbola. Encara queda molt d'Ag⁺ lliure. Agiteu vigorosament!";
-  } else if (v < EQ_POINT * 0.8) {
-    // Middle: increasingly white/turbid
-    const t = (v - EQ_POINT * 0.4) / (EQ_POINT * 0.4);
-    const r = Math.round(lerp(210, 210, t));
-    const g = Math.round(lerp(200, 205, t));
-    const b = Math.round(lerp(180, 195, t));
-    const alpha = lerp(0.25, 0.35, t);
-    fillColor = `rgba(${r},${g},${b},${alpha})`;
-    precipColor = `rgba(255,255,255,${0.25 + t * 0.25})`;
+    status = "Es forma precipitat blanc d'AgSCN. La dissolució perd transparència. Agiteu vigorosament!";
+  } else if (v < EQ_POINT * 0.7) {
+    const t = (v - EQ_POINT * 0.3) / (EQ_POINT * 0.4);
+    turbidityAlpha = 0.18 + t * 0.25;
+    particleAlpha = 0.45 + t * 0.35;
+    sedimentAlpha = 0.12 + t * 0.25;
+    liquidAlpha = lerp(0.15, 0.08, t);
     labelText = 'Blanc tèrbol (molt AgSCN)';
-    labelBg = 'rgba(190,190,180,0.8)';
+    labelBg = 'rgba(190,190,180,0.85)';
     labelColor = '#333';
     status = "Molta quantitat de precipitat blanc d'AgSCN. La dissolució és molt tèrbola. Continueu agitant vigorosament.";
   } else if (v < EQ_POINT) {
-    // Near endpoint: very white/turbid
-    const t = (v - EQ_POINT * 0.8) / (EQ_POINT * 0.2);
-    fillColor = `rgba(210,208,195,${lerp(0.35, 0.4, t)})`;
-    precipColor = `rgba(255,255,255,${0.5 + t * 0.1})`;
-    labelText = 'Blanc tèrbol — a prop del punt final';
-    labelBg = 'rgba(180,180,175,0.85)';
+    const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.3);
+    turbidityAlpha = 0.43 + t * 0.12;
+    particleAlpha = 0.8 + t * 0.12;
+    sedimentAlpha = 0.37 + t * 0.13;
+    liquidAlpha = 0.06;
+    labelText = 'Molt tèrbol — gota a gota!';
+    labelBg = 'rgba(170,170,165,0.9)';
     labelColor = '#333';
-    status = "Queda molt poc Ag⁺ lliure. Aneu gota a gota! Observeu si apareix una coloració taronja-vermellosa que no desapareix en agitar.";
+    status = "Queda molt poc Ag⁺. Aneu gota a gota i agiteu fort! Observeu si apareix una coloració taronja que no desapareix en agitar.";
   } else {
-    // Endpoint: orange-red appears (FeSCN2+ complex)
+    // ENDPOINT — orange-red FeSCN2+
     const t = Math.min(1, (v - EQ_POINT) / (1000 - EQ_POINT));
-    const r = Math.round(lerp(215, 234, t));
-    const g = Math.round(lerp(185, 120, t));
-    const b = Math.round(lerp(170, 80, t));
-    const alpha = lerp(0.4, 0.5, t);
-    fillColor = `rgba(${r},${g},${b},${alpha})`;
-    precipColor = `rgba(255,255,255,${0.6})`;
-    labelText = '✓ TARONJA-VERMELL — Punt final ([FeSCN]²⁺)';
+    turbidityAlpha = 0.45;
+    particleAlpha = 0.9;
+    sedimentAlpha = 0.5;
+    liquidAlpha = 0.04;
+    endpointAlpha = 0.12 + t * 0.35;
+    labelText = '✓ TARONJA-VERMELL — Punt final';
     labelBg = 'rgba(234,88,12,0.85)';
     labelColor = '#fff';
-    status = "Tot l'Ag⁺ ha precipitat com AgSCN. El SCN⁻ en excés reacciona amb el Fe³⁺ formant [FeSCN]²⁺ taronja-vermell. Coloració persistent ≥ 30 s.";
+    status = "Tot l'Ag⁺ ha precipitat com AgSCN. El SCN⁻ en excés forma [FeSCN]²⁺ taronja-vermell amb el Fe³⁺. Coloració persistent ≥ 30 s.";
   }
 
-  flaskLiquid.setAttribute('fill', fillColor);
-  flaskPrecipitate.setAttribute('fill', precipColor);
+  // Apply
+  flaskLiquid.setAttribute('fill', `rgba(202,138,4,${liquidAlpha})`);
+  flaskTurbidity.setAttribute('fill', `rgba(245,243,238,${turbidityAlpha})`);
+  flaskEndpoint.setAttribute('fill', `rgba(234,88,12,${endpointAlpha})`);
+  flaskSediment.setAttribute('fill', `rgba(235,233,225,${sedimentAlpha})`);
+
+  particles.forEach((p, i) => {
+    const offset = (i * 0.08) % 0.3;
+    const pAlpha = Math.max(0, particleAlpha - offset);
+    p.setAttribute('fill', `rgba(255,255,255,${pAlpha})`);
+  });
+
   colorLabel.style.background = labelBg;
   colorLabel.style.color = labelColor;
   colorLabel.textContent = labelText;

@@ -626,14 +626,14 @@ const volLabel = document.getElementById('simVol');
 const colorLabel = document.getElementById('simColorLabel');
 const statusText = document.getElementById('simStatus');
 const flaskLiquid = document.getElementById('flaskLiquid');
-const flaskPrecipitate = document.getElementById('flaskPrecipitate');
+const flaskTurbidity = document.getElementById('flaskTurbidity');
+const flaskEndpoint = document.getElementById('flaskEndpoint');
+const flaskSediment = document.getElementById('flaskSediment');
+const particles = document.querySelectorAll('.particle');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
-const EQ_POINT = 820; // 82% of slider
-
-// Colors for precipitation titration (Mohr)
-// Start: pale yellow (chromate). During: yellow + white turbid (AgCl). End: red precipitate (Ag2CrO4).
+const EQ_POINT = 820;
 
 let lastV = 0;
 let dropTimeout = null;
@@ -653,11 +653,13 @@ function updateSim() {
   const vol = (ratio * 25).toFixed(1).replace('.', ',');
   volLabel.textContent = vol;
 
+  // Bureta level
   const liquidTop = 10 + ratio * 200;
   const liquidHeight = Math.max(0, 210 - liquidTop);
   buretaLiquid.setAttribute('y', liquidTop);
   buretaLiquid.setAttribute('height', liquidHeight);
 
+  // Drop animation
   if (v > lastV && v < 990) {
     if (!dropTimeout) {
       triggerDrop();
@@ -666,68 +668,78 @@ function updateSim() {
   }
   lastV = v;
 
-  let fillColor, labelText, labelBg, labelColor, status;
-  let precipColor = 'rgba(255,255,255,0.0)';
+  let labelText, labelBg, labelColor, status;
+  let turbidityAlpha = 0;   // white overlay for cloudiness
+  let particleAlpha = 0;    // floating white particles
+  let sedimentAlpha = 0;    // settled precipitate at bottom
+  let endpointAlpha = 0;    // red Ag2CrO4 at endpoint
+  let liquidAlpha = 0.2;    // yellow base liquid
 
   if (v === 0) {
-    // Pure yellow (chromate indicator)
-    fillColor = 'rgba(234,179,8,0.2)';
+    // Clear yellow
     labelText = 'Groc clar (cromat)';
     labelBg = 'rgba(234,179,8,0.8)';
     labelColor = '#333';
-    status = "Encara no heu afegit AgNO₃. La dissolució és groga pel cromat indicador (K₂CrO₄). Tot el Cl⁻ està en dissolució.";
-  } else if (v < EQ_POINT * 0.4) {
-    // Early: yellow becoming turbid with white AgCl
-    const t = v / (EQ_POINT * 0.4);
-    const whiteR = Math.round(lerp(234, 220, t));
-    const whiteG = Math.round(lerp(179, 210, t));
-    const whiteB = Math.round(lerp(8, 190, t));
-    const alpha = lerp(0.2, 0.3, t);
-    fillColor = `rgba(${whiteR},${whiteG},${whiteB},${alpha})`;
-    precipColor = `rgba(255,255,255,${t * 0.3})`;
-    labelText = 'Groc tèrbol (precipitat AgCl)';
+    status = "Encara no heu afegit AgNO₃. La dissolució és groga i transparent pel cromat indicador (K₂CrO₄).";
+  } else if (v < EQ_POINT * 0.3) {
+    // First precipitate forming — slightly turbid
+    const t = v / (EQ_POINT * 0.3);
+    turbidityAlpha = t * 0.2;
+    particleAlpha = t * 0.5;
+    sedimentAlpha = t * 0.15;
+    labelText = 'Groc tèrbol — es forma precipitat';
     labelBg = 'rgba(202,178,80,0.8)';
     labelColor = '#333';
-    status = "Es forma precipitat blanc d'AgCl. La dissolució es va fent tèrbola. Encara queda molt de Cl⁻ lliure.";
-  } else if (v < EQ_POINT * 0.8) {
-    // Middle: increasingly white/turbid
-    const t = (v - EQ_POINT * 0.4) / (EQ_POINT * 0.4);
-    const whiteR = Math.round(lerp(220, 210, t));
-    const whiteG = Math.round(lerp(210, 210, t));
-    const whiteB = Math.round(lerp(190, 200, t));
-    const alpha = lerp(0.3, 0.4, t);
-    fillColor = `rgba(${whiteR},${whiteG},${whiteB},${alpha})`;
-    precipColor = `rgba(255,255,255,${0.3 + t * 0.25})`;
-    labelText = 'Blanc tèrbol (molt AgCl)';
-    labelBg = 'rgba(190,190,180,0.85)';
+    status = "Es comença a formar precipitat blanc d'AgCl. La dissolució perd transparència i es va fent tèrbola.";
+  } else if (v < EQ_POINT * 0.7) {
+    // Clearly turbid — milky yellow-white
+    const t = (v - EQ_POINT * 0.3) / (EQ_POINT * 0.4);
+    turbidityAlpha = 0.2 + t * 0.25;
+    particleAlpha = 0.5 + t * 0.3;
+    sedimentAlpha = 0.15 + t * 0.25;
+    liquidAlpha = lerp(0.2, 0.12, t); // yellow fades as white takes over
+    labelText = 'Blanc tèrbol (AgCl en suspensió)';
+    labelBg = 'rgba(190,185,170,0.85)';
     labelColor = '#333';
-    status = "La dissolució és molt tèrbola pel precipitat blanc d'AgCl. El groc del cromat queda emmascarat.";
+    status = "La dissolució és clarament tèrbola — semblant a llet diluïda. El precipitat blanc d'AgCl domina sobre el groc del cromat.";
   } else if (v < EQ_POINT) {
-    // Near endpoint: very white/turbid
-    const t = (v - EQ_POINT * 0.8) / (EQ_POINT * 0.2);
-    fillColor = `rgba(210,210,200,${lerp(0.4, 0.45, t)})`;
-    precipColor = `rgba(255,255,255,${0.55 + t * 0.1})`;
-    labelText = 'Blanc tèrbol — a prop del punt final';
-    labelBg = 'rgba(180,180,175,0.85)';
+    // Very turbid — almost opaque white
+    const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.3);
+    turbidityAlpha = 0.45 + t * 0.15;
+    particleAlpha = 0.8 + t * 0.15;
+    sedimentAlpha = 0.4 + t * 0.15;
+    liquidAlpha = 0.08;
+    labelText = 'Molt tèrbol — gota a gota!';
+    labelBg = 'rgba(170,170,165,0.9)';
     labelColor = '#333';
-    status = "Queda molt poc Cl⁻ lliure. Aneu gota a gota! Observeu si apareix una coloració vermellosa que no desapareix.";
+    status = "Queda molt poc Cl⁻. Aneu gota a gota i observeu si apareix una coloració vermellosa persistent en afegir cada gota.";
   } else {
-    // Endpoint: red precipitate appears (Ag2CrO4)
+    // ENDPOINT — red Ag2CrO4 precipitate appears
     const t = Math.min(1, (v - EQ_POINT) / (1000 - EQ_POINT));
-    const redR = Math.round(lerp(210, 195, t));
-    const redG = Math.round(lerp(200, 140, t));
-    const redB = Math.round(lerp(190, 140, t));
-    const alpha = lerp(0.45, 0.5, t);
-    fillColor = `rgba(${redR},${redG},${redB},${alpha})`;
-    precipColor = `rgba(185,28,28,${0.15 + t * 0.35})`;
+    turbidityAlpha = 0.5;
+    particleAlpha = 0.9;
+    sedimentAlpha = 0.55;
+    liquidAlpha = 0.05;
+    endpointAlpha = 0.1 + t * 0.35; // red tint grows
     labelText = '✓ VERMELL — Punt final (Ag₂CrO₄)';
-    labelBg = 'rgba(185,28,28,0.8)';
+    labelBg = 'rgba(185,28,28,0.85)';
     labelColor = '#fff';
-    status = "Tot el Cl⁻ ha precipitat com AgCl. L'Ag⁺ en excés ara precipita amb el CrO₄²⁻ formant Ag₂CrO₄ vermell. Coloració persistent ≥ 30 s.";
+    status = "Tot el Cl⁻ ha precipitat. L'excés d'Ag⁺ reacciona amb CrO₄²⁻ formant Ag₂CrO₄ vermell. Coloració vermellosa persistent ≥ 30 s.";
   }
 
-  flaskLiquid.setAttribute('fill', fillColor);
-  flaskPrecipitate.setAttribute('fill', precipColor);
+  // Apply to SVG elements
+  flaskLiquid.setAttribute('fill', `rgba(234,179,8,${liquidAlpha})`);
+  flaskTurbidity.setAttribute('fill', `rgba(245,243,238,${turbidityAlpha})`);
+  flaskEndpoint.setAttribute('fill', `rgba(185,28,28,${endpointAlpha})`);
+  flaskSediment.setAttribute('fill', `rgba(235,233,225,${sedimentAlpha})`);
+
+  // Particles — white dots that become visible as precipitate forms
+  particles.forEach((p, i) => {
+    const offset = (i * 0.07) % 0.3; // stagger visibility
+    const pAlpha = Math.max(0, particleAlpha - offset);
+    p.setAttribute('fill', `rgba(255,255,255,${pAlpha})`);
+  });
+
   colorLabel.style.background = labelBg;
   colorLabel.style.color = labelColor;
   colorLabel.textContent = labelText;
