@@ -637,9 +637,10 @@ const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
 const STARCH_POINT = 650;
-const AQ_CLEAR = 880;   // aqueous becomes colorless
-const DROP_CLEAR = 960;  // organic drop finally decolorizes (need shaking!)
-const EQ_POINT = 960;
+const AQ_CLEAR = 850;    // aqueous becomes colorless
+const DROP_PERSIST = 920; // drop still pink, aqueous already clear
+const DROP_CLEAR = 970;   // drop starts to decolorize
+const EQ_POINT = 990;     // true endpoint: both phases colorless
 
 const BROWN      = { r:120, g:53,  b:15  };
 const YELLOW     = { r:234, g:179, b:8   };
@@ -690,16 +691,17 @@ function updateSim() {
   if (v < STARCH_POINT * 0.6) {
     orgAlpha = 0; // hidden under dark brown
   } else if (v < AQ_CLEAR) {
-    // Gradually becomes visible as aqueous clears
     const t = (v - STARCH_POINT * 0.6) / (AQ_CLEAR - STARCH_POINT * 0.6);
     orgAlpha = lerp(0.1, 0.45, t);
   } else if (v < DROP_CLEAR) {
-    // Aqueous is ALREADY colorless but drop STAYS pink — this is the key moment
+    // Aqueous already clear, drop stays pink!
     orgAlpha = 0.45;
+  } else if (v < EQ_POINT) {
+    // Drop fading with vigorous shaking
+    const t = (v - DROP_CLEAR) / (EQ_POINT - DROP_CLEAR);
+    orgAlpha = lerp(0.45, 0, t);
   } else {
-    // Finally decolorizes after vigorous shaking
-    const t = (v - DROP_CLEAR) / (1000 - DROP_CLEAR);
-    orgAlpha = lerp(0.45, 0.02, t);
+    orgAlpha = 0; // completely gone
   }
   flaskOrganic.setAttribute('fill', `rgba(200,60,60,${orgAlpha})`);
 
@@ -745,16 +747,23 @@ function updateSim() {
   } else if (v < DROP_CLEAR) {
     // Aqueous is colorless but organic drop STILL PINK
     fillColor = 'rgba(200,200,200,0.05)';
-    labelText = '⚠️ Aquosa incolora — gota CH₂Cl₂ encara rosa!';
+    labelText = '⚠️ Aquosa incolora — gota rosa!';
     labelBg = 'rgba(200,60,60,0.8)';
-    status = "La capa aquosa ja és transparent, però la gota de CH₂Cl₂ al fons segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica. Afegiu una mica més de tiosulfat si cal.";
+    status = "La capa aquosa ja és transparent, però la gota de CH₂Cl₂ al fons segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica.";
     phase = '⚠️ Cal agitar fort!';
+  } else if (v < EQ_POINT) {
+    // Drop fading
+    fillColor = 'rgba(200,200,200,0.03)';
+    labelText = 'Gota desapareixent... agiteu!';
+    labelBg = 'rgba(150,100,100,0.7)';
+    status = "La gota de CH₂Cl₂ s'està decolorant amb l'agitació. Continueu agitant fins que sigui completament incolora.";
+    phase = 'Agitant...';
   } else {
     // Both phases colorless — true endpoint
-    fillColor = 'rgba(200,200,200,0.03)';
+    fillColor = 'rgba(200,200,200,0.02)';
     labelText = '✓ TOT INCOLOR — Punt final';
     labelBg = 'rgba(100,116,139,0.8)';
-    status = "Ara sí! Tant la capa aquosa com la gota de CH₂Cl₂ són incolores. Ha calgut agitar molt fort. Viratge persistent ≥ 30 s.";
+    status = "Tant la capa aquosa com la gota de CH₂Cl₂ són completament incolores. Viratge persistent ≥ 30 s.";
     phase = '✓ Valoració completada';
   }
 
