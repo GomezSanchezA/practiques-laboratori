@@ -485,12 +485,40 @@
           <!-- ══ ERLENMEYER ══ -->
           <path d="M80 230 L80 250 Q80 255 70 265 L42 300 Q34 315 50 322 L170 322 Q186 315 178 300 L150 265 Q140 255 140 250 L140 230"
                 fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
+          <!-- Base liquid (yellow from chromate) -->
           <path id="flaskLiquid"
                 d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
                 fill="rgba(234,179,8,0.2)"/>
-          <!-- Precipitate layer at bottom of flask -->
-          <ellipse id="flaskPrecipitate" cx="110" cy="318" rx="45" ry="5" fill="rgba(255,255,255,0.0)"/>
-          <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
+          <!-- Turbidity overlay (white cloudiness from AgCl precipitate) -->
+          <path id="flaskTurbidity"
+                d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
+                fill="rgba(255,255,255,0)" opacity="1"/>
+          <!-- Floating precipitate particles -->
+          <g id="flaskParticles" clip-path="url(#flaskClip)">
+            <circle cx="85" cy="290" r="2.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="125" cy="295" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="100" cy="305" r="3" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="135" cy="285" r="1.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="75" cy="300" r="2.2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="110" cy="280" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="145" cy="305" r="2.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="90" cy="310" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="120" cy="275" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="65" cy="308" r="2.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="150" cy="295" r="1.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="95" cy="278" r="2.3" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="130" cy="310" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="80" cy="285" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="115" cy="312" r="2.5" fill="rgba(255,255,255,0)" class="particle"/>
+          </g>
+          <!-- Sediment layer at bottom -->
+          <ellipse id="flaskSediment" cx="110" cy="319" rx="50" ry="5" fill="rgba(240,240,235,0)" />
+          <!-- Red precipitate overlay at endpoint -->
+          <path id="flaskEndpoint"
+                d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
+                fill="rgba(185,28,28,0)" opacity="1"/>
+          <!-- Surface shimmer -->
+          <ellipse cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
           <path d="M80 250 Q80 255 70 265 L50 293"
                 fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
           <rect x="80" y="222" width="60" height="10" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
@@ -710,6 +738,6 @@ slider.addEventListener('input', updateSim);
 updateSim();
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_de_la_Universitat_de_Barcelona.svg/200px-Logo_de_la_Universitat_de_Barcelona.svg.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="img/ub_logo.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
 </body>
 </html>
