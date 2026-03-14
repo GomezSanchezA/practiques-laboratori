@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <title>Seminari: La llibreta de laboratori</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-200: #bfdbfe;
+      --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8; --blue-800: #1e40af;
+      --red-50: #fef2f2; --red-100: #fee2e2; --red-500: #ef4444; --red-700: #b91c1c;
+      --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-500: #f59e0b; --amber-700: #b45309;
+      --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e; --green-700: #15803d;
+      --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
+      --gray-400: #94a3b8; --gray-500: #64748b; --gray-600: #475569; --gray-700: #334155;
+      --gray-800: #1e293b; --gray-900: #0f172a;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fff; color: var(--gray-800); line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .back-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: calc(48px + var(--safe-top)); padding-top: var(--safe-top);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; padding-left: 0.75rem; z-index: 100;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.5rem 0.75rem; border: none; background: none;
+      font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      color: var(--blue-600); cursor: pointer; border-radius: 8px;
+    }
+    .back-btn:active { background: var(--blue-50); }
+    .back-btn svg { width: 18px; height: 18px; fill: var(--blue-600); }
+
+    .hero {
+      margin-top: calc(48px + var(--safe-top));
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
+      padding: 3rem 1.25rem 2.5rem; text-align: center; color: #fff;
+    }
+    .hero-badge {
+      display: inline-block; background: rgba(255,255,255,0.2);
+      font-size: 0.7rem; font-weight: 700; padding: 4px 12px;
+      border-radius: 20px; margin-bottom: 1rem;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .hero h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; }
+    .hero p { font-size: 0.9rem; opacity: 0.85; max-width: 420px; margin: 0 auto; }
+
+    .content {
+      max-width: 600px; margin: 0 auto; padding: 0 1rem;
+      padding-bottom: calc(3rem + var(--safe-bottom));
+    }
+
+    /* Section labels */
+    .section-label {
+      display: flex; align-items: center; gap: 0.6rem; padding: 2rem 0 1rem;
+    }
+    .section-label-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.3rem;
+    }
+    .section-label h2 { font-size: 1.15rem; font-weight: 800; line-height: 1.2; }
+
+    .section-label.wrong .section-label-icon { background: var(--red-100); }
+    .section-label.wrong h2 { color: var(--red-700); }
+    .section-label.right .section-label-icon { background: var(--green-100); }
+    .section-label.right h2 { color: var(--green-700); }
+    .section-label.info .section-label-icon { background: var(--blue-100); }
+    .section-label.info h2 { color: var(--blue-700); }
+
+    /* Cards */
+    .step-card {
+      background: #fff; border: 1px solid var(--gray-200);
+      border-radius: 16px; margin-bottom: 1rem; overflow: hidden;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .step-card.visible { opacity: 1; transform: translateY(0); }
+    .step-card.wrong { border-color: var(--red-100); }
+    .step-card-body { padding: 1rem 1.25rem 1.25rem; }
+    .step-number {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      font-size: 0.75rem; font-weight: 800; margin-bottom: 0.4rem;
+    }
+    .step-card-body h3 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.3rem; }
+    .step-card-body p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.5; }
+
+    /* Highlight boxes */
+    .highlight-box {
+      border-radius: 14px; padding: 1.25rem; margin: 1rem 0;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .highlight-box.visible { opacity: 1; transform: translateY(0); }
+    .highlight-box.info { background: var(--blue-50); border: 2px solid var(--blue-500); }
+    .highlight-box.info h3 { color: var(--blue-700); }
+    .highlight-box.error { background: var(--red-50); border: 2px solid var(--red-500); }
+    .highlight-box.error h3 { color: var(--red-700); }
+    .highlight-box.success { background: var(--green-50); border: 2px solid var(--green-500); }
+    .highlight-box.success h3 { color: var(--green-700); }
+    .highlight-box.warning { background: var(--amber-50); border: 2px solid var(--amber-500); }
+    .highlight-box.warning h3 { color: var(--amber-700); }
+    .highlight-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .highlight-box h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .highlight-box p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.5; }
+
+    /* Transition */
+    .transition-section {
+      text-align: center; padding: 2.5rem 1rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .transition-section.visible { opacity: 1; transform: translateY(0); }
+    .transition-section .divider-line {
+      width: 40px; height: 3px; background: var(--gray-300);
+      border-radius: 2px; margin: 0 auto 1.25rem;
+    }
+    .transition-section h2 { font-size: 1.2rem; font-weight: 800; color: var(--gray-900); margin-bottom: 0.4rem; }
+    .transition-section p { font-size: 0.88rem; color: var(--gray-500); }
+
+    /* Rule cards */
+    .rules-title {
+      font-size: 1.1rem; font-weight: 800; color: var(--gray-900);
+      padding: 2rem 0 1rem; display: flex; align-items: center; gap: 0.5rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .rules-title.visible { opacity: 1; transform: translateY(0); }
+    .rule-card {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      background: var(--gray-50); border: 1px solid var(--gray-200);
+      border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rule-card.visible { opacity: 1; transform: translateY(0); }
+    .rule-icon {
+      width: 32px; height: 32px; border-radius: 8px; background: var(--blue-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+    .rule-text { font-size: 0.82rem; color: var(--gray-700); line-height: 1.45; }
+    .rule-text strong { color: var(--gray-900); }
+
+    /* Notebook mockup */
+    .notebook {
+      background: #fff;
+      background-image:
+        linear-gradient(var(--blue-100) 1px, transparent 1px);
+      background-size: 100% 1.6em;
+      border: 2px solid var(--gray-300);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      margin: 1rem 0;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem;
+      color: #1a365d;
+      line-height: 1.6em;
+      position: relative;
+      overflow: hidden;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .notebook.visible { opacity: 1; transform: translateY(0); }
+    /* Red margin line */
+    .notebook::before {
+      content: '';
+      position: absolute;
+      left: 2.5rem;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: rgba(239,68,68,0.3);
+    }
+    .notebook .nb-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-decoration: underline;
+      margin-bottom: 0.3em;
+    }
+    .notebook .nb-section {
+      font-weight: 700;
+      color: #2563eb;
+      margin-top: 0.5em;
+    }
+    .notebook .nb-data {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      background: var(--gray-50);
+      border-radius: 6px;
+      padding: 0.5rem 0.6rem;
+      margin: 0.3em 0;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .notebook .nb-strikethrough {
+      text-decoration: line-through;
+      color: #b91c1c;
+    }
+    .notebook .nb-correction {
+      color: #1d4ed8;
+    }
+    .notebook .nb-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    /* Structure list */
+    .structure-list {
+      margin: 1rem 0;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .structure-list.visible { opacity: 1; transform: translateY(0); }
+    .structure-item {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .structure-item:last-child { border-bottom: none; }
+    .structure-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 800; flex-shrink: 0;
+    }
+    .structure-num.before { background: var(--blue-100); color: var(--blue-700); }
+    .structure-num.during { background: var(--amber-100); color: var(--amber-700); }
+    .structure-num.after { background: var(--green-100); color: var(--green-700); }
+    .structure-info h4 { font-size: 0.88rem; font-weight: 700; color: var(--gray-900); }
+    .structure-info p { font-size: 0.78rem; color: var(--gray-500); margin-top: 1px; }
+
+    .phase-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; padding: 0.5rem 0 0.25rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .phase-label.before { color: var(--blue-600); }
+    .phase-label.during { color: var(--amber-600); }
+    .phase-label.after { color: var(--green-600); }
+    .phase-label::after {
+      content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2;
+    }
+
+    @media (min-width: 768px) {
+      .hero { padding: 4rem 2rem 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .content { padding: 0 1.5rem; padding-bottom: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="back-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Índex
+  </a>
+</div>
+
+<section class="hero">
+  <span class="hero-badge">Guia</span>
+  <h1>La llibreta de laboratori</h1>
+  <p>La llibreta és el registre de tot el que feu al laboratori. Si no hi és escrit, no ha passat.</p>
+</section>
+
+<div class="content">
+
+  <!-- ═══════ WHY IT MATTERS ═══════ -->
+  <div class="highlight-box info reveal" style="margin-top:1.5rem;">
+    <div class="highlight-icon">📓</div>
+    <h3>Per què és tan important?</h3>
+    <p>La llibreta val el <strong>30% de l'avaluació contínua</strong>. Però no és només una nota: en un laboratori real (farmacèutic, clínic, d'investigació), la llibreta és un <strong>document legal</strong>. Si algú posa en dubte un resultat, la llibreta és la prova. Per això hi ha regles estrictes sobre com s'escriu.</p>
+  </div>
+
+  <!-- ═══════ HOW NOT TO DO IT ═══════ -->
+  <div class="section-label wrong reveal">
+    <div class="section-label-icon">❌</div>
+    <h2>Com NO s'ha de fer</h2>
+  </div>
+
+  <div class="step-card wrong reveal">
+    <div class="step-card-body">
+      <div class="step-number" style="background:var(--red-100);color:var(--red-700);">!</div>
+      <h3>Tipex / corrector líquid</h3>
+      <p><strong>Prohibit.</strong> El tipex amaga el valor original. En un laboratori regulat, això es considera frau. Si us equivoqueu, el valor original ha de seguir sent llegible.</p>
+    </div>
+  </div>
+
+  <div class="step-card wrong reveal">
+    <div class="step-card-body">
+      <div class="step-number" style="background:var(--red-100);color:var(--red-700);">!</div>
+      <h3>Llapis</h3>
+      <p><strong>Prohibit.</strong> El llapis es pot esborrar. Tot s'escriu amb <strong>bolígraf</strong> (blau o negre). Si us equivoqueu, hi ha una manera correcta de corregir-ho.</p>
+    </div>
+  </div>
+
+  <div class="step-card wrong reveal">
+    <div class="step-card-body">
+      <div class="step-number" style="background:var(--red-100);color:var(--red-700);">!</div>
+      <h3>Apuntar les dades "després, de memòria"</h3>
+      <p><strong>Mai.</strong> Les dades s'escriuen a la llibreta <strong>en el moment en què es mesuren</strong>, directament de l'instrument. No en un paper solt, no al mòbil, no de memòria més tard. La memòria falla; la llibreta no.</p>
+    </div>
+  </div>
+
+  <div class="step-card wrong reveal">
+    <div class="step-card-body">
+      <div class="step-number" style="background:var(--red-100);color:var(--red-700);">!</div>
+      <h3>Fulls solts</h3>
+      <p><strong>Prohibit.</strong> No arrenqueu pàgines, no useu fulls solts. La llibreta ha de ser un quadern cosit o enquadernat, amb les pàgines numerades.</p>
+    </div>
+  </div>
+
+  <!-- ═══════ HOW TO CORRECT ═══════ -->
+  <div class="transition-section reveal">
+    <div class="divider-line"></div>
+    <h2>Com es corregeix un error?</h2>
+    <p>Equivocar-se és normal. El que importa és com ho corregiu.</p>
+  </div>
+
+  <div class="highlight-box success reveal">
+    <div class="highlight-icon">✏️</div>
+    <h3>Una sola ratlla</h3>
+    <p>Travesseu el valor erroni amb <strong>una sola línia horitzontal</strong> (que permeti llegir el que hi havia). Escriviu el valor correcte al costat. Així:</p>
+  </div>
+
+  <div class="notebook reveal">
+    <span class="nb-label">Exemple de correcció</span>
+    m₁ = <span class="nb-strikethrough">45,3521</span> <span class="nb-correction">45,3421</span> g<br>
+    m₂ = 44,9385 g<br>
+    Δm = <span class="nb-strikethrough">0,4136</span> <span class="nb-correction">0,4036</span> g
+  </div>
+
+  <div class="highlight-box info reveal">
+    <div class="highlight-icon">💡</div>
+    <h3>No passa res per equivocar-se</h3>
+    <p>Un error tatxat correctament <strong>no resta punts</strong> — al contrari, demostra honestedat. El que resta punts és amagar l'error (tipex) o inventar dades (copiar del company).</p>
+  </div>
+
+  <!-- ═══════ COVER PAGE ═══════ -->
+  <div class="section-label info reveal">
+    <div class="section-label-icon">📋</div>
+    <h2>La primera pàgina</h2>
+  </div>
+
+  <div class="notebook reveal">
+    <div class="nb-title">Pràctiques de Química Analítica Bàsica</div>
+    Nom: Maria Garcia López<br>
+    Grup: A2<br>
+    Curs: 2025-2026<br>
+    Taquilla: 14<br>
+    <br>
+    <span class="nb-section">Índex</span><br>
+    1. Estandardització de NaOH 0,1 M ......... p. 2<br>
+    2. Determinació de l'acidesa del vinagre ... p. 6<br>
+    3. Estandardització d'EDTA 0,1 M ........... p. 9<br>
+    4. ...<br>
+    <span class="nb-label">S'actualitza a mesura que es fan pràctiques</span>
+  </div>
+
+  <!-- ═══════ STRUCTURE ═══════ -->
+  <div class="section-label info reveal">
+    <div class="section-label-icon">📝</div>
+    <h2>Contingut de cada pràctica</h2>
+  </div>
+
+  <div class="structure-list reveal">
+    <div class="phase-label before">🏠 Abans del laboratori (a casa)</div>
+
+    <div class="structure-item">
+      <div class="structure-num before">1</div>
+      <div class="structure-info">
+        <h4>Objectiu</h4>
+        <p>Què volem determinar? En una frase</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num before">2</div>
+      <div class="structure-info">
+        <h4>Tipus de volumetria</h4>
+        <p>Per tipus de reacció (àcid-base, redox, complexació, precipitació) i per mode operatiu (directa, indirecta, retrocés)</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num before">3</div>
+      <div class="structure-info">
+        <h4>Reaccions</h4>
+        <p>Totes les reaccions del procés, ajustades. Incloent la reacció de l'indicador si escau</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num before">4</div>
+      <div class="structure-info">
+        <h4>Indicador</h4>
+        <p>Nom, canvi de color, com es reconeix el punt final</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num before">5</div>
+      <div class="structure-info">
+        <h4>Càlculs previs</h4>
+        <p>Regla del 80%, quina massa pesar, cal diluir?, quin material necessitem (bureta, pipeta, matràs aforat...)</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num before">6</div>
+      <div class="structure-info">
+        <h4>Procediment</h4>
+        <p>Esquema dels passos que seguireu. Breu, clar, visual</p>
+      </div>
+    </div>
+
+    <div class="phase-label during">🔬 Al laboratori</div>
+
+    <div class="structure-item">
+      <div class="structure-num during">7</div>
+      <div class="structure-info">
+        <h4>Dades experimentals</h4>
+        <p>Les dades crues que recolliu: pesades (m₁, m₂, Δm), lectures de bureta (V_inicial, V_final), observacions de color, incidències. Tot amb TOTS els decimals</p>
+      </div>
+    </div>
+
+    <div class="phase-label after">📊 Després del laboratori</div>
+
+    <div class="structure-item">
+      <div class="structure-num after">8</div>
+      <div class="structure-info">
+        <h4>Càlculs</h4>
+        <p>Cadena de conversió des de les dades experimentals fins al resultat. Sempre amb unitats</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num after">9</div>
+      <div class="structure-info">
+        <h4>Resultat</h4>
+        <p>Valor ± desviació estàndard, nombre de mesures (n), RSD</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num after">10</div>
+      <div class="structure-info">
+        <h4>Interpretació dels resultats</h4>
+        <p>Té sentit el resultat? És coherent amb el que s'esperava? Si no, per què creieu que ha passat?</p>
+      </div>
+    </div>
+    <div class="structure-item">
+      <div class="structure-num after">11</div>
+      <div class="structure-info">
+        <h4>Observacions / incidències</h4>
+        <p>Problemes durant la pràctica, pèrdua de mostra, coses que faríeu diferent la propera vegada</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box warning reveal">
+    <div class="highlight-icon">⚡</div>
+    <h3>Els punts 1-6 es preparen a casa!</h3>
+    <p>Heu d'arribar al laboratori amb l'objectiu, les reaccions, els càlculs previs i el procediment <strong>ja escrits</strong>. El professor us farà una entrevista abans de començar — si no porteu la llibreta preparada, no podreu començar la pràctica.</p>
+  </div>
+
+  <!-- ═══════ EXAMPLE ═══════ -->
+  <div class="transition-section reveal">
+    <div class="divider-line"></div>
+    <h2>Exemple complet</h2>
+    <p>Així hauria de quedar la llibreta per a una pràctica de clor actiu en un lleixiu.</p>
+  </div>
+
+  <!-- Page 1 -->
+  <div class="notebook reveal">
+    <span class="nb-label">Pàgina 1 — Preparació (a casa)</span>
+    <div class="nb-title">Determinació del clor actiu en un lleixiu</div>
+    Data: 15/03/2026 &emsp; Pàg. 1/4<br><br>
+
+    <span class="nb-section">Objectiu</span><br>
+    Determinar la quantitat de Cl₂ actiu en g/L en una mostra de lleixiu comercial.<br><br>
+
+    <span class="nb-section">Tipus de volumetria</span><br>
+    Per reacció: redox (iodometria indirecta)<br>
+    Per mode: indirecta<br><br>
+
+    <span class="nb-section">Reaccions</span><br>
+    ClO⁻ + 2I⁻ + 2H⁺ → Cl⁻ + I₂ + H₂O<br>
+    I₂ + 2S₂O₃²⁻ → 2I⁻ + S₄O₆²⁻<br><br>
+
+    <span class="nb-section">Indicador</span><br>
+    Midó 1%. Afegir quan groc pàl·lid.<br>
+    Viratge: blau intens → incolor
+  </div>
+
+  <!-- Page 2 -->
+  <div class="notebook reveal">
+    <span class="nb-label">Pàgina 2 — Càlculs previs</span>
+    <span class="nb-section">Càlculs previs</span><br><br>
+
+    Regla del 80%: bureta 25 mL → objectiu ≈ 20 mL<br><br>
+
+    <div class="nb-data">
+      70 mg Cl₂ × (1g/1000mg) × (1mol Cl₂/70,91g) × (2mol S₂O₃²⁻/1mol Cl₂) × (1000mL/0,1mol S₂O₃²⁻) = 19,8 mL ✓
+    </div>
+    <br>
+    Cal mostra amb ~70 mg de Cl₂<br>
+    Si lleixiu ~40 g/L → 70 mg / 40 g/L = 1,75 mL<br>
+    Diluir: 10 mL mostra → 100 mL (pipeta aforada + matràs aforat)<br>
+    Alíquota: 15 mL (pipeta aforada) → ~17,5 mL valorant ✓<br><br>
+
+    <span class="nb-section">Procediment</span><br>
+    1. Diluir mostra (pipeta aforada → matràs aforat)<br>
+    2. Alíquota en erlenmeyer<br>
+    3. + KI (ABANS d'acidificar!)<br>
+    4. + H₂SO₄ → es forma I₂ (marró)<br>
+    5. Valorar amb S₂O₃²⁻ fins groc pàl·lid<br>
+    6. + midó → blau<br>
+    7. Continuar fins incolor<br>
+  </div>
+
+  <!-- Page 3 -->
+  <div class="notebook reveal">
+    <span class="nb-label">Pàgina 3 — Dades experimentals (al laboratori)</span>
+    <span class="nb-section">Dades experimentals</span><br><br>
+
+    C(S₂O₃²⁻) = 0,1043 mol/L<br>
+    Dilució: 10/100. Alíquota: 15,00 mL<br><br>
+
+    <div class="nb-data" style="font-family:'Inter',sans-serif; font-size:0.75rem;">
+      <table style="width:100%; border-collapse:collapse; text-align:center;">
+        <tr style="border-bottom:1px solid #cbd5e1;">
+          <td></td><td><strong>Assaig 1</strong></td><td><strong>Assaig 2</strong></td><td><strong>Assaig 3</strong></td>
+        </tr>
+        <tr><td style="text-align:left;">V_inicial (mL)</td><td>0,15</td><td>0,20</td><td>0,10</td></tr>
+        <tr><td style="text-align:left;">V_final (mL)</td><td>22,33</td><td>22,40</td><td>22,25</td></tr>
+        <tr style="border-top:1px solid #cbd5e1;">
+          <td style="text-align:left;"><strong>V_gastat (mL)</strong></td><td><strong>22,18</strong></td><td><strong>22,20</strong></td><td><strong>22,15</strong></td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    Viratge: marró → groc pàl·lid → (midó) → blau → incolor ✓ en els 3 assajos<br>
+    Incidència: assaig 1, vaig afegir el midó una mica massa aviat (color marró encara)
+  </div>
+
+  <!-- Page 4 -->
+  <div class="notebook reveal">
+    <span class="nb-label">Pàgina 4 — Càlculs i resultat</span>
+    <span class="nb-section">Càlculs (assaig 1)</span><br><br>
+
+    <div class="nb-data">
+      22,18 mL × (0,1043 mol S₂O₃²⁻/1000 mL) × (1 mol I₂/2 mol S₂O₃²⁻) × (1 mol Cl₂/1 mol I₂) × (70,91 g/1 mol Cl₂) × (100 mL/15 mL) × (1/0,010 L) = 54,83 g/L
+    </div>
+    <br>
+    Assaig 2: 54,88 g/L<br>
+    Assaig 3: 54,76 g/L<br><br>
+
+    <span class="nb-section">Resultat</span><br>
+    <div class="nb-data" style="text-align:center; font-weight:700; font-size:0.9rem;">
+      Cl₂ = 54,8 ± 0,1 g/L &emsp; (n=3, RSD = 0,1%)
+    </div>
+    <br>
+    <span class="nb-section">Interpretació</span><br>
+    El resultat (54,8 g/L) és coherent amb un lleixiu comercial (40-50 g/L per a lleixiu estàndard, pot arribar a 50-60 g/L si és concentrat). El RSD és molt baix, cosa que indica bona reproductibilitat.<br><br>
+
+    <span class="nb-section">Observacions</span><br>
+    - Vaig afegir el midó massa aviat al primer assaig → viratge una mica menys net, però el resultat no sembla afectat<br>
+    - Important: afegir KI ABANS de l'àcid, si no el clor s'escapa com a gas
+  </div>
+
+  <!-- ═══════ RULES ═══════ -->
+  <div class="rules-title reveal">📋 Regles d'or de la llibreta</div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🖊️</div>
+    <div class="rule-text"><strong>Bolígraf, mai llapis.</strong> El llapis es pot esborrar. El bolígraf és permanent.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🚫</div>
+    <div class="rule-text"><strong>Mai tipex.</strong> Si us equivoqueu, una ratlla i el valor correcte al costat. El valor original ha de ser llegible.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">⏱️</div>
+    <div class="rule-text"><strong>Escriviu les dades immediatament.</strong> Directament de la balança o la bureta a la llibreta. Mai en un paper solt, mai de memòria.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🔢</div>
+    <div class="rule-text"><strong>Tots els dígits.</strong> Si la balança diu 0,4036 g, escriviu 0,4036 g — no 0,40 g. Si la bureta marca 12,35 mL, escriviu 12,35 mL — no 12,4 mL.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">📖</div>
+    <div class="rule-text"><strong>Pàgines numerades.</strong> Cada pàgina ha de tenir número. No arrenqueu mai una pàgina.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🏠</div>
+    <div class="rule-text"><strong>Prepareu a casa.</strong> Objectiu, reaccions, càlculs previs i procediment s'escriuen ABANS d'arribar al laboratori. El professor us farà una entrevista per comprovar-ho.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">👁️</div>
+    <div class="rule-text"><strong>Anoteu les observacions.</strong> Canvis de color, precipitats, olors, incidències. Si alguna cosa no ha anat bé, escriviu-ho — no ho amageu.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🧠</div>
+    <div class="rule-text"><strong>Interpreteu els resultats.</strong> No us limiteu a donar un número. El resultat té sentit? És coherent amb el que s'esperava? Si no, per què?</div>
+  </div>
+
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
+  <img src="img/ub_logo.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
+  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
+    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
+    Universitat de Barcelona · Facultat de Química<br>
+    Departament d'Enginyeria Química i Química Analítica
+  </p>
+  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
+    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
+  </p>
+</footer>
+
+</body>
+</html>

@@ -591,6 +591,12 @@
       Inici
     </button>
 
+    <!-- Llibreta -->
+    <button class="menu-item menu-home" data-page="LLIBRETA" onclick="navigateTo('LLIBRETA')" style="margin-bottom:4px;">
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--gray-500);flex-shrink:0;"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+      La llibreta
+    </button>
+
     <!-- Seminaris -->
     <div class="menu-section" id="sec-seminaris">
       <button class="menu-section-header" onclick="toggleSection('sec-seminaris')">
@@ -746,6 +752,7 @@ function buildMenuItems(containerId, items) {
 function buildPages() {
   const container = document.getElementById('dynamic-pages');
   const all = [
+    { id: 'LLIBRETA', title: 'La llibreta de laboratori', type: 'seminari', typeLabel: 'Guia', section: 'Guies' },
     { id: 'SEM01', title: 'La pesada per diferència', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     { id: 'SEM02', title: 'Mesura de volums', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     ...estandaritzacions.map(e => ({...e, type: 'estandaritzacio', typeLabel: 'Estandarització', section: 'Estandaritzacions'})),
@@ -758,7 +765,23 @@ function buildPages() {
     page.id = `page-${item.id}`;
 
     let content;
-    if (item.id === 'SEM01') {
+    if (item.id === 'LLIBRETA') {
+      content = `
+        <div class="mobile-only">
+          <a class="open-fullpage-btn" href="seminari_llibreta.html">
+            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            Obrir guia de la llibreta
+          </a>
+        </div>
+        <div class="desktop-only">
+          <div class="embed-container">
+            <iframe src="seminari_llibreta.html" loading="lazy" title="La llibreta de laboratori"></iframe>
+          </div>
+          <p class="embed-hint" style="margin-top:0.5rem;">
+            <a href="seminari_llibreta.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+          </p>
+        </div>`;
+    } else if (item.id === 'SEM01') {
       content = `
         <div class="mobile-only">
           <a class="open-fullpage-btn" href="seminari_pesada.html">
