@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <title>D05 — Determinacio d'amoxicil·lina en un antibiotic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-200: #bfdbfe;
+      --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8; --blue-800: #1e40af;
+      --red-50: #fef2f2; --red-100: #fee2e2; --red-500: #ef4444; --red-700: #b91c1c;
+      --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-500: #f59e0b; --amber-700: #b45309;
+      --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e; --green-700: #15803d;
+      --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
+      --gray-400: #94a3b8; --gray-500: #64748b; --gray-600: #475569; --gray-700: #334155;
+      --gray-800: #1e293b; --gray-900: #0f172a;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+      /* D05-specific colors */
+      --violet: #8b5cf6;
+      --endpoint-teal: #14b8a6;
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fff; color: var(--gray-800); line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ───────── Back bar ───────── */
+    .back-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: calc(48px + var(--safe-top)); padding-top: var(--safe-top);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center;
+      padding-left: 0.75rem; padding-right: 0.75rem; z-index: 100;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.5rem 0.75rem; border: none; background: none;
+      font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      color: var(--blue-600); cursor: pointer; border-radius: 8px;
+    }
+    .back-btn:active { background: var(--blue-50); }
+    .back-btn svg { width: 18px; height: 18px; fill: var(--blue-600); }
+
+    /* ───────── Hero ───────── */
+    .hero {
+      margin-top: calc(48px + var(--safe-top));
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
+      padding: 2.5rem 1.25rem 2rem; text-align: center; color: #fff;
+    }
+    .hero-badge {
+      display: inline-block; background: rgba(255,255,255,0.2);
+      font-size: 0.7rem; font-weight: 700; padding: 4px 12px;
+      border-radius: 20px; margin-bottom: 0.75rem;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .hero h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.4rem; }
+    .hero p { font-size: 0.85rem; opacity: 0.85; }
+
+    /* ───────── Tabs ───────── */
+    .tab-bar {
+      position: sticky; top: calc(48px + var(--safe-top)); z-index: 50;
+      background: #fff; border-bottom: 1px solid var(--gray-200);
+      display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex: 1; min-width: 0; padding: 0.75rem 0.5rem;
+      border: none; background: none; font-family: inherit;
+      font-size: 0.75rem; font-weight: 600; color: var(--gray-400);
+      cursor: pointer; border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab-btn:active { background: var(--blue-50); }
+    .tab-btn.active { color: var(--blue-600); border-bottom-color: var(--blue-600); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ───────── Content ───────── */
+    .content {
+      max-width: 600px; margin: 0 auto;
+      padding: 1.25rem 1rem;
+      padding-bottom: calc(2rem + var(--safe-bottom));
+    }
+
+    /* ───────── Resum ───────── */
+    .resum-section { margin-bottom: 1.5rem; }
+    .resum-section h3 {
+      font-size: 0.95rem; font-weight: 700; color: var(--gray-900);
+      margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .resum-card {
+      background: var(--gray-50); border: 1px solid var(--gray-200);
+      border-radius: 12px; padding: 1rem 1.15rem;
+    }
+    .resum-card p {
+      font-size: 0.85rem; color: var(--gray-600); line-height: 1.55;
+    }
+
+    .reaction-block {
+      background: var(--blue-50); border: 1px solid var(--blue-200);
+      border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
+    }
+    .reaction-label {
+      font-size: 0.7rem; font-weight: 700; color: var(--blue-600);
+      text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 0.4rem;
+    }
+    .reaction-eq {
+      font-size: 0.9rem; color: var(--gray-800); text-align: center;
+      overflow-x: auto;
+    }
+
+    .color-strip {
+      display: flex; border-radius: 10px; overflow: hidden;
+      margin: 0.75rem 0; height: 48px;
+    }
+    .color-strip div {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: #fff;
+    }
+
+    /* ───────── Procediment ───────── */
+    .proc-step {
+      display: flex; gap: 1rem; padding: 1rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .proc-step:last-child { border-bottom: none; }
+
+    .proc-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--blue-100); color: var(--blue-700);
+      font-size: 0.8rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .proc-body { flex: 1; }
+    .proc-body h4 {
+      font-size: 0.9rem; font-weight: 700; color: var(--gray-900);
+      margin-bottom: 0.2rem;
+    }
+    .proc-body p {
+      font-size: 0.82rem; color: var(--gray-600); line-height: 1.5;
+    }
+    .proc-note {
+      display: flex; align-items: flex-start; gap: 0.4rem;
+      margin-top: 0.4rem; padding: 0.5rem 0.65rem;
+      border-radius: 8px; font-size: 0.78rem; line-height: 1.4;
+    }
+    .proc-note.warn { background: var(--amber-50); color: var(--amber-700); }
+    .proc-note.danger { background: var(--red-50); color: var(--red-700); }
+    .proc-note.info { background: var(--blue-50); color: var(--blue-700); }
+    .proc-note-icon { flex-shrink: 0; }
+
+    /* ───────── Simulator ───────── */
+    .sim-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.75rem; padding: 0.5rem 0;
+    }
+
+    .sim-apparatus {
+      position: relative;
+      width: 220px; height: 340px;
+    }
+
+    .sim-color-label {
+      font-size: 0.82rem; font-weight: 700; text-align: center;
+      padding: 0.4rem 1rem; border-radius: 8px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .sim-controls {
+      width: 100%; max-width: 340px;
+    }
+    .sim-vol {
+      text-align: center; font-size: 1.4rem; font-weight: 800;
+      color: var(--gray-900); margin-bottom: 0.4rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .sim-slider {
+      width: 100%; height: 8px; -webkit-appearance: none; appearance: none;
+      border-radius: 4px; outline: none;
+      background: var(--gray-200);
+    }
+    .sim-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 28px; height: 28px;
+      border-radius: 50%; background: var(--blue-600);
+      border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .sim-slider::-moz-range-thumb {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--blue-600); border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2); cursor: pointer;
+    }
+
+    .sim-status {
+      text-align: center; margin-top: 0.5rem;
+      font-size: 0.8rem; color: var(--gray-500); line-height: 1.5;
+      min-height: 3em;
+    }
+
+    .sim-hint {
+      text-align: center; font-size: 0.72rem; color: var(--gray-400);
+      margin-top: 0.25rem;
+    }
+
+    /* Drop animation */
+    @keyframes dropFall {
+      0% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(55px); }
+    }
+    .sim-drop {
+      position: absolute;
+      left: 108px; top: 220px;
+      width: 6px; height: 8px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      background: rgba(139, 92, 246, 0.5);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .sim-drop.falling {
+      animation: dropFall 0.5s ease-in forwards;
+    }
+
+    /* ───────── Consells ───────── */
+    .consell-card {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      background: var(--gray-50); border: 1px solid var(--gray-200);
+      border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem;
+    }
+    .consell-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+    .consell-icon.problem { background: var(--red-100); }
+    .consell-icon.tip { background: var(--amber-100); }
+    .consell-icon.ok { background: var(--green-100); }
+    .consell-text {
+      font-size: 0.82rem; color: var(--gray-700); line-height: 1.45;
+    }
+    .consell-text strong { color: var(--gray-900); }
+    .consell-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.3px; margin-bottom: 0.15rem;
+    }
+    .consell-label.problem { color: var(--red-700); }
+    .consell-label.tip { color: var(--amber-700); }
+    .consell-label.ok { color: var(--green-700); }
+
+    @media (min-width: 768px) {
+      .hero { padding: 3rem 2rem 2.5rem; }
+      .hero h1 { font-size: 1.7rem; }
+      .content { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Back bar -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Index
+  </a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <span class="hero-badge">D05 — Determinacio</span>
+  <h1>Determinacio d'amoxicil·lina en un antibiotic</h1>
+  <p>Valoracio en medi no aquos amb acid percloric</p>
+</section>
+
+<!-- Tabs -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('resum')">Resum</button>
+  <button class="tab-btn" onclick="showTab('procediment')">Procediment</button>
+  <button class="tab-btn" onclick="showTab('simulador')">Simulador</button>
+  <button class="tab-btn" onclick="showTab('consells')">Consells</button>
+</div>
+
+<!-- ═══════════════ RESUM ═══════════════ -->
+<div class="tab-panel active" id="panel-resum">
+  <div class="content">
+
+    <div class="resum-section">
+      <h3>⚗️ Reaccions</h3>
+
+      <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
+        <div class="reaction-label">Valoracio acid-base en medi no aquos</div>
+        <div class="reaction-eq">$\text{B} + \text{HClO}_4 \rightarrow \text{BH}^+ + \text{ClO}_4^-$</div>
+      </div>
+
+      <div class="resum-card">
+        <p>L'amoxicil·lina (B) es una base massa feble per ser valorada en aigua. En acid acetic glacial, la seva basicitat es potencia i es pot valorar amb HClO₄. La reaccio es una protonacio del grup amino de la molecula.</p>
+      </div>
+    </div>
+
+    <div class="resum-section">
+      <h3>🎨 Indicador: violeta cristall</h3>
+      <div class="color-strip">
+        <div style="background: #8b5cf6;">Violeta</div>
+        <div style="background: #3b82f6;">Blau</div>
+        <div style="background: #14b8a6;">Blau verdos</div>
+      </div>
+
+      <div class="reaction-block" style="margin-top:0.75rem;">
+        <div class="reaction-label">Abans del punt final — exces de base</div>
+        <div class="reaction-eq">$\underbrace{\text{Ind}}_{\text{violeta}}$</div>
+      </div>
+
+      <div class="reaction-block">
+        <div class="reaction-label">Punt final — l'acid proton l'indicador</div>
+        <div class="reaction-eq">$\underbrace{\text{Ind}}_{\text{violeta}} + \text{HClO}_4 \rightarrow \underbrace{\text{IndH}^+}_{\text{blau verdos}}$</div>
+      </div>
+
+      <div class="resum-card" style="margin-top:0.75rem;">
+        <p>El violeta cristall es un indicador que canvia de color a mesura que s'afegeix el valorant. Primer es <strong>violeta</strong>, despres passa a <strong>blau</strong> i finalment a <strong>blau verdos</strong> quan s'arriba al punt final. Si s'afegeix un exces de valorant, pot arribar a verd o groc. Cal fer un <strong>assaig en blanc</strong> (sense mostra) per corregir el volum consumit per l'indicador.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ PROCEDIMENT ═══════════════ -->
+<div class="tab-panel" id="panel-procediment">
+  <div class="content">
+
+    <div class="proc-step">
+      <div class="proc-num">1</div>
+      <div class="proc-body">
+        <h4>Prepareu la mostra</h4>
+        <p>Peseu individualment el contingut de diverses capsules per calcular el pes mitja. Mescleu i homogeneitzeu tot el contingut.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">👁️</span>
+          La pesada individual us permetra comprovar la uniformitat de dosificacio entre capsules.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">2</div>
+      <div class="proc-body">
+        <h4>Peseu la porcio d'analisi</h4>
+        <p>Peseu per diferencia i per triplicat la quantitat de mostra homogeneitzada que heu calculat previament. Transferiu a un erlenmeyer <strong>perfectament sec</strong>.</p>
+        <div class="proc-note danger">
+          <span class="proc-note-icon">⚠️</span>
+          El material ha d'estar completament sec. L'aigua interferiria amb la valoracio en medi no aquos.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">3</div>
+      <div class="proc-body">
+        <h4>Dissoleu en acid acetic glacial</h4>
+        <p>Afegiu acid acetic glacial per dissoldre completament la mostra.</p>
+        <div class="proc-note danger">
+          <span class="proc-note-icon">⚠️</span>
+          L'acid acetic glacial es corrosiu. Treballeu a la vitrina de gasos i amb precaucio.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">4</div>
+      <div class="proc-body">
+        <h4>Afegiu l'indicador</h4>
+        <p>Afegiu un parell de gotes de violeta cristall. La dissolucio es tornara <strong>violeta</strong>.</p>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">5</div>
+      <div class="proc-body">
+        <h4>Valoreu amb HClO₄</h4>
+        <p>Afegiu la solucio d'acid percloric des de la bureta, agitant constantment. El color canviara de <strong>violeta → blau → blau verdos</strong>.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          A prop del final, aneu gota a gota. El punt final es el <strong>blau verdos persistent</strong>. Si continueu afegint, el color pot arribar a verd o groc — us heu passat.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">6</div>
+      <div class="proc-body">
+        <h4>Feu l'assaig en blanc</h4>
+        <p>Repetiu el procediment sense mostra (nomes acid acetic + indicador + valorant) per determinar el volum consumit pel blanc. Resteu-lo del volum de cada valoracio.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          El blanc es imprescindible en aquesta valoracio. Sense corregir-lo, els resultats seran erronis.
+        </div>
+      </div>
+    </div>
+
+    <div class="proc-step">
+      <div class="proc-num">7</div>
+      <div class="proc-body">
+        <h4>Anoteu i repetiu</h4>
+        <p>Anoteu les lectures de la bureta. Repetiu amb les altres pesades. Expresseu el resultat com a mg d'amoxicil·lina per capsula.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ SIMULADOR ═══════════════ -->
+<div class="tab-panel" id="panel-simulador">
+  <div class="content">
+    <div class="sim-wrap">
+
+      <!-- Apparatus: bureta + flask -->
+      <div class="sim-apparatus">
+        <svg viewBox="0 0 220 340" width="220" height="340">
+          <defs>
+            <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#fff" stop-opacity="0.15"/>
+              <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
+            </linearGradient>
+            <linearGradient id="hclo4G" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(226,232,240,0.35)"/>
+              <stop offset="50%" stop-color="rgba(241,245,249,0.25)"/>
+              <stop offset="100%" stop-color="rgba(226,232,240,0.35)"/>
+            </linearGradient>
+            <clipPath id="buretaClip">
+              <rect x="101" y="10" width="18" height="200"/>
+            </clipPath>
+            <clipPath id="flaskClip">
+              <path d="M80 230 Q80 235 70 245 L42 295 Q34 312 50 320 L170 320 Q186 312 178 295 L150 245 Q140 235 140 230 Z"/>
+            </clipPath>
+          </defs>
+
+          <!-- ══ BURETA ══ -->
+          <rect x="85" y="0" width="4" height="335" rx="2" fill="#94a3b8"/>
+          <rect x="60" y="325" width="100" height="6" rx="3" fill="#94a3b8"/>
+          <rect x="87" y="45" width="14" height="6" rx="2" fill="#64748b"/>
+          <rect x="87" y="185" width="14" height="6" rx="2" fill="#64748b"/>
+
+          <rect x="101" y="10" width="18" height="200" rx="2" fill="rgba(226,232,240,0.3)" stroke="#cbd5e1" stroke-width="1.5"/>
+          <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
+
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#hclo4G)" clip-path="url(#buretaClip)"/>
+
+          <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
+          <text x="127" y="21" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">0</text>
+          <line x1="119" y1="56" x2="124" y2="56" stroke="#94a3b8" stroke-width="0.5"/>
+          <line x1="119" y1="94" x2="125" y2="94" stroke="#94a3b8" stroke-width="0.8"/>
+          <text x="127" y="97" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">10</text>
+          <line x1="119" y1="132" x2="124" y2="132" stroke="#94a3b8" stroke-width="0.5"/>
+          <line x1="119" y1="170" x2="125" y2="170" stroke="#94a3b8" stroke-width="0.8"/>
+          <text x="127" y="173" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">20</text>
+          <line x1="119" y1="200" x2="125" y2="200" stroke="#94a3b8" stroke-width="0.8"/>
+          <text x="127" y="203" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">25</text>
+
+          <rect x="98" y="8" width="24" height="4" rx="2" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
+          <rect x="105" y="210" width="10" height="8" rx="2" fill="#64748b"/>
+          <rect x="100" y="212" width="20" height="4" rx="2" fill="#475569"/>
+          <line x1="110" y1="218" x2="110" y2="230" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
+
+          <!-- ══ ERLENMEYER ══ -->
+          <path d="M80 230 L80 250 Q80 255 70 265 L42 300 Q34 315 50 322 L170 322 Q186 315 178 300 L150 265 Q140 255 140 250 L140 230"
+                fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
+          <path id="flaskLiquid"
+                d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z"
+                fill="rgba(139,92,246,0.5)"/>
+          <ellipse id="flaskSurface" cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
+          <path d="M80 250 Q80 255 70 265 L50 293"
+                fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
+          <rect x="80" y="222" width="60" height="10" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
+          <rect x="76" y="220" width="68" height="4" rx="2" fill="#e2e8f0"/>
+        </svg>
+
+        <!-- Animated drop -->
+        <div class="sim-drop" id="simDrop"></div>
+      </div>
+
+      <!-- Color label -->
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(139,92,246,0.8); color:#fff;">
+        Violeta
+      </div>
+
+      <!-- Controls -->
+      <div class="sim-controls">
+        <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
+        <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
+        <div class="sim-status" id="simStatus">
+          Encara no heu afegit HClO₄. La dissolucio conte amoxicil·lina lliure i l'indicador es violeta.
+        </div>
+        <div class="sim-hint">↔ Arrossegueu per simular la valoracio</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CONSELLS ═══════════════ -->
+<div class="tab-panel" id="panel-consells">
+  <div class="content">
+
+    <div class="consell-card">
+      <div class="consell-icon problem">😟</div>
+      <div class="consell-text">
+        <div class="consell-label problem">Si la mostra no es dissol be</div>
+        <strong>Potser hi ha restes d'aigua.</strong> El material ha d'estar completament sec. Esbandiu l'erlenmeyer amb acid acetic glacial si cal, i assegureu-vos que no queden gotes d'aigua.
+      </div>
+    </div>
+
+    <div class="consell-card">
+      <div class="consell-icon problem">😟</div>
+      <div class="consell-text">
+        <div class="consell-label problem">Si el color arriba a verd o groc</div>
+        <strong>Us heu passat del punt final.</strong> El blau verdos era el punt final; el verd/groc indica un exces important de valorant. La mesura no es valida per a calculs precisos.
+      </div>
+    </div>
+
+    <div class="consell-card">
+      <div class="consell-icon tip">💡</div>
+      <div class="consell-text">
+        <div class="consell-label tip">No oblideu l'assaig en blanc</div>
+        <strong>El blanc corregeix el volum consumit per l'indicador</strong> i per possibles impureses basiques del dissolvent. Sense fer-lo, el resultat sera superior al real.
+      </div>
+    </div>
+
+    <div class="consell-card">
+      <div class="consell-icon tip">💡</div>
+      <div class="consell-text">
+        <div class="consell-label tip">Treballeu sempre a la vitrina de gasos</div>
+        <strong>L'acid acetic glacial i l'HClO₄ son corrosius.</strong> En cas de contacte amb la pell, renteu amb molta aigua i despres amb una solucio d'hidrogencarbonat de sodi.
+      </div>
+    </div>
+
+    <div class="consell-card">
+      <div class="consell-icon ok">✅</div>
+      <div class="consell-text">
+        <div class="consell-label ok">Sabeu que ho heu fet be quan...</div>
+        El color es <strong>blau verdos persistent</strong> i l'RSD de les tres valoracions es inferior al 2 %. El resultat hauria de trobar-se entre el 95-105 % del valor teoric.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ JavaScript ═══════════════ -->
+<script>
+// ── Tabs ──
+function showTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', ['resum','procediment','simulador','consells'][i] === tabId);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + tabId);
+  if (panel) panel.classList.add('active');
+}
+
+document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+  const tabs = ['resum','procediment','simulador','consells'];
+  btn.onclick = () => showTab(tabs[i]);
+});
+
+// ── Simulator ──
+const slider = document.getElementById('simSlider');
+const volLabel = document.getElementById('simVol');
+const colorLabel = document.getElementById('simColorLabel');
+const statusText = document.getElementById('simStatus');
+const flaskLiquid = document.getElementById('flaskLiquid');
+const buretaLiquid = document.getElementById('buretaLiquid');
+const simDrop = document.getElementById('simDrop');
+
+const EQ_POINT = 800;
+
+const VIOLET = { r:139, g:92,  b:246 };
+const BLUE   = { r:59,  g:130, b:246 };
+const TEAL   = { r:20,  g:184, b:166 };
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+function lerpRGBA(c1, c2, t, alpha) {
+  return `rgba(${Math.round(lerp(c1.r,c2.r,t))},${Math.round(lerp(c1.g,c2.g,t))},${Math.round(lerp(c1.b,c2.b,t))},${alpha})`;
+}
+
+let lastV = 0;
+let dropTimeout = null;
+
+function triggerDrop() {
+  simDrop.classList.remove('falling');
+  void simDrop.offsetWidth;
+  simDrop.classList.add('falling');
+}
+
+function updateSim() {
+  const v = parseInt(slider.value);
+  const ratio = v / 1000;
+
+  const vol = (ratio * 25).toFixed(1).replace('.', ',');
+  volLabel.textContent = vol;
+
+  const liquidTop = 10 + ratio * 200;
+  const liquidHeight = Math.max(0, 210 - liquidTop);
+  buretaLiquid.setAttribute('y', liquidTop);
+  buretaLiquid.setAttribute('height', liquidHeight);
+
+  if (v > lastV && v < 990) {
+    if (!dropTimeout) {
+      triggerDrop();
+      dropTimeout = setTimeout(() => { dropTimeout = null; }, 300);
+    }
+  }
+  lastV = v;
+
+  let fillColor, labelText, labelBg, status;
+  const ALPHA = 0.5;
+
+  if (v < EQ_POINT * 0.7) {
+    const t = v / (EQ_POINT * 0.7);
+    fillColor = lerpRGBA(VIOLET, BLUE, t * 0.3, ALPHA);
+    labelText = 'Violeta';
+    labelBg = 'rgba(139,92,246,0.8)';
+    status = "L'HClO₄ va protonant l'amoxicil·lina, pero encara en queda molta de lliure. L'indicador es violeta.";
+  } else if (v < EQ_POINT * 0.95) {
+    const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.25);
+    fillColor = lerpRGBA(VIOLET, BLUE, 0.3 + t * 0.7, ALPHA);
+    labelText = 'Blau — a prop del viratge';
+    labelBg = 'rgba(59,130,246,0.8)';
+    status = "Queda poca amoxicil·lina lliure. Aneu gota a gota! El color blau indica que us acosteu al punt final.";
+  } else if (v < EQ_POINT) {
+    const t = (v - EQ_POINT * 0.95) / (EQ_POINT * 0.05);
+    fillColor = lerpRGBA(BLUE, TEAL, t, ALPHA);
+    labelText = 'Quasi blau verdos — mitja gota!';
+    labelBg = 'rgba(30,150,200,0.8)';
+    status = "Esteu a punt! Una sola gota pot ser la diferencia.";
+  } else {
+    fillColor = lerpRGBA(TEAL, TEAL, 1, ALPHA);
+    labelText = '✓ BLAU VERDOS — Punt final';
+    labelBg = 'rgba(20,184,166,0.85)';
+    status = "Tota l'amoxicil·lina ha estat protonada. L'indicador mostra blau verdos persistent. No afegiu mes o passareu a verd/groc.";
+  }
+
+  flaskLiquid.setAttribute('fill', fillColor);
+  colorLabel.style.background = labelBg;
+  colorLabel.style.color = '#fff';
+  colorLabel.textContent = labelText;
+  statusText.textContent = status;
+}
+
+slider.addEventListener('input', updateSim);
+updateSim();
+</script>
+
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
+  <img src="img/ub_logo.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;">
+  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
+    Creat per <strong style="color:var(--gray-700);">Adrian Gomez Sanchez</strong><br>
+    Universitat de Barcelona · Facultat de Quimica<br>
+    Departament d'Enginyeria Quimica i Quimica Analitica
+  </p>
+  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
+    © 2026 Adrian Gomez Sanchez. Tots els drets reservats.
+  </p>
+</footer>
+
+</body>
+</html>

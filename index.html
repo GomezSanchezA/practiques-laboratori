@@ -627,7 +627,7 @@
       <button class="menu-section-header" onclick="toggleSection('sec-determinacions')">
         <div class="menu-section-icon determinacio">🔬</div>
         <span class="menu-section-label">Determinacions</span>
-        <span class="menu-section-count">23</span>
+        <span class="menu-section-count">19</span>
         <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </button>
       <div class="menu-section-items" id="determinacions-items"></div>
@@ -669,7 +669,7 @@
         <div class="landing-card-body">
           <h3>Determinacions</h3>
           <p>Anàlisi quantitativa de mostres reals: fàrmacs, aliments, aigües i productes comercials.</p>
-          <span class="card-count">23 pràctiques (D01–D21)</span>
+          <span class="card-count">19 pràctiques (D01–D17)</span>
         </div>
       </div>
     </div>
@@ -709,29 +709,25 @@ const estandaritzacions = [
 ];
 
 const determinacions = [
-  { id: 'D01', title: "Determinació de l'acidesa total d'un vinagre" },
-  { id: 'D02', title: "Determinació de l'hidrogencarbonat en una aigua" },
-  { id: 'D03', title: "Determinació d'àcid acetilsalicílic en comprimits analgèsics" },
-  { id: 'D04', title: "Determinació de l'índex o grau d'acidesa d'un oli vegetal" },
-  { id: 'D05', title: "Determinació d'amoxicil·lina en un antibiòtic" },
-  { id: 'D06', title: "Determinació de la puresa d'una mostra d'antipirina" },
-  { id: 'D07', title: "Determinació de la duresa de l'aigua: calci i magnesi" },
-  { id: 'D08', title: "Determinació del contingut de calci en un suplement nutricional oral" },
-  { id: 'D09', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode A)" },
-  { id: 'D10', title: "Determinació del clor actiu en un lleixiu" },
-  { id: 'D11', title: "Determinació del contingut de ferro en un medicament antianèmic" },
-  { id: 'D12', title: "Determinació de peròxid d'hidrogen en antisèptics i blanquejants" },
-  { id: 'D13', title: "Determinació de l'índex de permanganat d'un vi" },
-  { id: 'D14', title: "Determinació de l'índex de iode d'un oli vegetal" },
-  { id: 'D15', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode B)" },
-  { id: 'D16', title: "Determinació de l'àcid ascòrbic en un medicament" },
-  { id: 'D17a', title: "Determinació de Cl⁻ en aigua potable — Mohr" },
-  { id: 'D17b', title: "Determinació de Cl⁻ en sal de cuina — Mohr" },
-  { id: 'D17c', title: "Determinació de Br⁻ en comprimits — Volhard" },
-  { id: 'D18', title: "Determinació de nitrats en hortalisses" },
-  { id: 'D19', title: "Determinació de fluorur en col·lutoris" },
-  { id: 'D20', title: "Determinació de fosfat en aigües superficials" },
-  { id: 'D21', title: "Determinació d'amoníac en aigües residuals" },
+  { id: 'D01', title: "Determinació de l'acidesa total d'un vinagre", hasContent: true },
+  { id: 'D02', title: "Determinació de l'hidrogencarbonat en una aigua", hasContent: true },
+  { id: 'D03', title: "Determinació d'àcid acetilsalicílic en comprimits analgèsics", hasContent: true },
+  { id: 'D04', title: "Determinació de l'índex o grau d'acidesa d'un oli vegetal", hasContent: true },
+  { id: 'D05', title: "Determinació d'amoxicil·lina en un antibiòtic", hasContent: true },
+  { id: 'D06', title: "Determinació de la puresa d'una mostra d'antipirina", hasContent: true },
+  { id: 'D07', title: "Determinació de la duresa de l'aigua: calci i magnesi", hasContent: true },
+  { id: 'D08', title: "Determinació del contingut de calci en un suplement nutricional oral", hasContent: true },
+  { id: 'D09', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode A)", hasContent: true },
+  { id: 'D10', title: "Determinació del clor actiu en un lleixiu", hasContent: true },
+  { id: 'D11', title: "Determinació del contingut de ferro en un medicament antianèmic", hasContent: true },
+  { id: 'D12', title: "Determinació de peròxid d'hidrogen en antisèptics i blanquejants", hasContent: true },
+  { id: 'D13', title: "Determinació de l'índex de permanganat d'un vi", hasContent: true },
+  { id: 'D14', title: "Determinació de l'índex de iode d'un oli vegetal", hasContent: true },
+  { id: 'D15', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode B)", hasContent: true },
+  { id: 'D16', title: "Determinació de l'àcid ascòrbic en un medicament", hasContent: true },
+  { id: 'D17a', title: "Determinació de Cl⁻ en aigua potable — Mohr", hasContent: true },
+  { id: 'D17b', title: "Determinació de Cl⁻ en sal de cuina — Mohr", hasContent: true },
+  { id: 'D17c', title: "Determinació de Br⁻ en comprimits — Volhard", hasContent: true },
 ];
 
 // ═══════════ Build ═══════════
@@ -801,6 +797,13 @@ function buildPages() {
         'S03': 'practica_S03.html', 'S04a': 'practica_S04.html', 'S04b': 'practica_S04b.html',
         'S05': 'practica_S05.html', 'S06': 'practica_S06.html', 'S07': 'practica_S07.html',
         'S08': 'practica_S08.html', 'S09': 'practica_S09.html',
+        'D01': 'practica_D01.html', 'D02': 'practica_D02.html', 'D03': 'practica_D03.html',
+        'D04': 'practica_D04.html', 'D05': 'practica_D05.html', 'D06': 'practica_D06.html',
+        'D07': 'practica_D07.html', 'D08': 'practica_D08.html', 'D09': 'practica_D09.html',
+        'D10': 'practica_D10.html', 'D11': 'practica_D11.html', 'D12': 'practica_D12.html',
+        'D13': 'practica_D13.html', 'D14': 'practica_D14.html', 'D15': 'practica_D15.html',
+        'D16': 'practica_D16.html', 'D17a': 'practica_D17a.html', 'D17b': 'practica_D17b.html',
+        'D17c': 'practica_D17c.html',
       };
       const href = fileMap[item.id] || '#';
       content = `

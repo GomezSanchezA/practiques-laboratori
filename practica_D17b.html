@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <title>D17b — Determinació de Cl⁻ en sal de cuina (Mohr)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-200: #bfdbfe;
+      --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8; --blue-800: #1e40af;
+      --red-50: #fef2f2; --red-100: #fee2e2; --red-500: #ef4444; --red-700: #b91c1c;
+      --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-500: #f59e0b; --amber-700: #b45309;
+      --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e; --green-700: #15803d;
+      --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
+      --gray-400: #94a3b8; --gray-500: #64748b; --gray-600: #475569; --gray-700: #334155;
+      --gray-800: #1e293b; --gray-900: #0f172a;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+      --chromate-yellow: #eab308;
+      --precipitate-red: #b91c1c;
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: var(--gray-800); line-height: 1.6; -webkit-tap-highlight-color: transparent; }
+
+    .back-bar { position: fixed; top: 0; left: 0; right: 0; height: calc(48px + var(--safe-top)); padding-top: var(--safe-top); background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; padding-left: 0.75rem; padding-right: 0.75rem; z-index: 100; }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 0.75rem; border: none; background: none; font-family: inherit; font-size: 0.85rem; font-weight: 600; color: var(--blue-600); cursor: pointer; border-radius: 8px; }
+    .back-btn:active { background: var(--blue-50); }
+    .back-btn svg { width: 18px; height: 18px; fill: var(--blue-600); }
+
+    .hero { margin-top: calc(48px + var(--safe-top)); background: linear-gradient(135deg, var(--blue-600), var(--blue-800)); padding: 2.5rem 1.25rem 2rem; text-align: center; color: #fff; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    .hero h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.4rem; }
+    .hero p { font-size: 0.85rem; opacity: 0.85; }
+
+    .tab-bar { position: sticky; top: calc(48px + var(--safe-top)); z-index: 50; background: #fff; border-bottom: 1px solid var(--gray-200); display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { flex: 1; min-width: 0; padding: 0.75rem 0.5rem; border: none; background: none; font-family: inherit; font-size: 0.75rem; font-weight: 600; color: var(--gray-400); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+    .tab-btn:active { background: var(--blue-50); }
+    .tab-btn.active { color: var(--blue-600); border-bottom-color: var(--blue-600); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .content { max-width: 600px; margin: 0 auto; padding: 1.25rem 1rem; padding-bottom: calc(2rem + var(--safe-bottom)); }
+
+    .resum-section { margin-bottom: 1.5rem; }
+    .resum-section h3 { font-size: 0.95rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+    .resum-card { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1rem 1.15rem; }
+    .resum-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.55; }
+    .reaction-block { background: var(--blue-50); border: 1px solid var(--blue-200); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; }
+    .reaction-label { font-size: 0.7rem; font-weight: 700; color: var(--blue-600); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 0.4rem; }
+    .reaction-eq { font-size: 0.9rem; color: var(--gray-800); text-align: center; overflow-x: auto; }
+    .color-strip { display: flex; border-radius: 10px; overflow: hidden; margin: 0.75rem 0; height: 48px; }
+    .color-strip div { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: #fff; }
+
+    .proc-step { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--gray-100); }
+    .proc-step:last-child { border-bottom: none; }
+    .proc-num { width: 32px; height: 32px; border-radius: 50%; background: var(--blue-100); color: var(--blue-700); font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .proc-body { flex: 1; }
+    .proc-body h4 { font-size: 0.9rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.2rem; }
+    .proc-body p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; }
+    .proc-note { display: flex; align-items: flex-start; gap: 0.4rem; margin-top: 0.4rem; padding: 0.5rem 0.65rem; border-radius: 8px; font-size: 0.78rem; line-height: 1.4; }
+    .proc-note.warn { background: var(--amber-50); color: var(--amber-700); }
+    .proc-note.danger { background: var(--red-50); color: var(--red-700); }
+    .proc-note.info { background: var(--blue-50); color: var(--blue-700); }
+    .proc-note-icon { flex-shrink: 0; }
+
+    .sim-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.5rem 0; }
+    .sim-apparatus { position: relative; width: 220px; height: 340px; }
+    .sim-color-label { font-size: 0.82rem; font-weight: 700; text-align: center; padding: 0.4rem 1rem; border-radius: 8px; transition: background 0.3s, color 0.3s; }
+    .sim-controls { width: 100%; max-width: 340px; }
+    .sim-vol { text-align: center; font-size: 1.4rem; font-weight: 800; color: var(--gray-900); margin-bottom: 0.4rem; font-variant-numeric: tabular-nums; }
+    .sim-slider { width: 100%; height: 8px; -webkit-appearance: none; appearance: none; border-radius: 4px; outline: none; background: var(--gray-200); }
+    .sim-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--blue-600); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); cursor: pointer; }
+    .sim-slider::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: var(--blue-600); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); cursor: pointer; }
+    .sim-status { text-align: center; margin-top: 0.5rem; font-size: 0.8rem; color: var(--gray-500); line-height: 1.5; min-height: 3em; }
+    .sim-hint { text-align: center; font-size: 0.72rem; color: var(--gray-400); margin-top: 0.25rem; }
+
+    @keyframes dropFall { 0% { opacity: 1; transform: translateY(0); } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(55px); } }
+    .sim-drop { position: absolute; left: 108px; top: 220px; width: 6px; height: 8px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: rgba(200,200,200,0.4); opacity: 0; pointer-events: none; }
+    .sim-drop.falling { animation: dropFall 0.5s ease-in forwards; }
+
+    .consell-card { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem; }
+    .consell-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+    .consell-icon.problem { background: var(--red-100); }
+    .consell-icon.tip { background: var(--amber-100); }
+    .consell-icon.ok { background: var(--green-100); }
+    .consell-text { font-size: 0.82rem; color: var(--gray-700); line-height: 1.45; }
+    .consell-text strong { color: var(--gray-900); }
+    .consell-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 0.15rem; }
+    .consell-label.problem { color: var(--red-700); }
+    .consell-label.tip { color: var(--amber-700); }
+    .consell-label.ok { color: var(--green-700); }
+
+    @media (min-width: 768px) { .hero { padding: 3rem 2rem 2.5rem; } .hero h1 { font-size: 1.7rem; } .content { padding: 1.5rem; } }
+  </style>
+</head>
+<body>
+
+<div class="back-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Índex
+  </a>
+</div>
+
+<section class="hero">
+  <span class="hero-badge">D17b — Determinació</span>
+  <h1>Cl⁻ en sal de cuina (Mohr)</h1>
+  <p>Volumetria de precipitació amb AgNO₃ i indicador de cromat</p>
+</section>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('resum')">Resum</button>
+  <button class="tab-btn" onclick="showTab('procediment')">Procediment</button>
+  <button class="tab-btn" onclick="showTab('simulador')">Simulador</button>
+  <button class="tab-btn" onclick="showTab('consells')">Consells</button>
+</div>
+
+<!-- ═══════════════ RESUM ═══════════════ -->
+<div class="tab-panel active" id="panel-resum">
+  <div class="content">
+    <div class="resum-section">
+      <h3>⚗️ Reaccions</h3>
+      <div class="reaction-block" style="border-color: var(--blue-500); border-width: 2px;">
+        <div class="reaction-label">Precipitació (reacció principal)</div>
+        <div class="reaction-eq">$\text{Ag}^+ + \text{Cl}^- \rightarrow \text{AgCl} \downarrow \text{ (blanc)}$</div>
+      </div>
+      <div class="reaction-block">
+        <div class="reaction-label">Reacció de l'indicador (punt final)</div>
+        <div class="reaction-eq">$2\text{Ag}^+ + \text{CrO}_4^{2-} \rightarrow \text{Ag}_2\text{CrO}_4 \downarrow \text{ (vermell)}$</div>
+      </div>
+    </div>
+
+    <div class="resum-section">
+      <h3>🎨 Indicador: K₂CrO₄ 5%</h3>
+      <div class="color-strip">
+        <div style="background: rgba(234,179,8,0.7); color: #333;">Groc (cromat)</div>
+        <div style="background: rgba(200,200,190,0.8); color: #333;">Blanc tèrbol (AgCl)</div>
+        <div style="background: rgba(185,28,28,0.7);">Vermell (Ag₂CrO₄)</div>
+      </div>
+      <div class="resum-card" style="margin-top:0.75rem;">
+        <p>La mateixa química que D17a, però amb <strong>mostra sòlida de sal de cuina</strong>. Cal pesar la sal, dissoldre-la en aigua, preparar la dissolució al matràs aforat i prendre alíquotes. El resultat s'expressa com a <strong>% (m/m) de Cl⁻</strong> en la sal. El mètode de Mohr requereix pH neutre (6,5-10,5). Si cal, ajusteu amb NaHCO₃.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PROCEDIMENT ═══════════════ -->
+<div class="tab-panel" id="panel-procediment">
+  <div class="content">
+    <div class="proc-step">
+      <div class="proc-num">1</div>
+      <div class="proc-body">
+        <h4>Peseu la mostra de sal</h4>
+        <p>Peseu per diferència la quantitat de sal de cuina necessària amb balança analítica. Dissoleu-la en aigua desionitzada.</p>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">2</div>
+      <div class="proc-body">
+        <h4>Prepareu la dissolució i enraseu</h4>
+        <p>Transferiu quantitativament al matràs aforat i enraseu. Homogeneïtzeu bé.</p>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">3</div>
+      <div class="proc-body">
+        <h4>Preneu l'alíquota</h4>
+        <p>Transferiu l'alíquota a l'erlenmeyer i diluïu amb aigua. Comproveu que el pH sigui neutre; si cal, afegiu NaHCO₃.</p>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">4</div>
+      <div class="proc-body">
+        <h4>Afegiu l'indicador</h4>
+        <p>Afegiu la dissolució de K₂CrO₄ al 5%. La dissolució es tornarà <strong>groga</strong>.</p>
+        <div class="proc-note warn">
+          <span class="proc-note-icon">💡</span>
+          No afegiu massa indicador per evitar emmascarar el vermell del punt final.
+        </div>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">5</div>
+      <div class="proc-body">
+        <h4>Valoreu amb AgNO₃</h4>
+        <p>Afegiu AgNO₃ des de la bureta, agitant vigorosament. Es formarà precipitat blanc d'AgCl. A prop del final, aneu gota a gota.</p>
+        <div class="proc-note info">
+          <span class="proc-note-icon">🎯</span>
+          Punt final: <strong>coloració vermellosa persistent</strong> (≥ 30 s). Si desapareix en agitar, encara queda Cl⁻.
+        </div>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">6</div>
+      <div class="proc-body">
+        <h4>Blanc i càlcul</h4>
+        <p>Feu l'assaig en blanc de l'indicador. Expresseu el resultat com a <strong>% (m/m) de Cl⁻</strong> en la sal de cuina. Calculeu la mitjana i la RSD.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SIMULADOR ═══════════════ -->
+<div class="tab-panel" id="panel-simulador">
+  <div class="content">
+    <div class="sim-wrap">
+      <div class="sim-apparatus">
+        <svg viewBox="0 0 220 340" width="220" height="340">
+          <defs>
+            <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fff" stop-opacity="0.15"/><stop offset="30%" stop-color="#fff" stop-opacity="0.05"/><stop offset="100%" stop-color="#fff" stop-opacity="0.1"/></linearGradient>
+            <linearGradient id="agnoG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,200,200,0.25)"/><stop offset="50%" stop-color="rgba(220,220,220,0.15)"/><stop offset="100%" stop-color="rgba(200,200,200,0.25)"/></linearGradient>
+            <clipPath id="buretaClip"><rect x="101" y="10" width="18" height="200"/></clipPath>
+            <clipPath id="flaskClip"><path d="M80 230 Q80 235 70 245 L42 295 Q34 312 50 320 L170 320 Q186 312 178 295 L150 245 Q140 235 140 230 Z"/></clipPath>
+          </defs>
+          <rect x="85" y="0" width="4" height="335" rx="2" fill="#94a3b8"/><rect x="60" y="325" width="100" height="6" rx="3" fill="#94a3b8"/>
+          <rect x="87" y="45" width="14" height="6" rx="2" fill="#64748b"/><rect x="87" y="185" width="14" height="6" rx="2" fill="#64748b"/>
+          <rect x="101" y="10" width="18" height="200" rx="2" fill="rgba(226,232,240,0.3)" stroke="#cbd5e1" stroke-width="1.5"/>
+          <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
+          <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#agnoG)" clip-path="url(#buretaClip)"/>
+          <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/><text x="127" y="21" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">0</text>
+          <line x1="119" y1="56" x2="124" y2="56" stroke="#94a3b8" stroke-width="0.5"/>
+          <line x1="119" y1="94" x2="125" y2="94" stroke="#94a3b8" stroke-width="0.8"/><text x="127" y="97" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">10</text>
+          <line x1="119" y1="132" x2="124" y2="132" stroke="#94a3b8" stroke-width="0.5"/>
+          <line x1="119" y1="170" x2="125" y2="170" stroke="#94a3b8" stroke-width="0.8"/><text x="127" y="173" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">20</text>
+          <line x1="119" y1="200" x2="125" y2="200" stroke="#94a3b8" stroke-width="0.8"/><text x="127" y="203" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">25</text>
+          <rect x="98" y="8" width="24" height="4" rx="2" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
+          <rect x="105" y="210" width="10" height="8" rx="2" fill="#64748b"/><rect x="100" y="212" width="20" height="4" rx="2" fill="#475569"/>
+          <line x1="110" y1="218" x2="110" y2="230" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
+
+          <path d="M80 230 L80 250 Q80 255 70 265 L42 300 Q34 315 50 322 L170 322 Q186 315 178 300 L150 265 Q140 255 140 250 L140 230" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
+          <path id="flaskLiquid" d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z" fill="rgba(234,179,8,0.2)"/>
+          <path id="flaskTurbidity" d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z" fill="rgba(255,255,255,0)"/>
+          <g id="flaskParticles" clip-path="url(#flaskClip)">
+            <circle cx="85" cy="290" r="2.5" fill="rgba(255,255,255,0)" class="particle"/><circle cx="125" cy="295" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="100" cy="305" r="3" fill="rgba(255,255,255,0)" class="particle"/><circle cx="135" cy="285" r="1.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="75" cy="300" r="2.2" fill="rgba(255,255,255,0)" class="particle"/><circle cx="110" cy="280" r="2" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="145" cy="305" r="2.5" fill="rgba(255,255,255,0)" class="particle"/><circle cx="90" cy="310" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="120" cy="275" r="2" fill="rgba(255,255,255,0)" class="particle"/><circle cx="65" cy="308" r="2.8" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="150" cy="295" r="1.8" fill="rgba(255,255,255,0)" class="particle"/><circle cx="95" cy="278" r="2.3" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="130" cy="310" r="2" fill="rgba(255,255,255,0)" class="particle"/><circle cx="80" cy="285" r="1.5" fill="rgba(255,255,255,0)" class="particle"/>
+            <circle cx="115" cy="312" r="2.5" fill="rgba(255,255,255,0)" class="particle"/>
+          </g>
+          <ellipse id="flaskSediment" cx="110" cy="319" rx="50" ry="5" fill="rgba(240,240,235,0)"/>
+          <path id="flaskEndpoint" d="M72 268 Q80 262 110 262 Q140 262 148 268 L178 300 Q186 315 170 322 L50 322 Q34 315 42 300 Z" fill="rgba(185,28,28,0)"/>
+          <ellipse cx="110" cy="265" rx="38" ry="4" fill="rgba(255,255,255,0.15)"/>
+          <path d="M80 250 Q80 255 70 265 L50 293" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
+          <rect x="80" y="222" width="60" height="10" rx="2" fill="none" stroke="#cbd5e1" stroke-width="1.8"/>
+          <rect x="76" y="220" width="68" height="4" rx="2" fill="#e2e8f0"/>
+        </svg>
+        <div class="sim-drop" id="simDrop"></div>
+      </div>
+
+      <div class="sim-color-label" id="simColorLabel" style="background: rgba(234,179,8,0.8); color:#333;">Groc clar (cromat)</div>
+      <div class="sim-controls">
+        <div class="sim-vol"><span id="simVol">0,0</span> mL</div>
+        <input type="range" class="sim-slider" id="simSlider" min="0" max="1000" value="0">
+        <div class="sim-status" id="simStatus">Encara no heu afegit AgNO₃. La dissolució és groga pel cromat indicador. Tot el Cl⁻ de la sal està en dissolució.</div>
+        <div class="sim-hint">↔ Arrossegueu per simular la valoració</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CONSELLS ═══════════════ -->
+<div class="tab-panel" id="panel-consells">
+  <div class="content">
+    <div class="consell-card">
+      <div class="consell-icon problem">😟</div>
+      <div class="consell-text">
+        <div class="consell-label problem">Si la sal no es dissol completament</div>
+        <strong>Algunes sals contenen additius insolubles.</strong> Si queden partícules, la dissolució pot estar tèrbola abans de començar. Filtreu si cal, o agiteu fins a dissolució completa.
+      </div>
+    </div>
+    <div class="consell-card">
+      <div class="consell-icon problem">😟</div>
+      <div class="consell-text">
+        <div class="consell-label problem">Si el vermell desapareix en agitar</div>
+        <strong>Encara queda Cl⁻ lliure.</strong> El vermell local (Ag₂CrO₄) es forma on cau la gota, però es redissol perquè l'Ag⁺ prefereix precipitar amb el Cl⁻. Continueu valorant.
+      </div>
+    </div>
+    <div class="consell-card">
+      <div class="consell-icon tip">💡</div>
+      <div class="consell-text">
+        <div class="consell-label tip">Diferència amb D17a (aigua)</div>
+        <strong>La mostra sòlida requereix pesada, dissolució i matràs aforat.</strong> La resta del procediment és idèntica. El resultat s'expressa com a % (m/m) en lloc de mg/L.
+      </div>
+    </div>
+    <div class="consell-card">
+      <div class="consell-icon tip">💡</div>
+      <div class="consell-text">
+        <div class="consell-label tip">Atenció amb les taques de plata</div>
+        <strong>Les sals de plata taquen la pell de forma permanent.</strong> Treballeu amb cura i renteu immediatament si us esquitxa.
+      </div>
+    </div>
+    <div class="consell-card">
+      <div class="consell-icon ok">✅</div>
+      <div class="consell-text">
+        <div class="consell-label ok">Sabeu que ho heu fet bé quan...</div>
+        Veieu una <strong>coloració vermellosa persistent</strong> ≥ 30 s. El % de Cl⁻ en sal de cuina pura és aproximadament 60,6%. La RSD ha de ser inferior al 2%.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => { btn.classList.toggle('active', ['resum','procediment','simulador','consells'][i] === tabId); });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + tabId); if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tab-btn').forEach((btn, i) => { const tabs = ['resum','procediment','simulador','consells']; btn.onclick = () => showTab(tabs[i]); });
+
+const slider = document.getElementById('simSlider');
+const volLabel = document.getElementById('simVol');
+const colorLabel = document.getElementById('simColorLabel');
+const statusText = document.getElementById('simStatus');
+const flaskLiquid = document.getElementById('flaskLiquid');
+const flaskTurbidity = document.getElementById('flaskTurbidity');
+const flaskEndpoint = document.getElementById('flaskEndpoint');
+const flaskSediment = document.getElementById('flaskSediment');
+const particles = document.querySelectorAll('.particle');
+const buretaLiquid = document.getElementById('buretaLiquid');
+const simDrop = document.getElementById('simDrop');
+const EQ_POINT = 820;
+let lastV = 0, dropTimeout = null;
+
+function triggerDrop() { simDrop.classList.remove('falling'); void simDrop.offsetWidth; simDrop.classList.add('falling'); }
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function updateSim() {
+  const v = parseInt(slider.value), ratio = v / 1000;
+  volLabel.textContent = (ratio * 25).toFixed(1).replace('.', ',');
+  const liquidTop = 10 + ratio * 200;
+  buretaLiquid.setAttribute('y', liquidTop); buretaLiquid.setAttribute('height', Math.max(0, 210 - liquidTop));
+  if (v > lastV && v < 990) { if (!dropTimeout) { triggerDrop(); dropTimeout = setTimeout(() => { dropTimeout = null; }, 300); } } lastV = v;
+
+  let labelText, labelBg, labelColor, status;
+  let turbidityAlpha = 0, particleAlpha = 0, sedimentAlpha = 0, endpointAlpha = 0, liquidAlpha = 0.2;
+
+  if (v === 0) { labelText = 'Groc clar (cromat)'; labelBg = 'rgba(234,179,8,0.8)'; labelColor = '#333'; status = "Encara no heu afegit AgNO₃. La dissolució és groga i transparent pel cromat indicador.";
+  } else if (v < EQ_POINT * 0.3) { const t = v / (EQ_POINT * 0.3); turbidityAlpha = t * 0.2; particleAlpha = t * 0.5; sedimentAlpha = t * 0.15; labelText = 'Groc tèrbol — es forma precipitat'; labelBg = 'rgba(202,178,80,0.8)'; labelColor = '#333'; status = "Es forma precipitat blanc d'AgCl. La dissolució perd transparència.";
+  } else if (v < EQ_POINT * 0.7) { const t = (v - EQ_POINT * 0.3) / (EQ_POINT * 0.4); turbidityAlpha = 0.2 + t * 0.25; particleAlpha = 0.5 + t * 0.3; sedimentAlpha = 0.15 + t * 0.25; liquidAlpha = lerp(0.2, 0.12, t); labelText = 'Blanc tèrbol (AgCl en suspensió)'; labelBg = 'rgba(190,185,170,0.85)'; labelColor = '#333'; status = "La dissolució és tèrbola — precipitat blanc dominant.";
+  } else if (v < EQ_POINT) { const t = (v - EQ_POINT * 0.7) / (EQ_POINT * 0.3); turbidityAlpha = 0.45 + t * 0.15; particleAlpha = 0.8 + t * 0.15; sedimentAlpha = 0.4 + t * 0.15; liquidAlpha = 0.08; labelText = 'Molt tèrbol — gota a gota!'; labelBg = 'rgba(170,170,165,0.9)'; labelColor = '#333'; status = "Queda molt poc Cl⁻. Aneu gota a gota! Observeu si apareix vermell persistent.";
+  } else { const t = Math.min(1, (v - EQ_POINT) / (1000 - EQ_POINT)); turbidityAlpha = 0.5; particleAlpha = 0.9; sedimentAlpha = 0.55; liquidAlpha = 0.05; endpointAlpha = 0.1 + t * 0.35; labelText = '✓ VERMELL — Punt final (Ag₂CrO₄)'; labelBg = 'rgba(185,28,28,0.85)'; labelColor = '#fff'; status = "Tot el Cl⁻ ha precipitat. L'excés d'Ag⁺ forma Ag₂CrO₄ vermell. Coloració persistent ≥ 30 s."; }
+
+  flaskLiquid.setAttribute('fill', `rgba(234,179,8,${liquidAlpha})`);
+  flaskTurbidity.setAttribute('fill', `rgba(245,243,238,${turbidityAlpha})`);
+  flaskEndpoint.setAttribute('fill', `rgba(185,28,28,${endpointAlpha})`);
+  flaskSediment.setAttribute('fill', `rgba(235,233,225,${sedimentAlpha})`);
+  particles.forEach((p, i) => { const o = (i * 0.07) % 0.3; p.setAttribute('fill', `rgba(255,255,255,${Math.max(0, particleAlpha - o)})`); });
+  colorLabel.style.background = labelBg; colorLabel.style.color = labelColor; colorLabel.textContent = labelText; statusText.textContent = status;
+}
+slider.addEventListener('input', updateSim); updateSim();
+</script>
+
+<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;"><img src="img/ub_logo.png" alt="Universitat de Barcelona" style="height:40px; margin-bottom:0.75rem; opacity:0.7;"><p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>Universitat de Barcelona · Facultat de Química<br>Departament d'Enginyeria Química i Química Analítica</p><p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">© 2026 Adrián Gómez Sánchez. Tots els drets reservats.</p></footer>
+
+</body>
+</html>
