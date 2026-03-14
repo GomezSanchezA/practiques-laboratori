@@ -636,11 +636,10 @@ const flaskOrganic = document.getElementById('flaskOrganic');
 const buretaLiquid = document.getElementById('buretaLiquid');
 const simDrop = document.getElementById('simDrop');
 
-const STARCH_POINT = 650;
-const AQ_CLEAR = 850;    // aqueous becomes colorless
-const DROP_PERSIST = 920; // drop still pink, aqueous already clear
-const DROP_CLEAR = 970;   // drop starts to decolorize
-const EQ_POINT = 990;     // true endpoint: both phases colorless
+const STARCH_POINT = 600;
+const AQ_CLEAR = 800;     // aqueous becomes colorless
+const DROP_FADE = 900;    // drop starts to fade (shaking)
+const EQ_POINT = 1000;    // true endpoint: both phases colorless
 
 const BROWN      = { r:120, g:53,  b:15  };
 const YELLOW     = { r:234, g:179, b:8   };
@@ -687,21 +686,19 @@ function updateSim() {
   // Organic CH₂Cl₂ drop:
   // Hidden under dark brown at start → becomes visible when aqueous clears →
   // STAYS PINK even when aqueous is already colorless → finally disappears with shaking
+  // Organic drop: hidden → appears → stays pink → fades to zero
   let orgAlpha;
-  if (v < STARCH_POINT * 0.6) {
+  if (v < STARCH_POINT * 0.7) {
     orgAlpha = 0; // hidden under dark brown
   } else if (v < AQ_CLEAR) {
-    const t = (v - STARCH_POINT * 0.6) / (AQ_CLEAR - STARCH_POINT * 0.6);
-    orgAlpha = lerp(0.1, 0.45, t);
-  } else if (v < DROP_CLEAR) {
-    // Aqueous already clear, drop stays pink!
-    orgAlpha = 0.45;
-  } else if (v < EQ_POINT) {
-    // Drop fading with vigorous shaking
-    const t = (v - DROP_CLEAR) / (EQ_POINT - DROP_CLEAR);
-    orgAlpha = lerp(0.45, 0, t);
+    // Appears as aqueous clears
+    orgAlpha = lerp(0, 0.5, (v - STARCH_POINT * 0.7) / (AQ_CLEAR - STARCH_POINT * 0.7));
+  } else if (v < DROP_FADE) {
+    // Aqueous clear, drop stays solid pink
+    orgAlpha = 0.5;
   } else {
-    orgAlpha = 0; // completely gone
+    // Fading: at DROP_FADE=900 alpha=0.5, at EQ_POINT=1000 alpha=0
+    orgAlpha = lerp(0.5, 0, (v - DROP_FADE) / (EQ_POINT - DROP_FADE));
   }
   flaskOrganic.setAttribute('fill', `rgba(200,60,60,${orgAlpha})`);
 
@@ -744,22 +741,22 @@ function updateSim() {
       status = "La capa aquosa quasi incolora... però la gota de CH₂Cl₂ segueix rosada!";
     }
     phase = 'Fase 2 — Amb midó';
-  } else if (v < DROP_CLEAR) {
-    // Aqueous is colorless but organic drop STILL PINK
+  } else if (v < DROP_FADE) {
+    // Aqueous colorless, drop still solid pink (orgAlpha = 0.5)
     fillColor = 'rgba(200,200,200,0.05)';
     labelText = '⚠️ Aquosa incolora — gota rosa!';
     labelBg = 'rgba(200,60,60,0.8)';
     status = "La capa aquosa ja és transparent, però la gota de CH₂Cl₂ al fons segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica.";
     phase = '⚠️ Cal agitar fort!';
-  } else if (v < EQ_POINT) {
-    // Drop fading
+  } else if (orgAlpha > 0.05) {
+    // Drop is fading (orgAlpha going from 0.5 to 0)
     fillColor = 'rgba(200,200,200,0.03)';
     labelText = 'Gota desapareixent... agiteu!';
     labelBg = 'rgba(150,100,100,0.7)';
-    status = "La gota de CH₂Cl₂ s'està decolorant amb l'agitació. Continueu agitant fins que sigui completament incolora.";
+    status = "La gota de CH₂Cl₂ s'està decolorant amb l'agitació. Continueu fins que desaparegui del tot.";
     phase = 'Agitant...';
   } else {
-    // Both phases colorless — true endpoint
+    // orgAlpha <= 0.05: drop is gone, true endpoint
     fillColor = 'rgba(200,200,200,0.02)';
     labelText = '✓ TOT INCOLOR — Punt final';
     labelBg = 'rgba(100,116,139,0.8)';
