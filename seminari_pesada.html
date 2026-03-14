@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <title>Seminari: La pesada per diferència</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50:  #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --blue-800: #1e40af;
+      --red-50:   #fef2f2;
+      --red-100:  #fee2e2;
+      --red-500:  #ef4444;
+      --red-600:  #dc2626;
+      --red-700:  #b91c1c;
+      --green-50:  #f0fdf4;
+      --green-100: #dcfce7;
+      --green-500: #22c55e;
+      --green-600: #16a34a;
+      --green-700: #15803d;
+      --gray-50:  #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fff;
+      color: var(--gray-800);
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ───────── Back button ───────── */
+    .back-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: calc(48px + var(--safe-top));
+      padding-top: var(--safe-top);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      z-index: 100;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.75rem;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue-600);
+      cursor: pointer;
+      border-radius: 8px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:active { background: var(--blue-50); }
+    .back-btn svg { width: 18px; height: 18px; fill: var(--blue-600); }
+
+    /* ───────── Hero ───────── */
+    .hero {
+      margin-top: calc(48px + var(--safe-top));
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
+      padding: 3rem 1.25rem 2.5rem;
+      text-align: center;
+      color: #fff;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* ───────── Content wrapper ───────── */
+    .content {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      padding-bottom: calc(3rem + var(--safe-bottom));
+    }
+
+    /* ───────── Section headers ───────── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 2rem 0 1rem;
+    }
+    .section-label-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.3rem;
+    }
+    .section-label h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .section-label.wrong .section-label-icon { background: var(--red-100); }
+    .section-label.wrong h2 { color: var(--red-700); }
+    .section-label.right .section-label-icon { background: var(--green-100); }
+    .section-label.right h2 { color: var(--green-700); }
+
+    /* ───────── Step cards ───────── */
+    .step-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      /* scroll reveal */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .step-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .step-card.wrong { border-color: var(--red-100); }
+    .step-card.right { border-color: var(--green-100); }
+
+    .step-card-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-50);
+    }
+
+    .step-card-body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+    .wrong .step-number { background: var(--red-100); color: var(--red-700); }
+    .right .step-number { background: var(--green-100); color: var(--green-700); }
+
+    .step-card-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.3rem;
+    }
+    .step-card-body p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* ───────── Highlight box ───────── */
+    .highlight-box {
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .highlight-box.visible { opacity: 1; transform: translateY(0); }
+
+    .highlight-box.error {
+      background: var(--red-50);
+      border: 2px solid var(--red-500);
+    }
+    .highlight-box.error .highlight-icon { color: var(--red-600); }
+    .highlight-box.error h3 { color: var(--red-700); }
+
+    .highlight-box.success {
+      background: var(--green-50);
+      border: 2px solid var(--green-500);
+    }
+    .highlight-box.success .highlight-icon { color: var(--green-600); }
+    .highlight-box.success h3 { color: var(--green-700); }
+
+    .highlight-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .highlight-box h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .highlight-box p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* ───────── Divider / transition ───────── */
+    .transition-section {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .transition-section.visible { opacity: 1; transform: translateY(0); }
+
+    .transition-section .divider-line {
+      width: 40px;
+      height: 3px;
+      background: var(--gray-300);
+      border-radius: 2px;
+      margin: 0 auto 1.25rem;
+    }
+    .transition-section h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 0.4rem;
+    }
+    .transition-section p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+    }
+
+    /* ───────── Equation display ───────── */
+    .equation-card {
+      background: var(--green-50);
+      border: 2px solid var(--green-500);
+      border-radius: 16px;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .equation-card.visible { opacity: 1; transform: translateY(0); }
+
+    .eq-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--green-600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
+    .eq-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .eq-val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--gray-800);
+    }
+    .eq-op {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--gray-400);
+    }
+    .eq-result {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--green-700);
+      margin-top: 0.5rem;
+    }
+    .eq-result-label {
+      font-size: 0.82rem;
+      color: var(--green-600);
+      margin-top: 0.25rem;
+    }
+
+    /* ───────── "Why it works" section ───────── */
+    .why-section {
+      padding: 2rem 0 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .why-section.visible { opacity: 1; transform: translateY(0); }
+
+    .why-section h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--blue-700);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .why-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .why-row:last-child { border-bottom: none; }
+
+    .why-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--blue-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .why-text {
+      flex: 1;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+      line-height: 1.45;
+    }
+    .why-text strong { color: var(--gray-900); }
+
+    /* ───────── Rules cards ───────── */
+    .rules-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      padding: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .rules-title.visible { opacity: 1; transform: translateY(0); }
+
+    .rule-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rule-card.visible { opacity: 1; transform: translateY(0); }
+
+    .rule-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--blue-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .rule-text {
+      font-size: 0.82rem;
+      color: var(--gray-700);
+      line-height: 1.45;
+    }
+    .rule-text strong { color: var(--gray-900); }
+
+    /* ───────── Placeholder for missing images ───────── */
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-400);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* ───────── Desktop ───────── */
+    @media (min-width: 768px) {
+      .hero { padding: 4rem 2rem 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .content { padding: 0 1.5rem; padding-bottom: 4rem; }
+      .step-card-img { aspect-ratio: 4 / 3; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ Back bar ═══════ -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Índex
+  </a>
+</div>
+
+<!-- ═══════ Hero ═══════ -->
+<section class="hero">
+  <span class="hero-badge">Seminari 1</span>
+  <h1>La pesada per diferència</h1>
+  <p>Per què no podem simplement pesar i transferir? Descobrim-ho.</p>
+</section>
+
+<!-- ═══════ Content ═══════ -->
+<div class="content">
+
+  <!-- ────── WRONG METHOD ────── -->
+  <div class="section-label wrong reveal">
+    <div class="section-label-icon">❌</div>
+    <h2>Com NO s'ha de fer</h2>
+  </div>
+
+  <!-- Step 1: Tare -->
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/pesada_01_tara.png" alt="Col·locar el pesasubstàncies a la balança i tarar">
+    <div class="step-card-body">
+      <div class="step-number">1</div>
+      <h3>Tarar el pesasubstàncies</h3>
+      <p>Col·loquem el pesasubstàncies buit sobre la balança analítica i premem <strong>TARA</strong>. La pantalla marca <strong>0,0000 g</strong>. Fins aquí, tot bé.</p>
+    </div>
+  </div>
+
+  <!-- Step 2: Add substance -->
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/pesada_02_afegir.png" alt="Afegir substància amb espàtula">
+    <div class="step-card-body">
+      <div class="step-number">2</div>
+      <h3>Afegir substància</h3>
+      <p>Amb una espàtula, afegim el sòlid al pesasubstàncies fins que la balança marca <strong>0,4000 g</strong>. Ho anotem a la llibreta.</p>
+    </div>
+  </div>
+
+  <!-- Step 3: Transfer -->
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/pesada_03_transferir.png" alt="Transferir al matràs — queda residu!">
+    <div class="step-card-body">
+      <div class="step-number">3</div>
+      <h3>Transferir al matràs</h3>
+      <p>Abocem el contingut del pesasubstàncies a l'erlenmeyer. Però... <strong>no tot cau</strong>. Queden grans enganxats a les parets del vidre.</p>
+    </div>
+  </div>
+
+  <!-- Step 4: Rinse -->
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/pesada_04_rentar.png" alt="Intentar rentar amb piseta — encara queda residu">
+    <div class="step-card-body">
+      <div class="step-number">4</div>
+      <h3>Intentar rentar</h3>
+      <p>Provem de rentar el pesasubstàncies amb la piseta d'aigua. Millora una mica, però <strong>sempre queda una mica de residu</strong> atrapat a la superfície del vidre.</p>
+    </div>
+  </div>
+
+  <!-- Step 5: The problem -->
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/pesada_05_error.png" alt="El problema: la massa anotada no coincideix amb la real">
+    <div class="step-card-body">
+      <div class="step-number">5</div>
+      <h3>El problema</h3>
+      <p>La balança deia <strong>0,4000 g</strong>, però al matràs hi ha menys — potser <strong>~0,395 g</strong>. La diferència és petita, però en química analítica <strong>és inacceptable</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Error summary -->
+  <div class="highlight-box error reveal">
+    <div class="highlight-icon">⚠️</div>
+    <h3>No sabràs mai la massa real dins el matràs</h3>
+    <p>Si peses directament i després transfereixes, la massa que has anotat <strong>no correspon</strong> amb la massa real al matràs. El residu que queda al pesasubstàncies és un <strong>error sistemàtic</strong> que fa que els teus resultats siguin sempre incorrectes.</p>
+  </div>
+
+  <!-- ────── TRANSITION ────── -->
+  <div class="transition-section reveal">
+    <div class="divider-line"></div>
+    <h2>Hi ha una solució elegant</h2>
+    <p>No cal transferir-ho tot. Només cal pesar dues vegades.</p>
+  </div>
+
+  <!-- ────── CORRECT METHOD ────── -->
+  <div class="section-label right reveal">
+    <div class="section-label-icon">✅</div>
+    <h2>Pesada per diferència</h2>
+  </div>
+
+  <!-- Step 1: First weighing -->
+  <div class="step-card right reveal">
+    <div class="img-placeholder">Imatge 6: Pesasubstàncies amb substància a la balança — m₁ = 45,3421 g</div>
+    <div class="step-card-body">
+      <div class="step-number">1</div>
+      <h3>Peseu el pesasubstàncies amb la substància</h3>
+      <p>Col·loquem el pesasubstàncies <strong>amb la tapa i la substància</strong> sobre la balança. Anotem la lectura completa, amb els <strong>4 decimals</strong>.</p>
+      <p style="margin-top:0.5rem; font-size:1.1rem; font-weight:800; color:var(--green-700); text-align:center;">
+        m₁ = 45,3421 g
+      </p>
+    </div>
+  </div>
+
+  <!-- Step 2: Transfer (relaxed) -->
+  <div class="step-card right reveal">
+    <div class="img-placeholder">Imatge 7: Transferir al matràs — queda residu, però no importa!</div>
+    <div class="step-card-body">
+      <div class="step-number">2</div>
+      <h3>Transferiu al matràs</h3>
+      <p>Abocem la substància a l'erlenmeyer. Queda residu al pesasubstàncies? <strong>No importa!</strong> No cal rentar ni preocupar-se. La transferència no ha de ser perfecta.</p>
+    </div>
+  </div>
+
+  <!-- Step 3: Second weighing -->
+  <div class="step-card right reveal">
+    <div class="img-placeholder">Imatge 8: Pesasubstàncies amb residu a la balança — m₂ = 44,9385 g</div>
+    <div class="step-card-body">
+      <div class="step-number">3</div>
+      <h3>Torneu a pesar el pesasubstàncies</h3>
+      <p>Tornem a col·locar el pesasubstàncies (amb la tapa i el residu que ha quedat) sobre la balança. Anotem la nova lectura.</p>
+      <p style="margin-top:0.5rem; font-size:1.1rem; font-weight:800; color:var(--green-700); text-align:center;">
+        m₂ = 44,9385 g
+      </p>
+    </div>
+  </div>
+
+  <!-- Equation card -->
+  <div class="equation-card reveal">
+    <div class="eq-label">Massa transferida al matràs</div>
+    <div class="eq-row">
+      <span class="eq-val">m₁</span>
+      <span class="eq-op">−</span>
+      <span class="eq-val">m₂</span>
+      <span class="eq-op">=</span>
+      <span class="eq-val">Δm</span>
+    </div>
+    <div class="eq-row">
+      <span class="eq-val">45,3421</span>
+      <span class="eq-op">−</span>
+      <span class="eq-val">44,9385</span>
+      <span class="eq-op">=</span>
+    </div>
+    <div class="eq-result">0,4036 g ✓</div>
+    <div class="eq-result-label">Aquesta és la massa EXACTA dins el matràs</div>
+  </div>
+
+  <!-- Success summary -->
+  <div class="highlight-box success reveal">
+    <div class="highlight-icon">💡</div>
+    <h3>No importa si queda residu</h3>
+    <p>El que hi havia al pesasubstàncies <strong>abans</strong> menys el que hi queda <strong>després</strong> = exactament el que ha anat al matràs. La diferència ho mesura tot, sense error.</p>
+  </div>
+
+  <!-- ────── WHY IT WORKS ────── -->
+  <div class="why-section reveal">
+    <h2>🔬 Per què funciona?</h2>
+
+    <div class="why-row">
+      <div class="why-icon">📦</div>
+      <div class="why-text">
+        <strong>Abans de transferir:</strong> m₁ inclou el pesasubstàncies + tapa + tota la substància
+      </div>
+    </div>
+    <div class="why-row">
+      <div class="why-icon">🔄</div>
+      <div class="why-text">
+        <strong>Després de transferir:</strong> m₂ inclou el pesasubstàncies + tapa + residu
+      </div>
+    </div>
+    <div class="why-row">
+      <div class="why-icon">🎯</div>
+      <div class="why-text">
+        <strong>La diferència:</strong> m₁ − m₂ = només la substància que ha sortit del pesasubstàncies = la que està al matràs
+      </div>
+    </div>
+    <div class="why-row">
+      <div class="why-icon">✨</div>
+      <div class="why-text">
+        <strong>Avantatge clau:</strong> Ni el pes del pesasubstàncies, ni la tapa, ni el residu afecten el resultat. Tot es cancel·la!
+      </div>
+    </div>
+  </div>
+
+  <!-- ────── KEY RULES ────── -->
+  <div class="rules-title reveal">📋 Regles d'or de la pesada</div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🔢</div>
+    <div class="rule-text"><strong>Anoteu TOTS els dígits</strong> — la balança analítica dona 4 decimals (±0,1 mg). Escriviu-los tots, mai arrodoniu.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🚪</div>
+    <div class="rule-text"><strong>Tanqueu les portes de vidre</strong> de la balança abans de llegir. Els corrents d'aire canvien la lectura.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🧤</div>
+    <div class="rule-text"><strong>No toqueu amb les mans nues</strong> el pesasubstàncies. La grassa i la humitat de la pell afecten la pesada. Useu pinces o paper.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🌡️</div>
+    <div class="rule-text"><strong>No peseu mostres calentes.</strong> L'aire calent crea corrents de convecció dins la balança i la lectura oscil·la.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">⏳</div>
+    <div class="rule-text"><strong>Espereu que s'estabilitzi</strong> la lectura abans d'anotar. Si el darrer dígit oscil·la, espereu uns segons més.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">⚖️</div>
+    <div class="rule-text"><strong>Mai peseu menys de 0,1 g</strong> — per dues raons:</div>
+  </div>
+  <div class="rule-card reveal" style="margin-left:1.5rem;">
+    <div class="rule-icon" style="background:var(--blue-100);font-size:0.75rem;font-weight:800;color:var(--blue-700);">1</div>
+    <div class="rule-text"><strong>Precisió:</strong> la balança sempre té un petit error en cada lectura. Si peseu molt poc, aquest error es nota molt. Si peseu prou, l'error és insignificant.</div>
+  </div>
+  <div class="rule-card reveal" style="margin-left:1.5rem;">
+    <div class="rule-icon" style="background:var(--blue-100);font-size:0.75rem;font-weight:800;color:var(--blue-700);">2</div>
+    <div class="rule-text"><strong>Representativitat:</strong> imagineu una mostra de sal que conté una petita impuresa. Si peseu 0,5 g, agafeu milers de grans: uns pocs seran impuresa i la resta sal — la proporció serà semblant a la del pot original. Però si peseu només 0,02 g, agafeu molt pocs grans. Per atzar, podríeu agafar una fracció amb més (o menys) impuresa de la real. El resultat canviaria cada vegada que repetíssiu la pesada. Amb prou quantitat, la proporció d'impuresa és sempre similar i la mostra representa bé el conjunt.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🧹</div>
+    <div class="rule-text"><strong>Netegeu sempre la balança</strong> després d'usar-la. Si cau producte sobre el plat, retireu-lo amb un pinzell.</div>
+  </div>
+
+</div>
+
+<!-- ═══════ Scroll reveal ═══════ -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

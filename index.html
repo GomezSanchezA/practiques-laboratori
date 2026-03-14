@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffffff">
+  <title>Pràctiques de Laboratori — Química Analítica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ───────────── Reset ───────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50:  #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-300: #93c5fd;
+      --blue-400: #60a5fa;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --blue-800: #1e40af;
+      --gray-50:  #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --nav-h: 52px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior: none;
+    }
+
+    /* ───────────── Navbar ───────────── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: calc(var(--nav-h) + var(--safe-top));
+      padding-top: var(--safe-top);
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      padding-left: max(0.75rem, var(--safe-left));
+      padding-right: max(0.75rem, var(--safe-right));
+      gap: 0.75rem;
+      z-index: 1000;
+    }
+
+    .burger {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      transition: background 0.15s;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .burger:active { background: var(--blue-100); }
+    @media (hover: hover) { .burger:hover { background: var(--blue-50); } }
+
+    .burger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--gray-700);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.active span:nth-child(2) { opacity: 0; }
+    .burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .navbar-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .navbar-title .accent { color: var(--blue-600); }
+
+    .navbar-subtitle {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      white-space: nowrap;
+    }
+    @media (max-width: 600px) { .navbar-subtitle { display: none; } }
+
+    /* ───────────── Overlay ───────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* ───────────── Sidebar ───────────── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 300px;
+      max-width: 92vw;
+      background: #fff;
+      z-index: 600;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+      overscroll-behavior: contain;
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    .sidebar-header {
+      padding: calc(1rem + var(--safe-top)) 1.25rem 1rem;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .sidebar-logo {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-logo svg { width: 20px; height: 20px; fill: #fff; }
+    .sidebar-header-text h2 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      line-height: 1.2;
+    }
+    .sidebar-header-text p {
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      margin-top: 1px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.5rem 0;
+      padding-bottom: calc(0.5rem + var(--safe-bottom));
+    }
+
+    /* ── Menu sections ── */
+    .menu-section { margin-bottom: 2px; }
+
+    .menu-section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      min-height: 48px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .menu-section-header:active { background: var(--blue-50); }
+
+    .menu-section-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .menu-section-icon.seminari { background: #fef3c7; }
+    .menu-section-icon.estandaritzacio { background: var(--blue-100); }
+    .menu-section-icon.determinacio { background: #e0e7ff; }
+
+    .menu-section-label {
+      flex: 1;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+    .menu-section-count {
+      font-size: 0.68rem;
+      color: var(--gray-400);
+      background: var(--gray-100);
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    .menu-section-chevron {
+      width: 16px; height: 16px;
+      fill: var(--gray-400);
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .menu-section.expanded .menu-section-chevron { transform: rotate(90deg); }
+
+    .menu-section-items {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .menu-section.expanded .menu-section-items { max-height: 2000px; }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1rem 0.65rem 3.5rem;
+      cursor: pointer;
+      transition: background 0.1s;
+      text-decoration: none;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.82rem;
+      color: var(--gray-600);
+      line-height: 1.35;
+      min-height: 46px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .menu-item:active { background: var(--blue-50); }
+    .menu-item.active {
+      background: var(--blue-50);
+      color: var(--blue-700);
+      font-weight: 600;
+    }
+
+    .menu-item-code {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--blue-600);
+      background: var(--blue-50);
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      min-width: 30px;
+      text-align: center;
+    }
+    .menu-item.active .menu-item-code { background: var(--blue-600); color: #fff; }
+
+    /* Home button in sidebar */
+    .menu-home {
+      padding-left: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 4px;
+    }
+    .menu-home svg {
+      width: 16px; height: 16px;
+      fill: var(--gray-500);
+      flex-shrink: 0;
+    }
+
+    /* ───────────── Main ───────────── */
+    .main {
+      margin-top: calc(var(--nav-h) + var(--safe-top));
+      padding: 1.25rem 1rem;
+      padding-bottom: calc(1.25rem + var(--safe-bottom));
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Landing ── */
+    .landing-hero {
+      text-align: center;
+      padding: 2rem 0.5rem 1.5rem;
+    }
+    .landing-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 6px 20px rgba(37,99,235,0.25);
+    }
+    .landing-icon svg { width: 32px; height: 32px; fill: #fff; }
+    .landing-hero h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.4rem;
+    }
+    .landing-hero p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+    }
+
+    .landing-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+
+    .landing-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: background 0.1s;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .landing-card:active { background: var(--blue-50); }
+    @media (hover: hover) {
+      .landing-card:hover {
+        border-color: var(--blue-300);
+        box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+      }
+    }
+    .landing-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .landing-card-body { flex: 1; min-width: 0; }
+    .landing-card-body h3 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 0.2rem;
+    }
+    .landing-card-body p {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      line-height: 1.45;
+    }
+    .card-count {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--blue-600);
+      background: var(--blue-50);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* ── Practice page ── */
+    .page-header { margin-bottom: 1.25rem; }
+
+    .page-breadcrumb {
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .page-breadcrumb a {
+      color: var(--blue-500);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .page-breadcrumb a:active { color: var(--blue-700); }
+    .page-breadcrumb .sep { color: var(--gray-300); }
+
+    .page-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+      margin-bottom: 0.4rem;
+    }
+    .page-badge.seminari { background: #fef3c7; color: #92400e; }
+    .page-badge.estandaritzacio { background: var(--blue-100); color: var(--blue-800); }
+    .page-badge.determinacio { background: #e0e7ff; color: #3730a3; }
+
+    .page-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      line-height: 1.3;
+    }
+
+    .page-content-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .placeholder {
+      text-align: center;
+      padding: 2rem 0.5rem;
+      color: var(--gray-400);
+    }
+    .placeholder-icon {
+      width: 52px; height: 52px;
+      background: var(--gray-100);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+    }
+    .placeholder-icon svg { width: 26px; height: 26px; fill: var(--gray-300); }
+    .placeholder h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-bottom: 0.3rem;
+    }
+    .placeholder p {
+      font-size: 0.82rem;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    /* ── S04 EDTA — full-page link on mobile, iframe on desktop ── */
+    .embed-container {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+    }
+    .embed-container iframe {
+      width: 100%;
+      height: 80vh;
+      min-height: 500px;
+      border: none;
+      display: block;
+    }
+
+    .open-fullpage-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 1rem;
+      background: var(--blue-600);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+    .open-fullpage-btn:active { background: var(--blue-800); }
+    .open-fullpage-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    .embed-hint {
+      text-align: center;
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--gray-400);
+    }
+
+    /* Show iframe on desktop, button on mobile */
+    .mobile-only { display: block; }
+    .desktop-only { display: none; }
+    @media (min-width: 768px) {
+      .mobile-only { display: none; }
+      .desktop-only { display: block; }
+    }
+
+    /* ───────────── Desktop enhancements ───────────── */
+    @media (min-width: 768px) {
+      :root { --nav-h: 56px; }
+      .main { padding: 2rem 1.5rem; }
+      .landing-hero { padding: 3rem 1rem 2rem; }
+      .landing-hero h1 { font-size: 1.65rem; }
+      .landing-cards {
+        flex-direction: row;
+        gap: 1rem;
+      }
+      .landing-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 1.5rem;
+      }
+      .landing-card-icon { margin-bottom: 0.75rem; }
+      .page-title { font-size: 1.4rem; }
+      .page-content-card { padding: 2rem; }
+      .sidebar { width: 320px; }
+      .menu-item { padding-left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ Navbar ═══════════ -->
+<nav class="navbar">
+  <button class="burger" id="burgerBtn" aria-label="Obrir menú">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="navbar-title">
+    <span class="accent">Pràctiques</span> de Laboratori
+  </div>
+  <div class="navbar-subtitle">Química Analítica — Grau de Farmàcia (UB)</div>
+</nav>
+
+<!-- ═══════════ Overlay ═══════════ -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ═══════════ Sidebar ═══════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 24 24"><path d="M7 2v2h1v7.15C6.16 12.33 5 14.42 5 17c0 3.87 3.13 7 7 7s7-3.13 7-7c0-2.58-1.16-4.67-3-6.15V4h1V2H7zm2 2h6v7.89l.5.35C17.04 13.47 18 15.1 18 17c0 2.76-2.24 5-5 5s-5-2.24-5-5c0-1.9.96-3.53 2.5-4.76l.5-.35V4z"/></svg>
+    </div>
+    <div class="sidebar-header-text">
+      <h2>Índex de pràctiques</h2>
+      <p>Curs 2025–2026</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <button class="menu-item menu-home" data-page="home" onclick="navigateTo('home')">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Inici
+    </button>
+
+    <!-- Seminaris -->
+    <div class="menu-section" id="sec-seminaris">
+      <button class="menu-section-header" onclick="toggleSection('sec-seminaris')">
+        <div class="menu-section-icon seminari">📋</div>
+        <span class="menu-section-label">Seminaris</span>
+        <span class="menu-section-count">2</span>
+        <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+      <div class="menu-section-items">
+        <button class="menu-item" data-page="SEM01" onclick="navigateTo('SEM01')">
+          <span class="menu-item-code">S.1</span>
+          La pesada per diferència
+        </button>
+        <button class="menu-item" data-page="SEM02" onclick="navigateTo('SEM02')">
+          <span class="menu-item-code">S.2</span>
+          Mesura de volums
+        </button>
+      </div>
+    </div>
+
+    <!-- Estandaritzacions -->
+    <div class="menu-section" id="sec-estandaritzacions">
+      <button class="menu-section-header" onclick="toggleSection('sec-estandaritzacions')">
+        <div class="menu-section-icon estandaritzacio">🧪</div>
+        <span class="menu-section-label">Estandaritzacions</span>
+        <span class="menu-section-count">11</span>
+        <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+      <div class="menu-section-items" id="estandaritzacions-items"></div>
+    </div>
+
+    <!-- Determinacions -->
+    <div class="menu-section" id="sec-determinacions">
+      <button class="menu-section-header" onclick="toggleSection('sec-determinacions')">
+        <div class="menu-section-icon determinacio">🔬</div>
+        <span class="menu-section-label">Determinacions</span>
+        <span class="menu-section-count">23</span>
+        <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+      <div class="menu-section-items" id="determinacions-items"></div>
+    </div>
+  </nav>
+</aside>
+
+<!-- ═══════════ Main ═══════════ -->
+<main class="main">
+  <!-- Home -->
+  <div class="page active" id="page-home">
+    <div class="landing-hero">
+      <div class="landing-icon">
+        <svg viewBox="0 0 24 24"><path d="M7 2v2h1v7.15C6.16 12.33 5 14.42 5 17c0 3.87 3.13 7 7 7s7-3.13 7-7c0-2.58-1.16-4.67-3-6.15V4h1V2H7zm2 2h6v7.89l.5.35C17.04 13.47 18 15.1 18 17c0 2.76-2.24 5-5 5s-5-2.24-5-5c0-1.9.96-3.53 2.5-4.76l.5-.35V4z"/></svg>
+      </div>
+      <h1>Pràctiques de Laboratori</h1>
+      <p>Química Analítica — Grau de Farmàcia, Universitat de Barcelona</p>
+    </div>
+
+    <div class="landing-cards">
+      <div class="landing-card" onclick="openSection('sec-seminaris')">
+        <div class="landing-card-icon" style="background:#fef3c7;">📋</div>
+        <div class="landing-card-body">
+          <h3>Seminaris</h3>
+          <p>Introducció al laboratori: pesada, material volumètric i tècniques bàsiques.</p>
+          <span class="card-count">2 seminaris</span>
+        </div>
+      </div>
+      <div class="landing-card" onclick="openSection('sec-estandaritzacions')">
+        <div class="landing-card-icon" style="background:var(--blue-100);">🧪</div>
+        <div class="landing-card-body">
+          <h3>Estandaritzacions</h3>
+          <p>Preparació i valoració de solucions patró: àcid-base, complexació, redox i precipitació.</p>
+          <span class="card-count">11 pràctiques (S01–S09)</span>
+        </div>
+      </div>
+      <div class="landing-card" onclick="openSection('sec-determinacions')">
+        <div class="landing-card-icon" style="background:#e0e7ff;">🔬</div>
+        <div class="landing-card-body">
+          <h3>Determinacions</h3>
+          <p>Anàlisi quantitativa de mostres reals: fàrmacs, aliments, aigües i productes comercials.</p>
+          <span class="card-count">23 pràctiques (D01–D21)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dynamic-pages"></div>
+</main>
+
+<script>
+// ═══════════ Data ═══════════
+const EDTA_URL = 'https://gomezsancheza.github.io/exempleIAG/';
+
+const estandaritzacions = [
+  { id: 'S01', title: "Estandardització de NaOH 0,1 mol/L" },
+  { id: 'S02a', title: "Estandardització de H₂SO₄ 0,01 mol/L" },
+  { id: 'S02b', title: "Estandardització de HCl 0,1 mol/L" },
+  { id: 'S03', title: "Estandardització de HClO₄ 0,1 mol/L en àcid acètic glacial" },
+  { id: 'S04a', title: "Estandardització d'EDTA 0,1 mol/L", hasContent: true },
+  { id: 'S04b', title: "Estandardització d'EDTA 0,02 mol/L" },
+  { id: 'S05', title: "Estandardització de KMnO₄ 0,02 mol/L" },
+  { id: 'S06', title: "Estandardització de Ce(IV) 0,05 mol/L" },
+  { id: 'S07', title: "Estandardització de Na₂S₂O₃ 0,1 mol/L" },
+  { id: 'S08', title: "Estandardització d'AgNO₃ 0,1 mol/L — Mohr" },
+  { id: 'S09', title: "Estandardització de KSCN 0,05 mol/L" },
+];
+
+const determinacions = [
+  { id: 'D01', title: "Determinació de l'acidesa total d'un vinagre" },
+  { id: 'D02', title: "Determinació de l'hidrogencarbonat en una aigua" },
+  { id: 'D03', title: "Determinació d'àcid acetilsalicílic en comprimits analgèsics" },
+  { id: 'D04', title: "Determinació de l'índex o grau d'acidesa d'un oli vegetal" },
+  { id: 'D05', title: "Determinació d'amoxicil·lina en un antibiòtic" },
+  { id: 'D06', title: "Determinació de la puresa d'una mostra d'antipirina" },
+  { id: 'D07', title: "Determinació de la duresa de l'aigua: calci i magnesi" },
+  { id: 'D08', title: "Determinació del contingut de calci en un suplement nutricional oral" },
+  { id: 'D09', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode A)" },
+  { id: 'D10', title: "Determinació del clor actiu en un lleixiu" },
+  { id: 'D11', title: "Determinació del contingut de ferro en un medicament antianèmic" },
+  { id: 'D12', title: "Determinació de peròxid d'hidrogen en antisèptics i blanquejants" },
+  { id: 'D13', title: "Determinació de l'índex de permanganat d'un vi" },
+  { id: 'D14', title: "Determinació de l'índex de iode d'un oli vegetal" },
+  { id: 'D15', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode B)" },
+  { id: 'D16', title: "Determinació de l'àcid ascòrbic en un medicament" },
+  { id: 'D17a', title: "Determinació de Cl⁻ en aigua potable — Mohr" },
+  { id: 'D17b', title: "Determinació de Cl⁻ en sal de cuina — Mohr" },
+  { id: 'D17c', title: "Determinació de Br⁻ en comprimits — Volhard" },
+  { id: 'D18', title: "Determinació de nitrats en hortalisses" },
+  { id: 'D19', title: "Determinació de fluorur en col·lutoris" },
+  { id: 'D20', title: "Determinació de fosfat en aigües superficials" },
+  { id: 'D21', title: "Determinació d'amoníac en aigües residuals" },
+];
+
+// ═══════════ Build ═══════════
+function buildMenuItems(containerId, items) {
+  const el = document.getElementById(containerId);
+  items.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'menu-item';
+    btn.setAttribute('data-page', item.id);
+    btn.onclick = () => navigateTo(item.id);
+    btn.innerHTML = `<span class="menu-item-code">${item.id}</span>${item.title}`;
+    el.appendChild(btn);
+  });
+}
+
+function buildPages() {
+  const container = document.getElementById('dynamic-pages');
+  const all = [
+    { id: 'SEM01', title: 'La pesada per diferència', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
+    { id: 'SEM02', title: 'Mesura de volums', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
+    ...estandaritzacions.map(e => ({...e, type: 'estandaritzacio', typeLabel: 'Estandarització', section: 'Estandaritzacions'})),
+    ...determinacions.map(d => ({...d, type: 'determinacio', typeLabel: 'Determinació', section: 'Determinacions'})),
+  ];
+
+  all.forEach(item => {
+    const page = document.createElement('div');
+    page.className = 'page';
+    page.id = `page-${item.id}`;
+
+    let content;
+    if (item.id === 'SEM01') {
+      content = `
+        <div class="mobile-only">
+          <a class="open-fullpage-btn" href="seminari_pesada.html">
+            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            Obrir seminari: La pesada
+          </a>
+        </div>
+        <div class="desktop-only">
+          <div class="embed-container">
+            <iframe src="seminari_pesada.html" loading="lazy" title="Seminari: La pesada per diferència"></iframe>
+          </div>
+          <p class="embed-hint" style="margin-top:0.5rem;">
+            <a href="seminari_pesada.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+          </p>
+        </div>`;
+    } else if (item.id === 'SEM02') {
+      content = `
+        <div class="mobile-only">
+          <a class="open-fullpage-btn" href="seminari_volums.html">
+            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            Obrir seminari: Volums
+          </a>
+        </div>
+        <div class="desktop-only">
+          <div class="embed-container">
+            <iframe src="seminari_volums.html" loading="lazy" title="Seminari: Mesura de volums"></iframe>
+          </div>
+          <p class="embed-hint" style="margin-top:0.5rem;">
+            <a href="seminari_volums.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+          </p>
+        </div>`;
+    } else if (item.id === 'S04a') {
+      content = `
+        <div class="mobile-only">
+          <a class="open-fullpage-btn" href="practica_S04.html">
+            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            Obrir guia interactiva
+          </a>
+        </div>
+        <div class="desktop-only">
+          <div class="embed-container">
+            <iframe src="practica_S04.html" loading="lazy" title="Estandardització d'EDTA 0,1 mol/L"></iframe>
+          </div>
+          <p class="embed-hint" style="margin-top:0.5rem;">
+            <a href="practica_S04.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+          </p>
+        </div>`;
+    } else {
+      content = `
+        <div class="page-content-card">
+          <div class="placeholder">
+            <div class="placeholder-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <h3>Contingut en preparació</h3>
+            <p>Aquesta pràctica estarà disponible properament amb procediment interactiu, simulador i càlculs.</p>
+          </div>
+        </div>`;
+    }
+
+    page.innerHTML = `
+      <div class="page-header">
+        <div class="page-breadcrumb">
+          <a onclick="navigateTo('home')">Inici</a>
+          <span class="sep">/</span>
+          <span>${item.section}</span>
+          <span class="sep">/</span>
+          <span>${item.id}</span>
+        </div>
+        <span class="page-badge ${item.type}">${item.typeLabel}</span>
+        <h1 class="page-title">${item.title}</h1>
+      </div>
+      ${content}`;
+
+    container.appendChild(page);
+  });
+}
+
+buildMenuItems('estandaritzacions-items', estandaritzacions);
+buildMenuItems('determinacions-items', determinacions);
+buildPages();
+
+// ═══════════ Navigation ═══════════
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+  const target = document.getElementById(`page-${pageId}`) || document.getElementById('page-home');
+  target.classList.add('active');
+
+  document.querySelectorAll('.menu-item').forEach(mi => mi.classList.remove('active'));
+  const activeItem = document.querySelector(`.menu-item[data-page="${pageId}"]`);
+  if (activeItem) activeItem.classList.add('active');
+
+  closeSidebar();
+  window.scrollTo(0, 0);
+}
+
+// ═══════════ Sidebar ═══════════
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const burgerBtn = document.getElementById('burgerBtn');
+
+function openSidebar() {
+  sidebar.classList.add('open');
+  overlay.classList.add('active');
+  burgerBtn.classList.add('active');
+  document.body.style.overflow = 'hidden'; // prevent background scroll
+}
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+  burgerBtn.classList.remove('active');
+  document.body.style.overflow = '';
+}
+function toggleSidebar() {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+}
+
+burgerBtn.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', closeSidebar);
+
+function toggleSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) section.classList.toggle('expanded');
+}
+
+function openSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section && !section.classList.contains('expanded')) {
+    section.classList.add('expanded');
+  }
+  openSidebar();
+}
+
+// Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+
+// ═══════════ Swipe to close sidebar ═══════════
+let touchStartX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+
+sidebar.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  isSwiping = true;
+}, { passive: true });
+
+sidebar.addEventListener('touchmove', e => {
+  if (!isSwiping) return;
+  touchCurrentX = e.touches[0].clientX;
+  const diff = touchStartX - touchCurrentX;
+  if (diff > 0) {
+    sidebar.style.transform = `translateX(${-diff}px)`;
+    sidebar.style.transition = 'none';
+  }
+}, { passive: true });
+
+sidebar.addEventListener('touchend', () => {
+  if (!isSwiping) return;
+  isSwiping = false;
+  sidebar.style.transition = '';
+  sidebar.style.transform = '';
+  const diff = touchStartX - touchCurrentX;
+  if (diff > 80) {
+    closeSidebar();
+  }
+}, { passive: true });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <title>Seminari: Mesura de volums</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50:  #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --blue-800: #1e40af;
+      --red-50:   #fef2f2;
+      --red-100:  #fee2e2;
+      --red-500:  #ef4444;
+      --red-600:  #dc2626;
+      --red-700:  #b91c1c;
+      --green-50:  #f0fdf4;
+      --green-100: #dcfce7;
+      --green-500: #22c55e;
+      --green-600: #16a34a;
+      --green-700: #15803d;
+      --amber-50:  #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-500: #f59e0b;
+      --amber-600: #d97706;
+      --amber-700: #b45309;
+      --gray-50:  #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fff;
+      color: var(--gray-800);
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ───────── Back button ───────── */
+    .back-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: calc(48px + var(--safe-top));
+      padding-top: var(--safe-top);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      z-index: 100;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.75rem;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue-600);
+      cursor: pointer;
+      border-radius: 8px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:active { background: var(--blue-50); }
+    .back-btn svg { width: 18px; height: 18px; fill: var(--blue-600); }
+
+    /* ───────── Hero ───────── */
+    .hero {
+      margin-top: calc(48px + var(--safe-top));
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
+      padding: 3rem 1.25rem 2.5rem;
+      text-align: center;
+      color: #fff;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    /* ───────── Content ───────── */
+    .content {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      padding-bottom: calc(3rem + var(--safe-bottom));
+    }
+
+    /* ───────── Section headers ───────── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 2rem 0 1rem;
+    }
+    .section-label-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.3rem;
+    }
+    .section-label h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .section-label.precision .section-label-icon { background: var(--blue-100); }
+    .section-label.precision h2 { color: var(--blue-700); }
+    .section-label.meniscus .section-label-icon { background: var(--amber-100); }
+    .section-label.meniscus h2 { color: var(--amber-700); }
+    .section-label.pipeta .section-label-icon { background: var(--green-100); }
+    .section-label.pipeta h2 { color: var(--green-700); }
+    .section-label.bureta .section-label-icon { background: var(--blue-100); }
+    .section-label.bureta h2 { color: var(--blue-700); }
+
+    /* ───────── Cards ───────── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-50);
+    }
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-400);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .card-body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+    .card-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.3rem;
+    }
+    .card-body p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* ───────── Precision hierarchy ───────── */
+    .hierarchy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .hierarchy.visible { opacity: 1; transform: translateY(0); }
+
+    .hierarchy-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+    }
+
+    .hierarchy-rank {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .hierarchy-item.high .hierarchy-rank { background: var(--green-100); color: var(--green-700); }
+    .hierarchy-item.medium .hierarchy-rank { background: var(--amber-100); color: var(--amber-700); }
+    .hierarchy-item.low .hierarchy-rank { background: var(--red-100); color: var(--red-700); }
+
+    .hierarchy-info { flex: 1; }
+    .hierarchy-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .hierarchy-desc {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 1px;
+    }
+    .hierarchy-precision {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .hierarchy-item.high .hierarchy-precision { background: var(--green-50); color: var(--green-700); }
+    .hierarchy-item.medium .hierarchy-precision { background: var(--amber-50); color: var(--amber-700); }
+    .hierarchy-item.low .hierarchy-precision { background: var(--red-50); color: var(--red-700); }
+
+    /* ───────── Highlight box ───────── */
+    .highlight-box {
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .highlight-box.visible { opacity: 1; transform: translateY(0); }
+
+    .highlight-box.info { background: var(--blue-50); border: 2px solid var(--blue-500); }
+    .highlight-box.info h3 { color: var(--blue-700); }
+    .highlight-box.warning { background: var(--amber-50); border: 2px solid var(--amber-500); }
+    .highlight-box.warning h3 { color: var(--amber-700); }
+    .highlight-box.error { background: var(--red-50); border: 2px solid var(--red-500); }
+    .highlight-box.error h3 { color: var(--red-700); }
+
+    .highlight-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .highlight-box h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .highlight-box p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.5; }
+
+    /* ───────── Step cards ───────── */
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      background: var(--blue-100);
+      color: var(--blue-700);
+    }
+
+    /* ───────── Rule cards ───────── */
+    .rules-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      padding: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .rules-title.visible { opacity: 1; transform: translateY(0); }
+
+    .rule-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rule-card.visible { opacity: 1; transform: translateY(0); }
+
+    .rule-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--blue-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .rule-text {
+      font-size: 0.82rem;
+      color: var(--gray-700);
+      line-height: 1.45;
+    }
+    .rule-text strong { color: var(--gray-900); }
+
+    /* ───────── Transition ───────── */
+    .transition-section {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .transition-section.visible { opacity: 1; transform: translateY(0); }
+
+    .transition-section .divider-line {
+      width: 40px; height: 3px;
+      background: var(--gray-300);
+      border-radius: 2px;
+      margin: 0 auto 1.25rem;
+    }
+    .transition-section h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 0.4rem;
+    }
+    .transition-section p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+    }
+
+    @media (min-width: 768px) {
+      .hero { padding: 4rem 2rem 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .content { padding: 0 1.5rem; padding-bottom: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ Back bar ═══════ -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Índex
+  </a>
+</div>
+
+<!-- ═══════ Hero ═══════ -->
+<section class="hero">
+  <span class="hero-badge">Seminari 2</span>
+  <h1>Mesura de volums</h1>
+  <p>No tot el material de vidre mesura igual. Quin fem servir i quan?</p>
+</section>
+
+<!-- ═══════ Content ═══════ -->
+<div class="content">
+
+  <!-- ────── SECTION 1: PRECISION HIERARCHY ────── -->
+  <div class="section-label precision reveal">
+    <div class="section-label-icon">📐</div>
+    <h2>No tot el vidre és igual</h2>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: tots els materials de vidre junts — pipeta aforada, bureta, proveta, vas de precipitats, matràs aforat</div>
+    <div class="card-body">
+      <h3>Cada material té una precisió diferent</h3>
+      <p>Al laboratori tenim molts recipients que poden mesurar volums. Però la precisió varia enormement. Saber quin fer servir en cada moment és clau.</p>
+    </div>
+  </div>
+
+  <div class="hierarchy reveal">
+    <div class="hierarchy-item high">
+      <div class="hierarchy-rank">1</div>
+      <div class="hierarchy-info">
+        <div class="hierarchy-name">Pipeta aforada</div>
+        <div class="hierarchy-desc">Mesura un volum exacte fix (5, 10, 20, 25 mL...)</div>
+      </div>
+      <div class="hierarchy-precision">±0,02 mL</div>
+    </div>
+    <div class="hierarchy-item high">
+      <div class="hierarchy-rank">2</div>
+      <div class="hierarchy-info">
+        <div class="hierarchy-name">Bureta</div>
+        <div class="hierarchy-desc">Mesura volums variables amb alta precisió (0-25 mL)</div>
+      </div>
+      <div class="hierarchy-precision">±0,05 mL</div>
+    </div>
+    <div class="hierarchy-item high">
+      <div class="hierarchy-rank">3</div>
+      <div class="hierarchy-info">
+        <div class="hierarchy-name">Matràs aforat</div>
+        <div class="hierarchy-desc">Prepara un volum exacte de dissolució (100, 250 mL...)</div>
+      </div>
+      <div class="hierarchy-precision">±0,1 mL</div>
+    </div>
+    <div class="hierarchy-item medium">
+      <div class="hierarchy-rank">4</div>
+      <div class="hierarchy-info">
+        <div class="hierarchy-name">Pipeta graduada</div>
+        <div class="hierarchy-desc">Mesura volums variables, menys precisa que l'aforada</div>
+      </div>
+      <div class="hierarchy-precision">±0,1 mL</div>
+    </div>
+    <div class="hierarchy-item low">
+      <div class="hierarchy-rank">5</div>
+      <div class="hierarchy-info">
+        <div class="hierarchy-name">Proveta</div>
+        <div class="hierarchy-desc">Mesura aproximada — per afegir reactius, no per mesurar resultats</div>
+      </div>
+      <div class="hierarchy-precision">±1 mL</div>
+    </div>
+    <div class="hierarchy-item low">
+      <div class="hierarchy-rank">6</div>
+      <div class="hierarchy-info">
+        <div class="hierarchy-name">Vas de precipitats</div>
+        <div class="hierarchy-desc">Orientatiu — MAI per mesurar</div>
+      </div>
+      <div class="hierarchy-precision">~±10%</div>
+    </div>
+  </div>
+
+  <div class="highlight-box info reveal">
+    <div class="highlight-icon">💡</div>
+    <h3>Regla senzilla</h3>
+    <p>Si el número que mesureu apareix en un càlcul, feu servir material de precisió (pipeta aforada, bureta, matràs aforat). Si només esteu afegint aigua o un reactiu en excés, una proveta o vas és suficient.</p>
+  </div>
+
+  <!-- ────── SECTION 2: MENISCUS ────── -->
+  <div class="transition-section reveal">
+    <div class="divider-line"></div>
+    <h2>Com es llegeix un volum?</h2>
+    <p>El menisc: el detall que marca la diferència.</p>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: vista de prop d'un menisc en una bureta. Línia dels ulls al nivell del menisc. Fletxa indicant la part inferior del menisc.</div>
+    <div class="card-body">
+      <h3>Llegiu sempre per la part inferior del menisc</h3>
+      <p>L'aigua forma una corba (menisc) quan toca el vidre. La lectura correcta és la <strong>part inferior de la corba</strong>, amb els ulls al mateix nivell que el líquid. Si mireu des de dalt o des de baix, la lectura canvia — això es diu error de paral·laxi.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box warning reveal">
+    <div class="highlight-icon">👁️</div>
+    <h3>Error de paral·laxi</h3>
+    <p>Si mireu la bureta des de dalt, llegireu un valor més baix del real. Si mireu des de baix, llegireu un valor més alt. Poseu els ulls a la mateixa alçada que el líquid.</p>
+  </div>
+
+  <!-- ────── SECTION 3: PIPETA AFORADA ────── -->
+  <div class="section-label pipeta reveal">
+    <div class="section-label-icon">🧪</div>
+    <h2>La pipeta aforada</h2>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: pipeta aforada amb propipeta, mostrant la marca d'aforament i el menisc tangent</div>
+    <div class="card-body">
+      <div class="step-number">1</div>
+      <h3>Aspirar amb la propipeta</h3>
+      <p>Mai aspireu amb la boca. Useu sempre la propipeta (pi-pump). Aspireu el líquid fins que passi una mica per sobre de la marca d'aforament.</p>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: ajustant el menisc a la marca de la pipeta aforada, alliberant gotes lentament</div>
+    <div class="card-body">
+      <div class="step-number">2</div>
+      <h3>Ajustar a la marca</h3>
+      <p>Allibereu líquid lentament fins que la part inferior del menisc sigui <strong>tangent a la marca d'aforament</strong>. Sense bombolles, sense gotes a la paret exterior.</p>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: buidant la pipeta aforada a un erlenmeyer, tocant la paret, sense bufar l'última gota</div>
+    <div class="card-body">
+      <div class="step-number">3</div>
+      <h3>Buidar per gravetat</h3>
+      <p>Deixeu que el líquid caigui per gravetat tocant la paret de l'erlenmeyer. Espereu uns segons. <strong>No bufeu l'última gota</strong> — la pipeta està calibrada per retenir-la.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box error reveal">
+    <div class="highlight-icon">🚫</div>
+    <h3>Mai bufeu l'última gota</h3>
+    <p>La petita gota que queda a la punta de la pipeta aforada és normal. La pipeta ha estat calibrada comptant amb aquesta gota. Si la bufeu, esteu afegint més volum del que toca.</p>
+  </div>
+
+  <!-- ────── SECTION 4: BURETA ────── -->
+  <div class="section-label bureta reveal">
+    <div class="section-label-icon">🔬</div>
+    <h2>La bureta</h2>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: bureta de 25 mL muntada al suport, amb clau de pas, mostrant escala de 0 a 25 mL (el 0 és a dalt)</div>
+    <div class="card-body">
+      <div class="step-number">1</div>
+      <h3>Acondicionar</h3>
+      <p>Abans d'omplir, enjuagueu la bureta 3 vegades amb petites porcions de la dissolució que fareu servir. Això evita que l'aigua residual dilueixi la dissolució.</p>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: omplint la bureta per dalt amb un embut, eliminant bombolles de la clau de pas</div>
+    <div class="card-body">
+      <div class="step-number">2</div>
+      <h3>Omplir i eliminar bombolles</h3>
+      <p>Ompliu per dalt amb un embut. Obriu la clau ràpidament per expulsar qualsevol bombolla d'aire que hagi quedat a la punta. Les bombolles causen errors: quan es mouen, el volum canvia sense que hàgiu afegit res.</p>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="img-placeholder">Imatge: llegint la bureta — ulls al nivell, menisc, anotant amb 2 decimals</div>
+    <div class="card-body">
+      <div class="step-number">3</div>
+      <h3>Llegir amb 2 decimals</h3>
+      <p>La bureta de 25 mL té divisions cada 0,1 mL. Heu d'estimar el segon decimal (entre dues línies). Anoteu sempre <strong>volum inicial i volum final</strong> — el volum gastat és la diferència.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box info reveal">
+    <div class="highlight-icon">🔢</div>
+    <h3>La bureta funciona com una pesada per diferència!</h3>
+    <p>Igual que amb la balança, no importa des d'on comenceu. Anoteu el volum d'inici (V₁) i el de final (V₂). El volum gastat és V₂ − V₁. No cal que comenceu a 0,00 mL.</p>
+  </div>
+
+  <!-- ────── SECTION 5: RULES ────── -->
+  <div class="rules-title reveal">📋 Regles d'or del material volumètric</div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🧼</div>
+    <div class="rule-text"><strong>Net i sec o net i acondicionat.</strong> El material de precisió ha d'estar net. Si el netejar amb aigua i el líquid no és aquós, acondicioneu amb la dissolució.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">👁️</div>
+    <div class="rule-text"><strong>Ulls al nivell del menisc.</strong> Sempre. Mai llegiu des de dalt o des de baix.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🫧</div>
+    <div class="rule-text"><strong>Elimineu les bombolles.</strong> A la bureta, comproveu que no hi ha bombolles a la punta ni al cos. A la pipeta, comproveu que no hi ha bombolles d'aire atrapades.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">💧</div>
+    <div class="rule-text"><strong>No bufeu la pipeta aforada.</strong> L'última gota queda a la punta i és normal. La pipeta està calibrada així.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🔄</div>
+    <div class="rule-text"><strong>Acondicioneu la bureta.</strong> Tres enjuagues amb la dissolució de treball abans d'omplir. Si no, l'aigua residual dilueix la dissolució i els resultats surten malament.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">📝</div>
+    <div class="rule-text"><strong>Anoteu sempre 2 decimals</strong> en la bureta (ex: 12,35 mL, no 12,4 mL). La precisió del vostre resultat depèn d'aquesta lectura.</div>
+  </div>
+
+  <div class="rule-card reveal">
+    <div class="rule-icon">🎯</div>
+    <div class="rule-text"><strong>Trieu el material adequat.</strong> Si la mesura apareix en un càlcul → material de precisió. Si només esteu afegint aigua en excés → proveta o vas.</div>
+  </div>
+
+</div>
+
+<!-- ═══════ Scroll reveal ═══════ -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
