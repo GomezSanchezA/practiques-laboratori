@@ -748,7 +748,7 @@ function updateSim() {
     labelBg = 'rgba(200,60,60,0.8)';
     status = "La capa aquosa ja és transparent, però la gota de CH₂Cl₂ al fons segueix rosada! Agiteu fort per extreure l'I₂ de la fase orgànica.";
     phase = '⚠️ Cal agitar fort!';
-  } else if (orgAlpha > 0.05) {
+  } else if (orgAlpha > 0.005) {
     // Drop is fading (orgAlpha going from 0.5 to 0)
     fillColor = 'rgba(200,200,200,0.03)';
     labelText = 'Gota desapareixent... agiteu!';
