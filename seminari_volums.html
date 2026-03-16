@@ -9,222 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-200: #bfdbfe;
-      --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8; --blue-800: #1e40af;
-      --red-50: #fef2f2; --red-100: #fee2e2; --red-500: #ef4444; --red-700: #b91c1c;
-      --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-500: #f59e0b; --amber-700: #b45309;
-      --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e; --green-700: #15803d;
-      --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
-      --gray-400: #94a3b8; --gray-500: #64748b; --gray-600: #475569; --gray-700: #334155;
-      --gray-800: #1e293b; --gray-900: #0f172a;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #fff; color: var(--gray-800); line-height: 1.6;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* ───────── Back bar ───────── */
-    .back-bar {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: calc(48px + var(--safe-top)); padding-top: var(--safe-top);
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--gray-200);
-      display: flex; align-items: center;
-      padding-left: 0.75rem; z-index: 100;
-    }
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      padding: 0.5rem 0.75rem; border: none; background: none;
-      font-family: inherit; font-size: 0.85rem; font-weight: 600;
-      color: var(--blue-600); cursor: pointer; border-radius: 8px;
-    }
-    .back-btn:active { background: var(--blue-50); }
-    .back-btn svg { width: 18px; height: 18px; fill: var(--blue-600); }
-
-    /* ───────── Hero ───────── */
-    .hero {
-      margin-top: calc(48px + var(--safe-top));
-      background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
-      padding: 3rem 1.25rem 2.5rem; text-align: center; color: #fff;
-    }
-    .hero-badge {
-      display: inline-block; background: rgba(255,255,255,0.2);
-      font-size: 0.7rem; font-weight: 700; padding: 4px 12px;
-      border-radius: 20px; margin-bottom: 1rem;
-      letter-spacing: 0.5px; text-transform: uppercase;
-    }
-    .hero h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; }
-    .hero p { font-size: 0.9rem; opacity: 0.85; max-width: 420px; margin: 0 auto; }
-
-    /* ───────── Content ───────── */
-    .content {
-      max-width: 600px; margin: 0 auto; padding: 0 1rem;
-      padding-bottom: calc(3rem + var(--safe-bottom));
-    }
-
-    /* ───────── Section labels ───────── */
-    .section-label {
-      display: flex; align-items: center; gap: 0.6rem; padding: 2rem 0 1rem;
-    }
-    .section-label-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; font-size: 1.3rem;
-    }
-    .section-label h2 { font-size: 1.15rem; font-weight: 800; line-height: 1.2; }
-
-    .section-label.wrong .section-label-icon { background: var(--red-100); }
-    .section-label.wrong h2 { color: var(--red-700); }
-    .section-label.right .section-label-icon { background: var(--green-100); }
-    .section-label.right h2 { color: var(--green-700); }
-    .section-label.info .section-label-icon { background: var(--blue-100); }
-    .section-label.info h2 { color: var(--blue-700); }
-    .section-label.amber .section-label-icon { background: var(--amber-100); }
-    .section-label.amber h2 { color: var(--amber-700); }
-
-    /* ───────── Cards ───────── */
-    .step-card {
-      background: #fff; border: 1px solid var(--gray-200);
-      border-radius: 16px; margin-bottom: 1rem; overflow: hidden;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .step-card.visible { opacity: 1; transform: translateY(0); }
-    .step-card.wrong { border-color: var(--red-100); }
-    .step-card.right { border-color: var(--green-100); }
-
-    .step-card-img {
-      width: 100%; object-fit: contain; display: block;
-      background: var(--gray-50); padding: 0.5rem;
-    }
-    .img-placeholder {
-      width: 100%; min-height: 150px; background: var(--gray-100);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gray-400); font-size: 0.8rem; font-weight: 500;
-      text-align: center; padding: 1rem;
-    }
-
-    .step-card-body { padding: 1rem 1.25rem 1.25rem; }
-    .step-number {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px; border-radius: 50%;
-      font-size: 0.75rem; font-weight: 800; margin-bottom: 0.4rem;
-    }
-    .wrong .step-number { background: var(--red-100); color: var(--red-700); }
-    .right .step-number { background: var(--green-100); color: var(--green-700); }
-    .step-card-body h3 {
-      font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.3rem;
-    }
-    .step-card-body p {
-      font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;
-    }
-
-    /* ───────── Highlight boxes ───────── */
-    .highlight-box {
-      border-radius: 14px; padding: 1.25rem; margin: 1rem 0;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .highlight-box.visible { opacity: 1; transform: translateY(0); }
-    .highlight-box.info { background: var(--blue-50); border: 2px solid var(--blue-500); }
-    .highlight-box.info h3 { color: var(--blue-700); }
-    .highlight-box.error { background: var(--red-50); border: 2px solid var(--red-500); }
-    .highlight-box.error h3 { color: var(--red-700); }
-    .highlight-box.success { background: var(--green-50); border: 2px solid var(--green-500); }
-    .highlight-box.success h3 { color: var(--green-700); }
-    .highlight-box.warning { background: var(--amber-50); border: 2px solid var(--amber-500); }
-    .highlight-box.warning h3 { color: var(--amber-700); }
-    .highlight-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
-    .highlight-box h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .highlight-box p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.5; }
-
-    /* ───────── Transition ───────── */
-    .transition-section {
-      text-align: center; padding: 2.5rem 1rem;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .transition-section.visible { opacity: 1; transform: translateY(0); }
-    .transition-section .divider-line {
-      width: 40px; height: 3px; background: var(--gray-300);
-      border-radius: 2px; margin: 0 auto 1.25rem;
-    }
-    .transition-section h2 {
-      font-size: 1.2rem; font-weight: 800; color: var(--gray-900); margin-bottom: 0.4rem;
-    }
-    .transition-section p { font-size: 0.88rem; color: var(--gray-500); }
-
-    /* ───────── Precision hierarchy ───────── */
-    .hierarchy {
-      display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .hierarchy.visible { opacity: 1; transform: translateY(0); }
-    .hierarchy-item {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.85rem 1rem; border-radius: 12px;
-      border: 1px solid var(--gray-200); background: #fff;
-    }
-    .hierarchy-rank {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
-    }
-    .hierarchy-item.high .hierarchy-rank { background: var(--green-100); color: var(--green-700); }
-    .hierarchy-item.medium .hierarchy-rank { background: var(--amber-100); color: var(--amber-700); }
-    .hierarchy-item.low .hierarchy-rank { background: var(--red-100); color: var(--red-700); }
-    .hierarchy-info { flex: 1; }
-    .hierarchy-name { font-size: 0.88rem; font-weight: 700; color: var(--gray-900); }
-    .hierarchy-desc { font-size: 0.75rem; color: var(--gray-500); margin-top: 1px; }
-    .hierarchy-precision {
-      font-size: 0.7rem; font-weight: 700; padding: 2px 8px;
-      border-radius: 6px; flex-shrink: 0;
-    }
-    .hierarchy-item.high .hierarchy-precision { background: var(--green-50); color: var(--green-700); }
-    .hierarchy-item.medium .hierarchy-precision { background: var(--amber-50); color: var(--amber-700); }
-    .hierarchy-item.low .hierarchy-precision { background: var(--red-50); color: var(--red-700); }
-
-    /* ───────── Rule cards ───────── */
-    .rules-title {
-      font-size: 1.1rem; font-weight: 800; color: var(--gray-900);
-      padding: 2rem 0 1rem; display: flex; align-items: center; gap: 0.5rem;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .rules-title.visible { opacity: 1; transform: translateY(0); }
-    .rule-card {
-      display: flex; align-items: flex-start; gap: 0.75rem;
-      background: var(--gray-50); border: 1px solid var(--gray-200);
-      border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem;
-      opacity: 0; transform: translateY(16px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    .rule-card.visible { opacity: 1; transform: translateY(0); }
-    .rule-icon {
-      width: 32px; height: 32px; border-radius: 8px; background: var(--blue-100);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; flex-shrink: 0;
-    }
-    .rule-text { font-size: 0.82rem; color: var(--gray-700); line-height: 1.45; }
-    .rule-text strong { color: var(--gray-900); }
-
-    @media (min-width: 768px) {
-      .hero { padding: 4rem 2rem 3rem; }
-      .hero h1 { font-size: 2rem; }
-      .content { padding: 0 1.5rem; padding-bottom: 4rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="seminari.css">
 </head>
 <body>
 
@@ -261,7 +46,7 @@
   </div>
 
   <div class="step-card wrong reveal">
-    <div class="img-placeholder">Imatge: mesurant 20 mL en un vas de precipitats. Les marques són a 50, 100, 150... — impossíble saber si són 18 o 22 mL</div>
+    <img class="step-card-img" src="img/volum_vas_01.png" alt="Vas de precipitats: les marques són orientatives, impossíble saber si són 18 o 22 mL">
     <div class="step-card-body">
       <div class="step-number">!</div>
       <h3>El vas de precipitats NO mesura</h3>
@@ -270,7 +55,7 @@
   </div>
 
   <div class="step-card wrong reveal">
-    <div class="img-placeholder">Imatge: mesurant 20 mL en una proveta. Millor que el vas, però les divisions són grans (cada 1 mL)</div>
+    <img class="step-card-img" src="img/volum_proveta_02.png" alt="Proveta graduada: millor que el vas, però les divisions són grans">
     <div class="step-card-body">
       <div class="step-number">!</div>
       <h3>La proveta: millor, però no prou</h3>
@@ -580,15 +365,9 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
-<footer style="text-align:center; padding:2rem 1rem calc(1.5rem + var(--safe-bottom)); border-top:1px solid var(--gray-200); background:#fff;">
-  
-  <p style="font-size:0.75rem; color:var(--gray-500); line-height:1.6;">
-    Creat per <strong style="color:var(--gray-700);">Adrián Gómez Sánchez</strong><br>
-    Universitat de Barcelona · Facultat de Química<br>
-    Departament d'Enginyeria Química i Química Analítica
-  </p>
-  <p style="font-size:0.65rem; color:var(--gray-400); margin-top:0.5rem;">
-    © 2026 Adrián Gómez Sánchez. Tots els drets reservats.
+<footer class="site-footer">
+  <p>
+    Adrián Gómez Sánchez &middot; Universitat de Barcelona &middot; Facultat de Química &middot; Dept. d'Enginyeria Química i Química Analítica &middot; &copy; 2026
   </p>
 </footer>
 
