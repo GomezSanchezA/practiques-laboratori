@@ -77,15 +77,15 @@
       </div>
     </div>
 
-    <!-- Estandaritzacions -->
-    <div class="menu-section" id="sec-estandaritzacions">
-      <button class="menu-section-header" onclick="toggleSection('sec-estandaritzacions')">
-        <div class="menu-section-icon estandaritzacio">🧪</div>
-        <span class="menu-section-label">Estandaritzacions</span>
+    <!-- Estandarditzacions -->
+    <div class="menu-section" id="sec-estandarditzacións">
+      <button class="menu-section-header" onclick="toggleSection('sec-estandarditzacións')">
+        <div class="menu-section-icon estandardització">🧪</div>
+        <span class="menu-section-label">Estandarditzacions</span>
         <span class="menu-section-count">11</span>
         <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </button>
-      <div class="menu-section-items" id="estandaritzacions-items"></div>
+      <div class="menu-section-items" id="estandarditzacións-items"></div>
     </div>
 
     <!-- Determinacions -->
@@ -130,10 +130,10 @@
           <span class="card-count">2 seminaris</span>
         </div>
       </div>
-      <div class="landing-card" onclick="openSection('sec-estandaritzacions')">
+      <div class="landing-card" onclick="openSection('sec-estandarditzacións')">
         <div class="landing-card-icon" style="background:var(--blue-100);">🧪</div>
         <div class="landing-card-body">
-          <h3>Estandaritzacions</h3>
+          <h3>Estandarditzacions</h3>
           <p>Preparació i valoració de solucions patró: àcid-base, complexació, redox i precipitació.</p>
           <span class="card-count">11 pràctiques (S01–S09)</span>
         </div>
@@ -162,7 +162,7 @@
 // ═══════════ Data ═══════════
 const EDTA_URL = 'https://gomezsancheza.github.io/exempleIAG/';
 
-const estandaritzacions = [
+const estandarditzacións = [
   { id: 'S01', title: "Estandardització de NaOH 0,1 mol/L", hasContent: true },
   { id: 'S02a', title: "Estandardització de H₂SO₄ 0,01 mol/L", hasContent: true },
   { id: 'S02b', title: "Estandardització de HCl 0,1 mol/L", hasContent: true },
@@ -217,7 +217,7 @@ function buildPages() {
     { id: 'LLIBRETA', title: 'La llibreta de laboratori', type: 'seminari', typeLabel: 'Guia', section: 'Guies' },
     { id: 'SEM01', title: 'La pesada per diferència', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     { id: 'SEM02', title: 'Mesura de volums', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
-    ...estandaritzacions.map(e => ({...e, type: 'estandaritzacio', typeLabel: 'Estandarització', section: 'Estandaritzacions'})),
+    ...estandarditzacións.map(e => ({...e, type: 'estandardització', typeLabel: 'Estandardització', section: 'Estandarditzacions'})),
     ...determinacions.map(d => ({...d, type: 'determinacio', typeLabel: 'Determinació', section: 'Determinacions'})),
   ];
 
@@ -337,7 +337,7 @@ function buildPages() {
   });
 }
 
-buildMenuItems('estandaritzacions-items', estandaritzacions);
+buildMenuItems('estandarditzacións-items', estandarditzacións);
 buildMenuItems('determinacions-items', determinacions);
 buildPages();
 
