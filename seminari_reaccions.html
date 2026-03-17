@@ -262,6 +262,16 @@
     .redox-atom.fe.done .nucleus.reductant {
       background: linear-gradient(135deg, #d97706, #fbbf24);
     }
+    /* Background electrons: dimmer, non-transferrable */
+    .electron.bg {
+      opacity: 0.35; width: 7px; height: 7px;
+      margin-left: -3.5px; margin-top: -3.5px;
+      box-shadow: 0 0 4px rgba(245,158,11,0.3);
+    }
+    .electron.transfer-e {
+      background: #fbbf24; box-shadow: 0 0 12px rgba(251,191,36,0.8);
+      z-index: 5;
+    }
 
     /* ═══════ Crystal Formation (Precipitacio) ═══════ */
     .crystal-scene {
@@ -571,27 +581,42 @@
           <div class="redox-atom fe" id="fe1">
             <div class="orbit-ring r1"></div>
             <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
-            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.6s;animation-delay:0s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.2s;animation-delay:0s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.2s;animation-delay:-0.6s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:22px;--orbit-speed:1.5s;animation-delay:-0.3s;"></div>
+            <div class="electron transfer-e orbiting" style="--orbit-r:22px;--orbit-speed:1.6s;animation-delay:-1.0s;"></div>
           </div>
           <div class="redox-atom fe" id="fe2">
             <div class="orbit-ring r1"></div>
             <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
-            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.8s;animation-delay:-0.4s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.3s;animation-delay:-0.2s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.3s;animation-delay:-0.85s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:22px;--orbit-speed:1.6s;animation-delay:-0.5s;"></div>
+            <div class="electron transfer-e orbiting" style="--orbit-r:22px;--orbit-speed:1.8s;animation-delay:-1.2s;"></div>
           </div>
           <div class="redox-atom fe" id="fe3">
             <div class="orbit-ring r1"></div>
             <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
-            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.5s;animation-delay:-0.8s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.1s;animation-delay:-0.4s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.1s;animation-delay:-0.95s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:22px;--orbit-speed:1.4s;animation-delay:-0.7s;"></div>
+            <div class="electron transfer-e orbiting" style="--orbit-r:22px;--orbit-speed:1.5s;animation-delay:-0.1s;"></div>
           </div>
           <div class="redox-atom fe" id="fe4">
             <div class="orbit-ring r1"></div>
             <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
-            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.7s;animation-delay:-1.2s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.25s;animation-delay:-0.55s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.25s;animation-delay:-1.1s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:22px;--orbit-speed:1.55s;animation-delay:-0.15s;"></div>
+            <div class="electron transfer-e orbiting" style="--orbit-r:22px;--orbit-speed:1.7s;animation-delay:-0.8s;"></div>
           </div>
           <div class="redox-atom fe" id="fe5">
             <div class="orbit-ring r1"></div>
             <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
-            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.9s;animation-delay:-0.2s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.15s;animation-delay:-0.35s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:18px;--orbit-speed:1.15s;animation-delay:-0.9s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:22px;--orbit-speed:1.45s;animation-delay:-0.65s;"></div>
+            <div class="electron transfer-e orbiting" style="--orbit-r:22px;--orbit-speed:1.9s;animation-delay:-0.3s;"></div>
           </div>
         </div>
 
@@ -612,8 +637,12 @@
               <span>Mn</span>
               <span class="ox-num" id="ox-mn">+7</span>
             </div>
-            <div class="electron orbiting mn-e" style="--orbit-r:28px;--orbit-speed:2.0s;animation-delay:0s;"></div>
-            <div class="electron orbiting mn-e" style="--orbit-r:38px;--orbit-speed:2.5s;animation-delay:-1.0s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:24px;--orbit-speed:1.4s;animation-delay:0s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:24px;--orbit-speed:1.4s;animation-delay:-0.7s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:32px;--orbit-speed:1.8s;animation-delay:-0.3s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:32px;--orbit-speed:1.8s;animation-delay:-1.2s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:40px;--orbit-speed:2.2s;animation-delay:-0.5s;"></div>
+            <div class="electron bg orbiting" style="--orbit-r:40px;--orbit-speed:2.2s;animation-delay:-1.6s;"></div>
           </div>
         </div>
       </div>
@@ -816,7 +845,7 @@ const mnOrbitDelays = [0, -0.8, -1.5, -0.4, -2.0];
 function transferElectron(feIdx) {
   return new Promise(resolve => {
     const feEl = feAtoms[feIdx];
-    const electron = feEl.querySelector('.electron');
+    const electron = feEl.querySelector('.electron.transfer-e');
     const oxNum = feEl.querySelector('.ox-num');
 
     // Get positions for flight path
@@ -898,7 +927,7 @@ redoxBtn.addEventListener('click', async () => {
       fe.classList.remove('done');
       const ox = fe.querySelector('.ox-num');
       ox.textContent = '+2';
-      const el = fe.querySelector('.electron');
+      const el = fe.querySelector('.electron.transfer-e');
       el.style.display = '';
       el.style.transform = '';
       el.classList.remove('flying');
@@ -1460,6 +1489,7 @@ function initEDTAReaction() {
 
     if (state === 'done') {
       viewer.setFrame(0);
+      viewer.removeAllShapes();
       viewer.removeAllLabels();
       viewer.addLabel('Zn\u00b2\u207a', {
         position: { x: 0, y: -1.5, z: -8 },
@@ -1490,6 +1520,26 @@ function initEDTAReaction() {
         fontSize: 12, fontColor: 'white', backgroundColor: '#22c55e',
         backgroundOpacity: 0.9, borderRadius: 6, padding: 3
       });
+
+      // Add dashed coordination bonds: Zn ← 2N + 4O
+      var znPos = { x: closed[0][1], y: closed[0][2], z: closed[0][3] };
+      var donorIndices = [5, 6, 7, 8, 9, 10]; // 4 O_donor + 2 N
+      var donorColors = {5:'#FF0D0D', 6:'#FF0D0D', 7:'#FF0D0D', 8:'#FF0D0D', 9:'#3050F8', 10:'#3050F8'};
+      donorIndices.forEach(function(idx) {
+        var d = closed[idx];
+        viewer.addCylinder({
+          start: znPos,
+          end: { x: d[1], y: d[2], z: d[3] },
+          radius: 0.06,
+          color: donorColors[idx],
+          dashed: true,
+          dashLength: 0.15,
+          gapLength: 0.1,
+          fromCap: 0,
+          toCap: 0
+        });
+      });
+
       viewer.render();
       label.textContent = 'Complex format: [Zn(EDTA)]\u00b2\u207b \u2014 6 enlla\u00e7os de coordinaci\u00f3';
       btn.textContent = '\u21BB Reiniciar';
