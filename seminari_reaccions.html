@@ -10,7 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="seminari.css">
-  <script src="https://unpkg.com/smiles-drawer@2.1.6/dist/smiles-drawer.min.js"></script>
+  <!-- KaTeX + mhchem for chemical equation rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <!-- 3Dmol.js for 3D molecule rendering -->
+  <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
   <style>
     /* ═══════ Color scheme per reaction type ═══════ */
     :root {
@@ -149,35 +156,23 @@
     .anim-btn.rx { background: var(--redox); color: #fff; }
     .anim-btn.pr { background: var(--precip); color: #fff; }
 
-    /* ═══════ Proton Transfer (Acid-base) ═══════ */
-    .proton-scene {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0; position: relative; height: 120px;
-      margin: 0 auto; max-width: 320px;
+    /* ═══════ 3D Molecule viewers ═══════ */
+    .mol3d-container {
+      margin: 1rem 0; border-radius: 14px; overflow: hidden;
+      border: 2px solid var(--gray-200); background: #fff;
     }
-    .proton-mol {
-      width: 80px; height: 80px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800; transition: all 0.5s ease;
-      position: relative; z-index: 1;
+    .mol3d-viewer {
+      width: 100%; height: 220px; position: relative;
     }
-    .proton-mol.acid { background: #dbeafe; color: var(--blue-700); border: 3px solid var(--acid-base); }
-    .proton-mol.base { background: #e0e7ff; color: #4338ca; border: 3px solid #6366f1; }
-    .proton-mol.acid.done { background: #fef2f2; color: #dc2626; border-color: #f87171; }
-    .proton-mol.base.done { background: #dcfce7; color: var(--green-700); border-color: var(--green-500); }
-
-    .proton-dot {
-      position: absolute; left: calc(50% - 60px); top: 25%;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--acid-base); color: #fff;
-      font-size: 0.7rem; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 5; opacity: 0;
-      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 0 16px rgba(59,130,246,0.4);
+    .mol3d-caption {
+      text-align: center; padding: 0.5rem;
+      font-size: 0.75rem; font-weight: 600; color: var(--gray-500);
+      border-top: 1px solid var(--gray-100);
     }
-    .proton-dot.show { opacity: 1; }
-    .proton-dot.at-base { left: calc(50% + 25px); top: 25%; }
+    .mol3d-row {
+      display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+    }
+    .mol3d-row .mol3d-container { flex: 1; min-width: 200px; max-width: 280px; }
 
     /* ═══════ EDTA Wrap (Complexacio) ═══════ */
     .edta-scene {
@@ -471,22 +466,23 @@
 
     <p class="section-text reveal">
       En una reacció àcid-base, un <strong>protó (H⁺)</strong> es transfereix de l'àcid a la base.
-      L'àcid perd un protó i es converteix en la seva base conjugada; la base el guanya i es converteix en el seu àcid conjugat.
+      L'àcid perd un protó i es converteix en la seva base conjugada; la base el guanya i es neutralitza.
     </p>
 
     <div class="rxn-eq reveal">
-      HA + B <span class="arrow">⟶</span> A⁻ + BH⁺
+      $$\ce{CH3COOH + OH- -> CH3COO- + H2O}$$
     </div>
 
-    <!-- Proton transfer animation -->
-    <div class="anim-container ab reveal">
-      <div class="anim-label">Animació interactiva</div>
-      <div class="proton-scene" id="proton-scene">
-        <div class="proton-mol acid" id="acid-mol">HA</div>
-        <div class="proton-dot" id="proton-dot">H⁺</div>
-        <div class="proton-mol base" id="base-mol">B</div>
+    <!-- 3D reaction: acetic acid + OH⁻ → acetate + H₂O -->
+    <div class="mol3d-container reveal">
+      <div class="mol3d-viewer" id="viewer-ab-reaction" style="height:300px;"></div>
+      <div class="mol3d-caption">
+        <span id="ab-reaction-label">Reactius: àcid acètic + OH⁻</span> — arrossega per girar
+        <br>
+        <button class="anim-btn ab" id="ab-reaction-btn" style="margin:0.5rem auto;font-size:0.75rem;padding:0.4rem 1rem;">
+          Transferir protó ➜
+        </button>
       </div>
-      <button class="anim-btn ab" id="proton-btn">Transferir protó ➜</button>
     </div>
 
     <div class="concept-box ab reveal">
@@ -494,35 +490,7 @@
       <p>L'<strong>indicador</strong> canvia de color al punt d'equivalència perquè ell mateix és un àcid (o base) feble. Quan tot l'analit s'ha neutralitzat, el pH canvia bruscament i l'indicador respon.</p>
     </div>
 
-    <!-- Molecule rendering -->
-    <div class="mol-container reveal">
-      <div class="mol-title" style="color:var(--acid-base);">Molècules d'exemple</div>
-      <div class="mol-canvas-wrap">
-        <div class="mol-card">
-          <canvas id="mol-acetic" width="220" height="160"></canvas>
-          <div class="mol-card-name">Àcid acètic</div>
-        </div>
-        <div class="mol-card">
-          <canvas id="mol-aspirin" width="220" height="160"></canvas>
-          <div class="mol-card-name">Aspirina (AAS)</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Practice links -->
-    <div class="practice-pills reveal">
-      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
-      <a class="practice-pill" href="practica_S01.html">S01</a>
-      <a class="practice-pill" href="practica_S02a.html">S02a</a>
-      <a class="practice-pill" href="practica_S02b.html">S02b</a>
-      <a class="practice-pill" href="practica_S03.html">S03</a>
-      <a class="practice-pill" href="practica_D01.html">D01</a>
-      <a class="practice-pill" href="practica_D02.html">D02</a>
-      <a class="practice-pill" href="practica_D03.html">D03</a>
-      <a class="practice-pill" href="practica_D04.html">D04</a>
-      <a class="practice-pill" href="practica_D05.html">D05</a>
-      <a class="practice-pill" href="practica_D06.html">D06</a>
-    </div>
   </div>
 
 
@@ -544,7 +512,7 @@
     </p>
 
     <div class="rxn-eq reveal">
-      M²⁺ + EDTA⁴⁻ <span class="arrow">⟶</span> [M-EDTA]²⁻
+      $$\ce{M^2+ + EDTA^4- -> [M-EDTA]^2-}$$
     </div>
 
     <!-- EDTA wrap animation -->
@@ -575,26 +543,12 @@
       <p>L'EDTA reacciona 1:1 amb <strong>qualsevol</strong> catió metàl·lic divalent. Per això el podem usar per determinar Ca²⁺, Mg²⁺, Cu²⁺, Zn²⁺... L'indicador metalocròmic (NET, murexida) canvia de color quan el metall passa de l'indicador a l'EDTA.</p>
     </div>
 
-    <!-- Molecule -->
-    <div class="mol-container reveal">
-      <div class="mol-title" style="color:var(--complex);">Molècula d'exemple</div>
-      <div class="mol-canvas-wrap">
-        <div class="mol-card">
-          <canvas id="mol-edta" width="280" height="200"></canvas>
-          <div class="mol-card-name">EDTA</div>
-        </div>
-      </div>
+    <!-- 3D molecule: EDTA -->
+    <div class="mol3d-container reveal">
+      <div class="mol3d-viewer" id="viewer-edta"></div>
+      <div class="mol3d-caption">EDTA — arrossega per girar</div>
     </div>
 
-    <!-- Practice links -->
-    <div class="practice-pills reveal">
-      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
-      <a class="practice-pill" href="practica_S04.html">S04a</a>
-      <a class="practice-pill" href="practica_S04b.html">S04b</a>
-      <a class="practice-pill" href="practica_D07.html">D07</a>
-      <a class="practice-pill" href="practica_D08.html">D08</a>
-      <a class="practice-pill" href="practica_D09.html">D09</a>
-    </div>
   </div>
 
 
@@ -616,7 +570,7 @@
     </p>
 
     <div class="rxn-eq reveal">
-      Red <span class="arrow">⟶</span> Ox + ne⁻ &nbsp;&nbsp;|&nbsp;&nbsp; Ox + ne⁻ <span class="arrow">⟶</span> Red
+      $$\ce{Fe^2+ -> Fe^3+ + e-} \qquad \ce{MnO4- + 5e- + 8H+ -> Mn^2+ + 4H2O}$$
     </div>
 
     <!-- Electron orbit animation -->
@@ -658,31 +612,12 @@
       <p>Molts oxidants tenen <strong>color propi</strong> (KMnO₄ és violeta, Ce⁴⁺ és groc, I₂ és marró). Quan s'esgota l'analit reductor, l'oxidant en excés apareix i el canvi de color indica el punt final — sovint <strong>no cal indicador</strong>.</p>
     </div>
 
-    <!-- Molecule -->
-    <div class="mol-container reveal">
-      <div class="mol-title" style="color:var(--redox);">Molècula d'exemple</div>
-      <div class="mol-canvas-wrap">
-        <div class="mol-card">
-          <canvas id="mol-ascorbic" width="220" height="180"></canvas>
-          <div class="mol-card-name">Àcid ascòrbic (vit. C)</div>
-        </div>
-      </div>
+    <!-- 3D molecule: ascorbic acid -->
+    <div class="mol3d-container reveal">
+      <div class="mol3d-viewer" id="viewer-ascorbic"></div>
+      <div class="mol3d-caption">Àcid ascòrbic (vitamina C) — arrossega per girar</div>
     </div>
 
-    <!-- Practice links -->
-    <div class="practice-pills reveal">
-      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
-      <a class="practice-pill" href="practica_S05.html">S05</a>
-      <a class="practice-pill" href="practica_S06.html">S06</a>
-      <a class="practice-pill" href="practica_S07.html">S07</a>
-      <a class="practice-pill" href="practica_D10.html">D10</a>
-      <a class="practice-pill" href="practica_D11.html">D11</a>
-      <a class="practice-pill" href="practica_D12.html">D12</a>
-      <a class="practice-pill" href="practica_D13.html">D13</a>
-      <a class="practice-pill" href="practica_D14.html">D14</a>
-      <a class="practice-pill" href="practica_D15.html">D15</a>
-      <a class="practice-pill" href="practica_D16.html">D16</a>
-    </div>
   </div>
 
 
@@ -704,7 +639,7 @@
     </p>
 
     <div class="rxn-eq reveal">
-      Ag⁺(aq) + Cl⁻(aq) <span class="arrow">⟶</span> AgCl(s) ↓
+      $$\ce{Ag+(aq) + Cl-(aq) -> AgCl(s) v}$$
     </div>
 
     <!-- Crystal formation animation -->
@@ -721,15 +656,6 @@
       <p>Al punt d'equivalència, s'ha afegit la quantitat exacta de valorant per precipitar tot l'analit. L'<strong>indicador</strong> de Mohr (CrO₄²⁻) forma un segon precipitat vermell (Ag₂CrO₄) quan ja no queda Cl⁻ per reaccionar amb Ag⁺. El mètode de Volhard funciona a la inversa: un retorn amb KSCN.</p>
     </div>
 
-    <!-- Practice links -->
-    <div class="practice-pills reveal">
-      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
-      <a class="practice-pill" href="practica_S08.html">S08</a>
-      <a class="practice-pill" href="practica_S09.html">S09</a>
-      <a class="practice-pill" href="practica_D17a.html">D17a</a>
-      <a class="practice-pill" href="practica_D17b.html">D17b</a>
-      <a class="practice-pill" href="practica_D17c.html">D17c</a>
-    </div>
   </div>
 
 
@@ -851,90 +777,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ── SmilesDrawer molecule rendering ──
-document.addEventListener('DOMContentLoaded', () => {
-  const molecules = [
-    { smiles: 'CC(O)=O', id: 'mol-acetic', w: 220, h: 160 },
-    { smiles: 'CC(=O)Oc1ccccc1C(O)=O', id: 'mol-aspirin', w: 220, h: 160 },
-    { smiles: 'OC(=O)CN(CCN(CC(O)=O)CC(O)=O)CC(O)=O', id: 'mol-edta', w: 280, h: 200 },
-    { smiles: 'OC1OC(=C(O)C1O)CO', id: 'mol-ascorbic', w: 220, h: 180 },
-  ];
-
-  function drawMolecules() {
-    molecules.forEach(m => {
-      const canvas = document.getElementById(m.id);
-      if (!canvas) return;
-      try {
-        // v2.x API
-        if (typeof SmilesDrawer.SmiDrawer === 'function') {
-          const d = new SmilesDrawer.SmiDrawer({ width: m.w, height: m.h });
-          d.draw(m.smiles, canvas, 'light');
-          return;
-        }
-      } catch(e) { /* fall through */ }
-      try {
-        // v1.x API
-        const d = new SmilesDrawer.Drawer({ width: m.w, height: m.h });
-        SmilesDrawer.parse(m.smiles, function(tree) {
-          d.draw(tree, canvas, 'light', false);
-        }, function(err) {
-          console.warn('SMILES parse error:', m.id, err);
-        });
-      } catch(e2) {
-        console.warn('SmilesDrawer failed for', m.id, e2);
-      }
-    });
-  }
-
-  // SmilesDrawer may load async — retry if not ready
-  if (typeof SmilesDrawer !== 'undefined') {
-    drawMolecules();
-  } else {
-    setTimeout(drawMolecules, 1000);
-  }
-});
-
-
-// ══════════════════════════════════════
-// 1. Proton Transfer (Àcid-base)
-// ══════════════════════════════════════
-let protonState = 'ready';
-
-document.getElementById('proton-btn').addEventListener('click', () => {
-  const dot  = document.getElementById('proton-dot');
-  const acid = document.getElementById('acid-mol');
-  const base = document.getElementById('base-mol');
-  const btn  = document.getElementById('proton-btn');
-
-  if (protonState === 'ready') {
-    // Step 1: show the proton at the acid
-    dot.classList.add('show');
-    // Step 2: fly to the base
-    setTimeout(() => {
-      dot.classList.add('at-base');
-      acid.classList.add('done');
-      acid.textContent = 'A⁻';
-    }, 350);
-    // Step 3: absorb into base
-    setTimeout(() => {
-      base.classList.add('done');
-      base.textContent = 'BH⁺';
-      dot.style.opacity = '0';
-      protonState = 'transferred';
-      btn.textContent = '↻ Reiniciar';
-    }, 1200);
-  } else {
-    // Reset
-    dot.className = 'proton-dot';
-    dot.style.opacity = '';
-    acid.className = 'proton-mol acid';
-    acid.textContent = 'HA';
-    base.className = 'proton-mol base';
-    base.textContent = 'B';
-    protonState = 'ready';
-    btn.textContent = 'Transferir protó ➜';
-  }
-});
 
 
 // ══════════════════════════════════════
@@ -1098,6 +940,227 @@ document.getElementById('crystal-btn').addEventListener('click', () => {
     btn.textContent = 'Precipitar! ↓';
   }
 });
+
+// ══════════════════════════════════════
+// 5. 3Dmol.js — 3D molecule viewers
+// ══════════════════════════════════════
+function fetchSDF(cid) {
+  return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + cid + '/SDF?record_type=3d')
+    .then(function(r) { return r.text(); });
+}
+
+function initSimpleViewer(id, cid) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var viewer = $3Dmol.createViewer(el, { backgroundColor: 'white', antialias: true });
+  fetchSDF(cid).then(function(sdf) {
+    viewer.addModel(sdf, 'sdf');
+    viewer.setStyle({}, {
+      stick: { radius: 0.15, colorscheme: 'Jmol' },
+      sphere: { scale: 0.25, colorscheme: 'Jmol' }
+    });
+    viewer.zoomTo();
+    viewer.spin('y', 0.5);
+    viewer.render();
+  }).catch(function() {
+    el.innerHTML = '<p style="text-align:center;color:#94a3b8;padding:2rem;font-size:0.8rem;">No s\'ha pogut carregar</p>';
+  });
+}
+
+// ── Acid-base 3D reaction: AcOH + OH⁻, proton flies via XYZ trajectory ──
+function initABReaction() {
+  var el = document.getElementById('viewer-ab-reaction');
+  if (!el) return;
+
+  var viewer = $3Dmol.createViewer(el, { backgroundColor: 'white', antialias: true });
+  var playing = false;
+
+  // Hardcoded 3D coordinates (angstroms)
+  // Acetic acid: CH3-C(=O)-O-H
+  //   indices: 0=Cme, 1-3=H, 4=Ccarb, 5=O(=O), 6=O(-H)
+  var acid = [
+    ['C',  0.00,  0.00,  0.00],  // 0 C methyl
+    ['H', -0.52,  0.93,  0.26],  // 1
+    ['H', -0.52, -0.44, -0.90],  // 2
+    ['H', -0.52, -0.49,  0.64],  // 3
+    ['C',  1.52,  0.00,  0.00],  // 4 C carboxyl
+    ['O',  2.10,  1.08,  0.00],  // 5 =O (stays ~same in acetate)
+    ['O',  2.24, -1.10,  0.00],  // 6 O-H → becomes O⁻ in acetate
+  ];
+
+  // Acetate geometry: both O symmetric at ±1.09
+  // O5 final: (2.17, 1.09, 0) — barely moves
+  // O6 final: (2.17, -1.09, 0) — moves inward to match bond length
+  var o5End = [2.17,  1.09, 0.00];
+  var o6End = [2.17, -1.09, 0.00];
+
+  // Acidic H — start position (bonded to O6)
+  var hStart = [3.20, -1.00, 0.00];
+
+  // Hydroxide: O-H, positioned ~6A to the right
+  var hydroxide = [
+    ['O',  7.00,  0.00,  0.00],  // 8
+    ['H',  7.60,  0.78,  0.00],  // 9
+  ];
+  // Target: proton arrives near O of hydroxide
+  var hEnd = [6.04, 0.00, 0.00];
+
+  var NFRAMES = 40;
+  var ARC = 2.0; // arc height
+
+  // Linear interpolation helper
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  // Generate multi-frame XYZ string
+  function buildXYZ() {
+    var nAtoms = acid.length + 1 + hydroxide.length; // +1 for the moving H
+    var frames = '';
+    for (var f = 0; f <= NFRAMES; f++) {
+      var t = f / NFRAMES;
+      // ease in-out
+      var e = t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+
+      // Proton position with arc
+      var hx = lerp(hStart[0], hEnd[0], e);
+      var hy = lerp(hStart[1], hEnd[1], e) + ARC * Math.sin(Math.PI * e);
+      var hz = lerp(hStart[2], hEnd[2], e);
+
+      // Geometry relaxation: O atoms move to symmetric acetate as proton leaves
+      // Use a delayed easing (only starts moving after proton is ~30% gone)
+      var relax = Math.max(0, (e - 0.3) / 0.7);
+      relax = relax * relax; // smooth
+      var o5x = lerp(acid[5][1], o5End[0], relax);
+      var o5y = lerp(acid[5][2], o5End[1], relax);
+      var o6x = lerp(acid[6][1], o6End[0], relax);
+      var o6y = lerp(acid[6][2], o6End[1], relax);
+
+      frames += nAtoms + '\nframe ' + f + '\n';
+      // Acid atoms — with geometry relaxation on O atoms
+      for (var i = 0; i < acid.length; i++) {
+        var ax = acid[i][1], ay = acid[i][2], az = acid[i][3];
+        if (i === 5) { ax = o5x; ay = o5y; } // =O relaxes
+        if (i === 6) { ax = o6x; ay = o6y; } // O-H relaxes
+        frames += acid[i][0] + ' ' + ax.toFixed(4) + ' ' + ay.toFixed(4) + ' ' + az.toFixed(4) + '\n';
+      }
+      // Moving proton
+      frames += 'H ' + hx.toFixed(4) + ' ' + hy.toFixed(4) + ' ' + hz.toFixed(4) + '\n';
+      // Hydroxide atoms (fixed)
+      for (var j = 0; j < hydroxide.length; j++) {
+        frames += hydroxide[j][0] + ' ' + hydroxide[j][1].toFixed(4) + ' ' + hydroxide[j][2].toFixed(4) + ' ' + hydroxide[j][3].toFixed(4) + '\n';
+      }
+    }
+    return frames;
+  }
+
+  var xyzData = buildXYZ();
+
+  // Load all frames
+  viewer.addModelsAsFrames(xyzData, 'xyz');
+
+  // Style: explicit element colors with # prefix
+  viewer.setStyle({ elem: 'C' }, {
+    stick: { radius: 0.12, color: '#909090' },
+    sphere: { scale: 0.25, color: '#909090' }
+  });
+  viewer.setStyle({ elem: 'O' }, {
+    stick: { radius: 0.12, color: '#FF0D0D' },
+    sphere: { scale: 0.3, color: '#FF0D0D' }
+  });
+  viewer.setStyle({ elem: 'H' }, {
+    stick: { radius: 0.10, color: '#D0D0D0' },
+    sphere: { scale: 0.18, color: '#D0D0D0' }
+  });
+
+
+  // Labels
+  viewer.addLabel('CH\u2083COOH', {
+    position: { x: 1.0, y: 2.2, z: 0 },
+    fontSize: 11, fontColor: 'white', backgroundColor: '3b82f6',
+    backgroundOpacity: 0.85, borderRadius: 6, padding: 3
+  });
+  viewer.addLabel('OH\u207b', {
+    position: { x: 7.0, y: 1.5, z: 0 },
+    fontSize: 11, fontColor: 'white', backgroundColor: '6366f1',
+    backgroundOpacity: 0.85, borderRadius: 6, padding: 3
+  });
+
+  viewer.zoomTo();
+  viewer.render();
+
+  // Button handler
+  var btn = document.getElementById('ab-reaction-btn');
+  var label = document.getElementById('ab-reaction-label');
+  var state = 'ready'; // ready | playing | done
+
+  function setReactantLabels() {
+    viewer.removeAllLabels();
+    viewer.addLabel('CH\u2083COOH', {
+      position: { x: 1.0, y: 2.2, z: 0 },
+      fontSize: 11, fontColor: 'white', backgroundColor: '3b82f6',
+      backgroundOpacity: 0.85, borderRadius: 6, padding: 3
+    });
+    viewer.addLabel('OH\u207b', {
+      position: { x: 7.0, y: 1.5, z: 0 },
+      fontSize: 11, fontColor: 'white', backgroundColor: '6366f1',
+      backgroundOpacity: 0.85, borderRadius: 6, padding: 3
+    });
+  }
+
+  function setProductLabels() {
+    viewer.removeAllLabels();
+    viewer.addLabel('CH\u2083COO\u207b', {
+      position: { x: 1.0, y: 2.2, z: 0 },
+      fontSize: 11, fontColor: 'white', backgroundColor: 'dc2626',
+      backgroundOpacity: 0.85, borderRadius: 6, padding: 3
+    });
+    viewer.addLabel('H\u2082O', {
+      position: { x: 7.0, y: 1.5, z: 0 },
+      fontSize: 11, fontColor: 'white', backgroundColor: '22c55e',
+      backgroundOpacity: 0.85, borderRadius: 6, padding: 3
+    });
+  }
+
+  btn.addEventListener('click', function() {
+    if (state === 'playing') return;
+
+    if (state === 'done') {
+      // Reset to frame 0
+      viewer.setFrame(0);
+      setReactantLabels();
+      viewer.render();
+      label.textContent = 'Reactius: \u00e0cid ac\u00e8tic + OH\u207b';
+      btn.textContent = 'Transferir prot\u00f3 \u27A1';
+      state = 'ready';
+      return;
+    }
+
+    // Play animation
+    state = 'playing';
+    btn.textContent = 'Animant...';
+    viewer.animate({ loop: 'forward', reps: 1 });
+
+    setTimeout(function() {
+      viewer.stopAnimate();
+      setProductLabels();
+      viewer.render();
+      label.textContent = 'Productes: acetat + H\u2082O';
+      btn.textContent = '\u21BB Reiniciar';
+      state = 'done';
+    }, (NFRAMES + 5) * 100);
+  });
+}
+
+function init3DViewers() {
+  if (typeof $3Dmol === 'undefined') {
+    setTimeout(init3DViewers, 500);
+    return;
+  }
+  initABReaction();
+  initSimpleViewer('viewer-edta', 6049);
+  initSimpleViewer('viewer-ascorbic', 54670067);
+}
+
+init3DViewers();
 </script>
 
 </body>
