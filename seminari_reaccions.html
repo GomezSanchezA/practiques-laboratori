@@ -176,62 +176,92 @@
 
 
     /* ═══════ Electron Orbit (Redox) ═══════ */
-    .orbit-scene {
+    .redox-scene {
       display: flex; align-items: center; justify-content: center;
-      gap: 2rem; position: relative; height: 180px;
-      margin: 0 auto; max-width: 380px;
+      gap: 0.5rem; position: relative;
+      margin: 0 auto; max-width: 500px; min-height: 280px;
     }
-    .atom {
-      position: relative; width: 110px; height: 110px;
+    .redox-col {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px;
     }
+    .redox-atom {
+      position: relative;
+    }
+    .redox-atom.fe { width: 60px; height: 60px; }
+    .redox-atom.mn { width: 100px; height: 100px; }
     .nucleus {
       position: absolute; left: 50%; top: 50%;
       transform: translate(-50%, -50%);
-      width: 42px; height: 42px; border-radius: 50%;
+      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       flex-direction: column;
-      font-size: 0.72rem; font-weight: 800; color: #fff; z-index: 2;
+      font-weight: 800; color: #fff; z-index: 2;
+      transition: background 0.8s ease, transform 0.5s ease;
     }
+    .redox-atom.fe .nucleus { width: 30px; height: 30px; font-size: 0.6rem; }
+    .redox-atom.mn .nucleus { width: 50px; height: 50px; font-size: 0.85rem; }
     .nucleus.reductant { background: linear-gradient(135deg, #b45309, var(--redox)); }
     .nucleus.oxidant { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+    .nucleus.oxidant.reduced { background: linear-gradient(135deg, #d4b8fa, #e9d5ff); }
     .nucleus .ox-num {
-      font-size: 0.55rem; font-weight: 600; opacity: 0.85;
+      font-size: 0.5rem; font-weight: 600; opacity: 0.85;
       transition: all 0.5s ease;
     }
+    .redox-atom.mn .ox-num { font-size: 0.6rem; }
 
     .orbit-ring {
       position: absolute; left: 50%; top: 50%;
-      border: 1.5px dashed rgba(245,158,11,0.3);
+      border: 1.5px dashed rgba(245,158,11,0.25);
       border-radius: 50%;
     }
-    .orbit-ring.r1 { width: 70px; height: 70px; transform: translate(-50%, -50%); }
-    .orbit-ring.r2 { width: 100px; height: 100px; transform: translate(-50%, -50%); }
+    .redox-atom.fe .orbit-ring.r1 { width: 44px; height: 44px; transform: translate(-50%, -50%); }
+    .redox-atom.mn .orbit-ring.r1 { width: 56px; height: 56px; transform: translate(-50%, -50%); }
+    .redox-atom.mn .orbit-ring.r2 { width: 76px; height: 76px; transform: translate(-50%, -50%); }
 
     .electron {
-      position: absolute; width: 12px; height: 12px; border-radius: 50%;
+      position: absolute; width: 10px; height: 10px; border-radius: 50%;
       background: var(--redox); box-shadow: 0 0 8px rgba(245,158,11,0.5);
       z-index: 3; left: 50%; top: 50%;
-      margin-left: -6px; margin-top: -6px;
+      margin-left: -5px; margin-top: -5px;
     }
     .electron.orbiting {
       animation: orbit-spin var(--orbit-speed, 2s) linear infinite;
     }
     @keyframes orbit-spin {
-      from { transform: rotate(0deg) translateX(var(--orbit-r, 35px)) rotate(0deg); }
-      to   { transform: rotate(360deg) translateX(var(--orbit-r, 35px)) rotate(-360deg); }
+      from { transform: rotate(0deg) translateX(var(--orbit-r, 22px)) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(var(--orbit-r, 22px)) rotate(-360deg); }
     }
 
-    .electron.transferring {
+    .electron.flying {
       animation: none !important;
-      transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
+      z-index: 10;
     }
 
-    .orbit-arrow {
-      font-size: 1.8rem; color: var(--redox);
-      opacity: 0; transition: opacity 0.3s;
-      align-self: center;
+    .redox-center {
+      display: flex; align-items: center; justify-content: center;
+      min-width: 80px; flex-shrink: 0;
     }
-    .orbit-arrow.show { opacity: 1; }
+    .transfer-arrow {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; color: var(--redox); font-size: 0.75rem; font-weight: 700;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .transfer-arrow.show { opacity: 1; }
+    .redox-counter {
+      text-align: center; font-size: 0.8rem; color: #92400e;
+      min-height: 1.2em; margin-top: 8px; font-weight: 600;
+    }
+
+    /* Transferred electron sitting on Mn */
+    .electron.arrived {
+      animation: orbit-spin var(--orbit-speed, 2.2s) linear infinite;
+      background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.5);
+    }
+    .redox-atom.fe.done .nucleus.reductant {
+      background: linear-gradient(135deg, #d97706, #fbbf24);
+    }
 
     /* ═══════ Crystal Formation (Precipitacio) ═══════ */
     .crystal-scene {
@@ -521,38 +551,63 @@
       $$\ce{Fe^2+ -> Fe^3+ + e-} \qquad \ce{MnO4- + 5e- + 8H+ -> Mn^2+ + 4H2O}$$
     </div>
 
-    <!-- Electron orbit animation -->
+    <!-- Electron orbit animation: 5Fe²⁺ + MnO₄⁻ stoichiometry -->
     <div class="anim-container rx reveal">
-      <div class="anim-label">Animació interactiva</div>
-      <div class="orbit-scene" id="orbit-scene">
-        <!-- Reductant atom (Fe) -->
-        <div class="atom" id="atom-red">
-          <div class="orbit-ring r1"></div>
-          <div class="orbit-ring r2"></div>
-          <div class="nucleus reductant">
-            <span>Fe</span>
-            <span class="ox-num" id="ox-red">+2</span>
+      <div class="anim-label">Animació interactiva — estequiometria real</div>
+      <div class="redox-scene" id="redox-scene">
+        <!-- 5 Fe²⁺ reductant atoms (left) -->
+        <div class="redox-col" id="fe-col">
+          <div class="redox-atom fe" id="fe1">
+            <div class="orbit-ring r1"></div>
+            <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
+            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.6s;animation-delay:0s;"></div>
           </div>
-          <div class="electron orbiting" id="e1" style="--orbit-r:35px;--orbit-speed:1.8s;animation-delay:0s;"></div>
-          <div class="electron orbiting" id="e2" style="--orbit-r:35px;--orbit-speed:1.8s;animation-delay:-0.9s;"></div>
-          <div class="electron orbiting" id="e3" style="--orbit-r:50px;--orbit-speed:2.5s;animation-delay:-0.5s;"></div>
+          <div class="redox-atom fe" id="fe2">
+            <div class="orbit-ring r1"></div>
+            <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
+            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.8s;animation-delay:-0.4s;"></div>
+          </div>
+          <div class="redox-atom fe" id="fe3">
+            <div class="orbit-ring r1"></div>
+            <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
+            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.5s;animation-delay:-0.8s;"></div>
+          </div>
+          <div class="redox-atom fe" id="fe4">
+            <div class="orbit-ring r1"></div>
+            <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
+            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.7s;animation-delay:-1.2s;"></div>
+          </div>
+          <div class="redox-atom fe" id="fe5">
+            <div class="orbit-ring r1"></div>
+            <div class="nucleus reductant"><span>Fe</span><span class="ox-num">+2</span></div>
+            <div class="electron orbiting" style="--orbit-r:22px;--orbit-speed:1.9s;animation-delay:-0.2s;"></div>
+          </div>
         </div>
 
-        <div class="orbit-arrow" id="orbit-arrow">⚡</div>
-
-        <!-- Oxidant atom (Mn) -->
-        <div class="atom" id="atom-ox">
-          <div class="orbit-ring r1"></div>
-          <div class="orbit-ring r2"></div>
-          <div class="nucleus oxidant">
-            <span>Mn</span>
-            <span class="ox-num" id="ox-ox">+7</span>
+        <!-- Central transfer zone -->
+        <div class="redox-center">
+          <div class="transfer-arrow" id="transfer-arrow">
+            <span>5 e⁻</span>
+            <svg viewBox="0 0 60 20" width="60" height="20"><path d="M0 10 L50 10 M42 4 L50 10 L42 16" stroke="currentColor" stroke-width="2" fill="none"/></svg>
           </div>
-          <div class="electron orbiting" id="e4" style="--orbit-r:35px;--orbit-speed:2s;animation-delay:-0.3s;"></div>
-          <div class="electron orbiting" id="e5" style="--orbit-r:50px;--orbit-speed:2.8s;animation-delay:-1.2s;"></div>
+        </div>
+
+        <!-- 1 MnO₄⁻ oxidant atom (right) -->
+        <div class="redox-col">
+          <div class="redox-atom mn" id="mn1">
+            <div class="orbit-ring r1 mn-ring"></div>
+            <div class="orbit-ring r2 mn-ring"></div>
+            <div class="nucleus oxidant" id="mn-nucleus">
+              <span>Mn</span>
+              <span class="ox-num" id="ox-mn">+7</span>
+            </div>
+            <div class="electron orbiting mn-e" style="--orbit-r:28px;--orbit-speed:2.0s;animation-delay:0s;"></div>
+            <div class="electron orbiting mn-e" style="--orbit-r:38px;--orbit-speed:2.5s;animation-delay:-1.0s;"></div>
+          </div>
         </div>
       </div>
-      <button class="anim-btn rx" id="redox-btn">Transferir electrons ⚡</button>
+      <div class="redox-counter" id="redox-counter"></div>
+      <button class="anim-btn rx" id="redox-btn">Transferir 5 electrons ⚡</button>
     </div>
 
     <div class="concept-box rx reveal">
@@ -730,64 +785,124 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 
 // ══════════════════════════════════════
-// 3. Electron Transfer (Redox)
+// 3. Electron Transfer (Redox) — 5Fe²⁺ + MnO₄⁻ stoichiometry
 // ══════════════════════════════════════
 let redoxState = 'ready';
+const feAtoms = [1,2,3,4,5].map(i => document.getElementById('fe'+i));
+const mnAtom = document.getElementById('mn1');
+const mnNucleus = document.getElementById('mn-nucleus');
+const oxMn = document.getElementById('ox-mn');
+const redoxBtn = document.getElementById('redox-btn');
+const transferArrow = document.getElementById('transfer-arrow');
+const redoxCounter = document.getElementById('redox-counter');
 
-document.getElementById('redox-btn').addEventListener('click', () => {
-  const btn   = document.getElementById('redox-btn');
-  const arrow = document.getElementById('orbit-arrow');
-  const oxRed = document.getElementById('ox-red');
-  const oxOx  = document.getElementById('ox-ox');
-  const e1    = document.getElementById('e1');
+// Orbit radii for electrons arriving at Mn (spread them out)
+const mnOrbitRadii = [28, 38, 28, 38, 48];
+const mnOrbitSpeeds = [2.0, 2.3, 2.6, 1.8, 2.8];
+const mnOrbitDelays = [0, -0.8, -1.5, -0.4, -2.0];
+
+function transferElectron(feIdx) {
+  return new Promise(resolve => {
+    const feEl = feAtoms[feIdx];
+    const electron = feEl.querySelector('.electron');
+    const oxNum = feEl.querySelector('.ox-num');
+
+    // Get positions for flight path
+    const feRect = feEl.getBoundingClientRect();
+    const mnRect = mnAtom.getBoundingClientRect();
+    const dx = (mnRect.left + mnRect.width/2) - (feRect.left + feRect.width/2);
+    const dy = (mnRect.top + mnRect.height/2) - (feRect.top + feRect.height/2);
+
+    // Detach from orbit → fly
+    electron.classList.remove('orbiting');
+    electron.classList.add('flying');
+
+    // Force reflow to apply starting position
+    electron.offsetHeight;
+
+    // Fly to Mn
+    electron.style.transform = `translate(${dx}px, ${dy}px)`;
+
+    // Update Fe oxidation number
+    oxNum.textContent = '+3';
+    feEl.classList.add('done');
+
+    setTimeout(() => {
+      // Remove flying electron from Fe
+      electron.classList.remove('flying');
+      electron.style.transform = '';
+
+      // Create new orbiting electron on Mn
+      const newE = document.createElement('div');
+      newE.className = 'electron arrived orbiting';
+      newE.style.setProperty('--orbit-r', mnOrbitRadii[feIdx] + 'px');
+      newE.style.setProperty('--orbit-speed', mnOrbitSpeeds[feIdx] + 's');
+      newE.style.animationDelay = mnOrbitDelays[feIdx] + 's';
+      mnAtom.appendChild(newE);
+
+      // Hide the original electron
+      electron.style.display = 'none';
+
+      // Update Mn oxidation: +7 → +6 → +5 → +4 → +3 → +2
+      const newOx = 7 - (feIdx + 1);
+      oxMn.textContent = '+' + newOx;
+
+      // Update counter
+      redoxCounter.textContent = (feIdx+1) + '/5 electrons transferits';
+
+      // Color shift on Mn as it reduces
+      if (feIdx >= 2) {
+        mnNucleus.classList.add('reduced');
+      }
+
+      resolve();
+    }, 900);
+  });
+}
+
+redoxBtn.addEventListener('click', async () => {
+  if (redoxState === 'playing') return;
 
   if (redoxState === 'ready') {
-    // Show transfer arrow
-    arrow.classList.add('show');
+    redoxState = 'playing';
+    redoxBtn.textContent = 'Transferint...';
+    transferArrow.classList.add('show');
+    redoxCounter.textContent = '';
 
-    // Detach electron from reductant → fly to oxidant
-    setTimeout(() => {
-      e1.classList.remove('orbiting');
-      e1.classList.add('transferring');
-      // Position electron at oxidant atom area
-      const atomRed = document.getElementById('atom-red');
-      const atomOx  = document.getElementById('atom-ox');
-      const dx = atomOx.getBoundingClientRect().left - atomRed.getBoundingClientRect().left;
-      e1.style.transform = `translateX(${dx}px) translateY(0)`;
+    // Transfer 5 electrons sequentially with staggered timing
+    for (let i = 0; i < 5; i++) {
+      await transferElectron(i);
+      await new Promise(r => setTimeout(r, 300));
+    }
 
-      // Update oxidation numbers
-      oxRed.textContent = '+3';
-      oxOx.textContent  = '+2';
-    }, 300);
+    transferArrow.classList.remove('show');
+    redoxCounter.textContent = '5 Fe\u00b2\u207a \u2192 5 Fe\u00b3\u207a   |   Mn\u2077\u207a \u2192 Mn\u00b2\u207a   (5 e\u207b transferits)';
+    redoxBtn.textContent = '\u21bb Reiniciar';
+    redoxState = 'done';
 
-    setTimeout(() => {
-      // Re-orbit at new atom
-      e1.classList.remove('transferring');
-      e1.style.transform = '';
-      // Move e1 to oxidant atom
-      const atomOx = document.getElementById('atom-ox');
-      atomOx.appendChild(e1);
-      e1.style.setProperty('--orbit-r', '50px');
-      e1.style.setProperty('--orbit-speed', '2.8s');
-      e1.style.animationDelay = '-1.8s';
-      e1.classList.add('orbiting');
-      arrow.classList.remove('show');
-      redoxState = 'transferred';
-      btn.textContent = '↻ Reiniciar';
-    }, 1400);
-  } else {
-    // Reset: move electron back
-    e1.classList.remove('orbiting', 'transferring');
-    e1.style.transform = '';
-    e1.style.setProperty('--orbit-r', '35px');
-    e1.style.setProperty('--orbit-speed', '1.8s');
-    e1.style.animationDelay = '0s';
-    document.getElementById('atom-red').appendChild(e1);
-    e1.classList.add('orbiting');
-    oxRed.textContent = '+2';
-    oxOx.textContent  = '+7';
+  } else if (redoxState === 'done') {
+    // Reset everything
+    feAtoms.forEach(fe => {
+      fe.classList.remove('done');
+      const ox = fe.querySelector('.ox-num');
+      ox.textContent = '+2';
+      const el = fe.querySelector('.electron');
+      el.style.display = '';
+      el.style.transform = '';
+      el.classList.remove('flying');
+      el.classList.add('orbiting');
+    });
+
+    // Remove arrived electrons from Mn
+    mnAtom.querySelectorAll('.electron.arrived').forEach(e => e.remove());
+
+    // Reset Mn
+    oxMn.textContent = '+7';
+    mnNucleus.classList.remove('reduced');
+
+    redoxCounter.textContent = '';
+    redoxBtn.textContent = 'Transferir 5 electrons \u26a1';
     redoxState = 'ready';
-    btn.textContent = 'Transferir electrons ⚡';
   }
 });
 
