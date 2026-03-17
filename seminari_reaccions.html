@@ -283,6 +283,17 @@
     .crystal-ion.ag { background: #d1d5db; color: #374151; border: 2px solid #9ca3af; }
     .crystal-ion.cl { background: #bbf7d0; color: #166534; border: 2px solid #86efac; }
 
+    .crystal-status {
+      text-align: center; font-size: 0.8rem; color: #5b21b6;
+      min-height: 1.2em; margin-top: 8px; font-weight: 600;
+    }
+    .crystal-ion.ag.entering {
+      animation: drop-in 0.6s ease-out forwards;
+    }
+    @keyframes drop-in {
+      from { transform: translateY(-60px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
     .crystal-ion.floating {
       animation: float-ion var(--float-dur, 3s) ease-in-out infinite;
     }
@@ -647,11 +658,12 @@
 
     <!-- Crystal formation animation -->
     <div class="anim-container pr reveal">
-      <div class="anim-label">Animació interactiva</div>
+      <div class="anim-label">Animació interactiva — Ag⁺(aq) + Cl⁻(aq) → AgCl(s)</div>
       <div class="crystal-scene" id="crystal-scene">
         <!-- Ions placed by JS -->
       </div>
-      <button class="anim-btn pr" id="crystal-btn">Precipitar! ↓</button>
+      <div class="crystal-status" id="crystal-status">Solució de Cl⁻ (transparent)</div>
+      <button class="anim-btn pr" id="crystal-btn">Afegir Ag⁺ ↓</button>
     </div>
 
     <div class="concept-box pr reveal">
@@ -908,70 +920,136 @@ redoxBtn.addEventListener('click', async () => {
 
 
 // ══════════════════════════════════════
-// 4. Crystal Formation (Precipitació)
+// 4. Crystal Formation (Precipitació) — Cl⁻ first, then Ag⁺ added
 // ══════════════════════════════════════
-let crystalState = 'ready';
+let crystalState = 'ready'; // ready → ag-added → crystallized
 const crystalScene = document.getElementById('crystal-scene');
-const ionData = [];
+const crystalStatus = document.getElementById('crystal-status');
+const clIons = [];
+const agIons = [];
+const N_PAIRS = 6;
 
-// Create 12 floating ions (alternating Ag⁺ / Cl⁻)
-for (let i = 0; i < 12; i++) {
-  const isAg = i % 2 === 0;
-  const ion = document.createElement('div');
-  ion.className = `crystal-ion ${isAg ? 'ag' : 'cl'} floating`;
-  ion.textContent = isAg ? 'Ag⁺' : 'Cl⁻';
+function randomFloat() {
+  return ((Math.random() - 0.5) * 18) + 'px';
+}
 
-  const x = 8 + Math.random() * 62;
-  const y = 8 + Math.random() * 72;
-  ion.style.left = x + '%';
-  ion.style.top  = y + '%';
-
-  // Random float parameters
-  const rnd = () => ((Math.random() - 0.5) * 18) + 'px';
-  ion.style.setProperty('--dx1', rnd());
-  ion.style.setProperty('--dy1', rnd());
-  ion.style.setProperty('--dx2', rnd());
-  ion.style.setProperty('--dy2', rnd());
-  ion.style.setProperty('--dx3', rnd());
-  ion.style.setProperty('--dy3', rnd());
+function makeFloating(ion) {
+  ion.style.setProperty('--dx1', randomFloat());
+  ion.style.setProperty('--dy1', randomFloat());
+  ion.style.setProperty('--dx2', randomFloat());
+  ion.style.setProperty('--dy2', randomFloat());
+  ion.style.setProperty('--dx3', randomFloat());
+  ion.style.setProperty('--dy3', randomFloat());
   ion.style.setProperty('--float-dur', (2.5 + Math.random() * 2) + 's');
   ion.style.animationDelay = (Math.random() * 3) + 's';
+}
 
+// Phase 1: Create Cl⁻ ions floating in solution
+for (let i = 0; i < N_PAIRS; i++) {
+  const ion = document.createElement('div');
+  ion.className = 'crystal-ion cl floating';
+  ion.textContent = 'Cl\u207b';
+  const x = 10 + Math.random() * 60;
+  const y = 10 + Math.random() * 65;
+  ion.style.left = x + '%';
+  ion.style.top  = y + '%';
+  makeFloating(ion);
   crystalScene.appendChild(ion);
-  ionData.push({ el: ion, origX: x, origY: y });
+  clIons.push({ el: ion, origX: x, origY: y });
 }
 
 document.getElementById('crystal-btn').addEventListener('click', () => {
   const btn = document.getElementById('crystal-btn');
 
   if (crystalState === 'ready') {
-    // Snap into NaCl-type alternating grid at bottom
-    const cols = 6;
-    const startX = 12;
-    const startY = 62;
-    const spacingX = 13;
-    const spacingY = 15;
+    // Phase 2: Add Ag⁺ ions — they drop in from above
+    for (let i = 0; i < N_PAIRS; i++) {
+      const ion = document.createElement('div');
+      ion.className = 'crystal-ion ag entering';
+      ion.textContent = 'Ag\u207a';
+      const x = 10 + Math.random() * 60;
+      const y = 10 + Math.random() * 65;
+      ion.style.left = x + '%';
+      ion.style.top  = y + '%';
+      ion.style.animationDelay = (i * 0.12) + 's';
+      crystalScene.appendChild(ion);
+      agIons.push({ el: ion, origX: x, origY: y });
 
-    ionData.forEach((ion, i) => {
-      ion.el.classList.remove('floating');
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      ion.el.style.left = (startX + col * spacingX) + '%';
-      ion.el.style.top  = (startY + row * spacingY) + '%';
+      // After drop-in, start floating
+      setTimeout(() => {
+        ion.classList.remove('entering');
+        ion.classList.add('floating');
+        makeFloating(ion);
+      }, 700 + i * 120);
+    }
+
+    crystalStatus.textContent = 'Ag\u207a afegit — ions en dissolució';
+    btn.textContent = 'Precipitar AgCl \u2193';
+    crystalState = 'ag-added';
+
+  } else if (crystalState === 'ag-added') {
+    // Phase 3: Crystallize — snap into NaCl grid at bottom
+    const cols = 4;
+    const startX = 15;
+    const startY = 48;
+    const spacingX = 16;
+    const spacingY = 16;
+
+    // Interleave: Ag-Cl-Ag-Cl... in a checkerboard
+    const allIons = [];
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < cols; col++) {
+        const isAg = (row + col) % 2 === 0;
+        if (isAg && agIons.length > allIons.filter(x => x.type === 'ag').length) {
+          allIons.push({ type: 'ag', row, col });
+        } else if (!isAg && clIons.length > allIons.filter(x => x.type === 'cl').length) {
+          allIons.push({ type: 'cl', row, col });
+        }
+      }
+    }
+
+    let agIdx = 0, clIdx = 0;
+    allIons.forEach(item => {
+      const ion = item.type === 'ag' ? agIons[agIdx++] : clIons[clIdx++];
+      if (!ion) return;
+      ion.el.classList.remove('floating', 'entering');
+      ion.el.style.left = (startX + item.col * spacingX) + '%';
+      ion.el.style.top  = (startY + item.row * spacingY) + '%';
     });
 
+    // Any remaining ions also snap
+    while (agIdx < agIons.length) {
+      const ion = agIons[agIdx++];
+      ion.el.classList.remove('floating', 'entering');
+      ion.el.style.top = '82%';
+    }
+    while (clIdx < clIons.length) {
+      const ion = clIons[clIdx++];
+      ion.el.classList.remove('floating', 'entering');
+      ion.el.style.top = '82%';
+    }
+
     crystalScene.classList.add('turbid');
+    crystalStatus.textContent = 'AgCl(s) \u2014 precipitat blanc (K_ps = 1.8\u00d710\u207b\u00b9\u2070)';
+    btn.textContent = '\u21bb Reiniciar';
     crystalState = 'crystallized';
-    btn.textContent = '↻ Reiniciar';
+
   } else {
-    ionData.forEach(ion => {
+    // Reset: remove Ag⁺ ions, reset Cl⁻
+    agIons.forEach(ion => ion.el.remove());
+    agIons.length = 0;
+
+    clIons.forEach(ion => {
       ion.el.classList.add('floating');
       ion.el.style.left = ion.origX + '%';
       ion.el.style.top  = ion.origY + '%';
+      makeFloating(ion);
     });
+
     crystalScene.classList.remove('turbid');
+    crystalStatus.textContent = 'Solució de Cl\u207b (transparent)';
+    btn.textContent = 'Afegir Ag\u207a \u2193';
     crystalState = 'ready';
-    btn.textContent = 'Precipitar! ↓';
   }
 });
 
