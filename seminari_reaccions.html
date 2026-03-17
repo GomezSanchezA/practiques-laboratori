@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <title>Seminari: Tipus de reaccions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="seminari.css">
+  <script src="https://unpkg.com/smiles-drawer@2.1.6/dist/smiles-drawer.min.js"></script>
+  <style>
+    /* ═══════ Color scheme per reaction type ═══════ */
+    :root {
+      --acid-base: #3b82f6;
+      --acid-base-bg: #eff6ff;
+      --complex: #22c55e;
+      --complex-bg: #f0fdf4;
+      --redox: #f59e0b;
+      --redox-bg: #fffbeb;
+      --precip: #8b5cf6;
+      --precip-bg: #f5f3ff;
+    }
+
+    /* ═══════ Disable horizontal overscroll bounce ═══════ */
+    html, body { overscroll-behavior-x: none; }
+
+    /* ═══════ Multi-color hero ═══════ */
+    .hero.multi {
+      background: linear-gradient(135deg, var(--acid-base) 0%, var(--complex) 35%, var(--redox) 65%, var(--precip) 100%);
+    }
+
+    /* ═══════ Four-quadrant grid ═══════ */
+    .quad-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .quad-card {
+      border-radius: 16px;
+      padding: 1.25rem 1rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      text-align: center;
+    }
+    .quad-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    .quad-card:active { transform: scale(0.97); }
+
+    .quad-card.ab { background: var(--acid-base-bg); }
+    .quad-card.ab:hover { border-color: var(--acid-base); }
+    .quad-card.cx { background: var(--complex-bg); }
+    .quad-card.cx:hover { border-color: var(--complex); }
+    .quad-card.rx { background: var(--redox-bg); }
+    .quad-card.rx:hover { border-color: var(--redox); }
+    .quad-card.pr { background: var(--precip-bg); }
+    .quad-card.pr:hover { border-color: var(--precip); }
+
+    .quad-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .quad-title { font-size: 0.85rem; font-weight: 700; line-height: 1.3; }
+    .quad-card.ab .quad-title { color: var(--blue-700); }
+    .quad-card.cx .quad-title { color: var(--green-700); }
+    .quad-card.rx .quad-title { color: var(--amber-700); }
+    .quad-card.pr .quad-title { color: #6d28d9; }
+    .quad-sub { font-size: 0.72rem; color: var(--gray-500); margin-top: 0.25rem; }
+
+    /* ═══════ Section color-coded headers ═══════ */
+    .reaction-section {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 3px solid var(--gray-100);
+    }
+    .reaction-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .reaction-header-accent {
+      width: 5px; height: 48px; border-radius: 3px; flex-shrink: 0;
+    }
+    .reaction-header.ab .reaction-header-accent { background: var(--acid-base); }
+    .reaction-header.cx .reaction-header-accent { background: var(--complex); }
+    .reaction-header.rx .reaction-header-accent { background: var(--redox); }
+    .reaction-header.pr .reaction-header-accent { background: var(--precip); }
+
+    .reaction-header h2 { font-size: 1.25rem; font-weight: 800; }
+    .reaction-header.ab h2 { color: var(--blue-700); }
+    .reaction-header.cx h2 { color: var(--green-700); }
+    .reaction-header.rx h2 { color: var(--amber-700); }
+    .reaction-header.pr h2 { color: #6d28d9; }
+
+    .rh-badge {
+      font-size: 0.65rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .reaction-header.ab .rh-badge { background: var(--acid-base-bg); color: var(--acid-base); }
+    .reaction-header.cx .rh-badge { background: var(--complex-bg); color: var(--complex); }
+    .reaction-header.rx .rh-badge { background: var(--redox-bg); color: var(--redox); }
+    .reaction-header.pr .rh-badge { background: var(--precip-bg); color: var(--precip); }
+
+    .section-text {
+      font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 1rem;
+    }
+    .section-text strong { color: var(--gray-800); }
+
+    /* ═══════ Reaction equation display ═══════ */
+    .rxn-eq {
+      text-align: center; padding: 1rem; margin: 0.75rem 0;
+      border-radius: 10px; background: rgba(255,255,255,0.7);
+      font-size: 0.9rem; font-weight: 600; color: var(--gray-700);
+      line-height: 1.8;
+    }
+    .rxn-eq .arrow { color: var(--gray-400); margin: 0 0.3rem; }
+
+    /* ═══════ Animation containers (shared) ═══════ */
+    .anim-container {
+      border-radius: 16px; padding: 1.5rem 1rem; margin: 1rem 0;
+      position: relative; overflow: hidden;
+    }
+    .anim-container.ab { background: var(--acid-base-bg); border: 2px solid #bfdbfe; }
+    .anim-container.cx { background: var(--complex-bg); border: 2px solid #bbf7d0; }
+    .anim-container.rx { background: var(--redox-bg); border: 2px solid #fde68a; }
+    .anim-container.pr { background: var(--precip-bg); border: 2px solid #ddd6fe; }
+
+    .anim-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; text-align: center; margin-bottom: 1rem;
+    }
+    .anim-container.ab .anim-label { color: var(--acid-base); }
+    .anim-container.cx .anim-label { color: var(--complex); }
+    .anim-container.rx .anim-label { color: var(--redox); }
+    .anim-container.pr .anim-label { color: var(--precip); }
+
+    .anim-btn {
+      display: block; margin: 1rem auto 0; padding: 0.6rem 1.5rem;
+      border: none; border-radius: 10px; font-family: inherit;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .anim-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .anim-btn:active { transform: scale(0.97); }
+    .anim-btn.ab { background: var(--acid-base); color: #fff; }
+    .anim-btn.cx { background: var(--complex); color: #fff; }
+    .anim-btn.rx { background: var(--redox); color: #fff; }
+    .anim-btn.pr { background: var(--precip); color: #fff; }
+
+    /* ═══════ Proton Transfer (Acid-base) ═══════ */
+    .proton-scene {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; position: relative; height: 120px;
+      margin: 0 auto; max-width: 320px;
+    }
+    .proton-mol {
+      width: 80px; height: 80px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 800; transition: all 0.5s ease;
+      position: relative; z-index: 1;
+    }
+    .proton-mol.acid { background: #dbeafe; color: var(--blue-700); border: 3px solid var(--acid-base); }
+    .proton-mol.base { background: #e0e7ff; color: #4338ca; border: 3px solid #6366f1; }
+    .proton-mol.acid.done { background: #fef2f2; color: #dc2626; border-color: #f87171; }
+    .proton-mol.base.done { background: #dcfce7; color: var(--green-700); border-color: var(--green-500); }
+
+    .proton-dot {
+      position: absolute; left: calc(50% - 60px); top: 25%;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--acid-base); color: #fff;
+      font-size: 0.7rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5; opacity: 0;
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 0 16px rgba(59,130,246,0.4);
+    }
+    .proton-dot.show { opacity: 1; }
+    .proton-dot.at-base { left: calc(50% + 25px); top: 25%; }
+
+    /* ═══════ EDTA Wrap (Complexacio) ═══════ */
+    .edta-scene {
+      position: relative; width: 200px; height: 200px; margin: 0 auto;
+    }
+    .edta-center {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--complex), #15803d);
+      color: #fff; font-size: 0.8rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2; transition: all 0.8s ease;
+    }
+    .edta-center.wrapped {
+      background: linear-gradient(135deg, #86efac, #bbf7d0);
+      color: var(--green-700);
+      box-shadow: 0 0 0 12px rgba(34,197,94,0.15);
+    }
+
+    .edta-svg { width: 100%; height: 100%; }
+    .edta-arm {
+      fill: none; stroke: var(--complex); stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 80;
+      stroke-dashoffset: 80;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .edta-arm.wrapped { stroke-dashoffset: 0; }
+
+    .edta-label {
+      position: absolute; font-size: 0.6rem; font-weight: 700;
+      color: var(--complex); opacity: 0; transition: opacity 0.5s ease 0.8s;
+      white-space: nowrap;
+    }
+    .edta-label.show { opacity: 1; }
+
+    /* ═══════ Electron Orbit (Redox) ═══════ */
+    .orbit-scene {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; position: relative; height: 180px;
+      margin: 0 auto; max-width: 380px;
+    }
+    .atom {
+      position: relative; width: 110px; height: 110px;
+    }
+    .nucleus {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      font-size: 0.72rem; font-weight: 800; color: #fff; z-index: 2;
+    }
+    .nucleus.reductant { background: linear-gradient(135deg, #b45309, var(--redox)); }
+    .nucleus.oxidant { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+    .nucleus .ox-num {
+      font-size: 0.55rem; font-weight: 600; opacity: 0.85;
+      transition: all 0.5s ease;
+    }
+
+    .orbit-ring {
+      position: absolute; left: 50%; top: 50%;
+      border: 1.5px dashed rgba(245,158,11,0.3);
+      border-radius: 50%;
+    }
+    .orbit-ring.r1 { width: 70px; height: 70px; transform: translate(-50%, -50%); }
+    .orbit-ring.r2 { width: 100px; height: 100px; transform: translate(-50%, -50%); }
+
+    .electron {
+      position: absolute; width: 12px; height: 12px; border-radius: 50%;
+      background: var(--redox); box-shadow: 0 0 8px rgba(245,158,11,0.5);
+      z-index: 3; left: 50%; top: 50%;
+      margin-left: -6px; margin-top: -6px;
+    }
+    .electron.orbiting {
+      animation: orbit-spin var(--orbit-speed, 2s) linear infinite;
+    }
+    @keyframes orbit-spin {
+      from { transform: rotate(0deg) translateX(var(--orbit-r, 35px)) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(var(--orbit-r, 35px)) rotate(-360deg); }
+    }
+
+    .electron.transferring {
+      animation: none !important;
+      transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .orbit-arrow {
+      font-size: 1.8rem; color: var(--redox);
+      opacity: 0; transition: opacity 0.3s;
+      align-self: center;
+    }
+    .orbit-arrow.show { opacity: 1; }
+
+    /* ═══════ Crystal Formation (Precipitacio) ═══════ */
+    .crystal-scene {
+      position: relative; width: 100%; height: 220px;
+      border-radius: 12px; overflow: hidden;
+      background: rgba(255,255,255,0.6);
+      transition: background 1.5s ease;
+    }
+    .crystal-scene.turbid {
+      background: rgba(245,243,255,0.95);
+    }
+
+    .crystal-ion {
+      position: absolute; width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 800; z-index: 1;
+      transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .crystal-ion.ag { background: #d1d5db; color: #374151; border: 2px solid #9ca3af; }
+    .crystal-ion.cl { background: #bbf7d0; color: #166534; border: 2px solid #86efac; }
+
+    .crystal-ion.floating {
+      animation: float-ion var(--float-dur, 3s) ease-in-out infinite;
+    }
+    @keyframes float-ion {
+      0%, 100% { transform: translate(0, 0); }
+      25%  { transform: translate(var(--dx1, 5px), var(--dy1, -8px)); }
+      50%  { transform: translate(var(--dx2, -3px), var(--dy2, 5px)); }
+      75%  { transform: translate(var(--dx3, 7px), var(--dy3, -3px)); }
+    }
+
+    /* ═══════ Molecule canvas ═══════ */
+    .mol-container { margin: 1rem 0; }
+    .mol-title {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; text-align: center; margin-bottom: 0.5rem;
+    }
+    .mol-canvas-wrap {
+      display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+    }
+    .mol-card {
+      background: #fff; border: 1px solid var(--gray-200); border-radius: 12px;
+      padding: 0.75rem; text-align: center;
+    }
+    .mol-card canvas { display: block; margin: 0 auto; }
+    .mol-card-name {
+      font-size: 0.72rem; font-weight: 600; color: var(--gray-600); margin-top: 0.5rem;
+    }
+
+    /* ═══════ Practice link pills ═══════ */
+    .practice-pills {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0;
+      align-items: center;
+    }
+    .practice-pill {
+      font-size: 0.68rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 8px; text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: inline-block;
+    }
+    .practice-pill:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .practice-pill.ab { background: var(--acid-base-bg); color: var(--acid-base); }
+    .practice-pill.cx { background: var(--complex-bg); color: var(--complex); }
+    .practice-pill.rx { background: var(--redox-bg); color: var(--redox); }
+    .practice-pill.pr { background: var(--precip-bg); color: var(--precip); }
+
+    /* ═══════ Comparison table ═══════ */
+    .compare-table-wrap {
+      overflow-x: auto; margin: 1.5rem 0; -webkit-overflow-scrolling: touch;
+    }
+    .compare-table {
+      width: 100%; min-width: 520px; border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+    .compare-table th {
+      padding: 0.6rem 0.5rem; font-weight: 700; text-align: left;
+      border-bottom: 2px solid var(--gray-200); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .compare-table td {
+      padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--gray-100);
+      vertical-align: top; line-height: 1.4;
+    }
+    .compare-table th:first-child, .compare-table td:first-child {
+      font-weight: 700; color: var(--gray-500); white-space: nowrap;
+    }
+    .compare-table .col-ab { border-top: 3px solid var(--acid-base); }
+    .compare-table .col-cx { border-top: 3px solid var(--complex); }
+    .compare-table .col-rx { border-top: 3px solid var(--redox); }
+    .compare-table .col-pr { border-top: 3px solid var(--precip); }
+
+    /* ═══════ Identify cards (quick-reference) ═══════ */
+    .identify-cards {
+      display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0;
+    }
+    .identify-card {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      border-radius: 12px; padding: 1rem;
+      border-left: 4px solid;
+    }
+    .identify-card.ab { background: var(--acid-base-bg); border-color: var(--acid-base); }
+    .identify-card.cx { background: var(--complex-bg); border-color: var(--complex); }
+    .identify-card.rx { background: var(--redox-bg); border-color: var(--redox); }
+    .identify-card.pr { background: var(--precip-bg); border-color: var(--precip); }
+
+    .identify-card-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .identify-card h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .identify-card.ab h4 { color: var(--blue-700); }
+    .identify-card.cx h4 { color: var(--green-700); }
+    .identify-card.rx h4 { color: var(--amber-700); }
+    .identify-card.pr h4 { color: #6d28d9; }
+    .identify-card p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; }
+
+    /* ═══════ Concept box ═══════ */
+    .concept-box {
+      border-radius: 14px; padding: 1rem 1.25rem; margin: 1rem 0;
+    }
+    .concept-box.ab { background: var(--acid-base-bg); border: 2px solid var(--acid-base); }
+    .concept-box.cx { background: var(--complex-bg); border: 2px solid var(--complex); }
+    .concept-box.rx { background: var(--redox-bg); border: 2px solid var(--redox); }
+    .concept-box.pr { background: var(--precip-bg); border: 2px solid var(--precip); }
+
+    .concept-box h4 { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .concept-box.ab h4 { color: var(--blue-700); }
+    .concept-box.cx h4 { color: var(--green-700); }
+    .concept-box.rx h4 { color: var(--amber-700); }
+    .concept-box.pr h4 { color: #6d28d9; }
+    .concept-box p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; }
+
+    @media (min-width: 768px) {
+      .quad-grid { gap: 1rem; }
+      .quad-card { padding: 1.5rem; }
+      .orbit-scene { gap: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ Back bar ═══════ -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Índex
+  </a>
+</div>
+
+<!-- ═══════ Hero ═══════ -->
+<section class="hero multi">
+  <span class="hero-badge">Seminari 3</span>
+  <h1>Tipus de reaccions</h1>
+  <p>Les 32 pràctiques del laboratori es basen en només 4 tipus de reaccions. Descobreix-les.</p>
+</section>
+
+<!-- ═══════ Content ═══════ -->
+<div class="content">
+
+  <!-- ────── INTRO ────── -->
+  <div class="highlight-box info reveal" style="background:var(--blue-50); border:2px solid var(--blue-500); margin-top:1.5rem;">
+    <div class="highlight-icon">🧩</div>
+    <h3>4 reaccions, 32 pràctiques</h3>
+    <p>Totes les valoracions que fareu al laboratori pertanyen a una de quatre famílies. Entendre quina reacció hi ha darrere de cada pràctica us ajudarà a preveure què passarà, triar l'indicador correcte i interpretar els resultats.</p>
+  </div>
+
+  <!-- ────── FOUR-QUADRANT GRID ────── -->
+  <div class="quad-grid reveal">
+    <div class="quad-card ab" onclick="document.getElementById('sec-acid-base').scrollIntoView({behavior:'smooth'})">
+      <div class="quad-icon">🔵</div>
+      <div class="quad-title">Àcid-base</div>
+      <div class="quad-sub">Transferència de protons</div>
+    </div>
+    <div class="quad-card cx" onclick="document.getElementById('sec-complex').scrollIntoView({behavior:'smooth'})">
+      <div class="quad-icon">🟢</div>
+      <div class="quad-title">Complexació</div>
+      <div class="quad-sub">Formació de complexos</div>
+    </div>
+    <div class="quad-card rx" onclick="document.getElementById('sec-redox').scrollIntoView({behavior:'smooth'})">
+      <div class="quad-icon">🟠</div>
+      <div class="quad-title">Redox</div>
+      <div class="quad-sub">Transferència d'electrons</div>
+    </div>
+    <div class="quad-card pr" onclick="document.getElementById('sec-precip').scrollIntoView({behavior:'smooth'})">
+      <div class="quad-icon">🟣</div>
+      <div class="quad-title">Precipitació</div>
+      <div class="quad-sub">Formació de sòlids</div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- SECTION 1: ÀCID-BASE                             -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="reaction-section" id="sec-acid-base">
+    <div class="reaction-header ab reveal">
+      <div class="reaction-header-accent"></div>
+      <div>
+        <span class="rh-badge">Tipus 1</span>
+        <h2>Àcid-base</h2>
+      </div>
+    </div>
+
+    <p class="section-text reveal">
+      En una reacció àcid-base, un <strong>protó (H⁺)</strong> es transfereix de l'àcid a la base.
+      L'àcid perd un protó i es converteix en la seva base conjugada; la base el guanya i es converteix en el seu àcid conjugat.
+    </p>
+
+    <div class="rxn-eq reveal">
+      HA + B <span class="arrow">⟶</span> A⁻ + BH⁺
+    </div>
+
+    <!-- Proton transfer animation -->
+    <div class="anim-container ab reveal">
+      <div class="anim-label">Animació interactiva</div>
+      <div class="proton-scene" id="proton-scene">
+        <div class="proton-mol acid" id="acid-mol">HA</div>
+        <div class="proton-dot" id="proton-dot">H⁺</div>
+        <div class="proton-mol base" id="base-mol">B</div>
+      </div>
+      <button class="anim-btn ab" id="proton-btn">Transferir protó ➜</button>
+    </div>
+
+    <div class="concept-box ab reveal">
+      <h4>Concepte clau</h4>
+      <p>L'<strong>indicador</strong> canvia de color al punt d'equivalència perquè ell mateix és un àcid (o base) feble. Quan tot l'analit s'ha neutralitzat, el pH canvia bruscament i l'indicador respon.</p>
+    </div>
+
+    <!-- Molecule rendering -->
+    <div class="mol-container reveal">
+      <div class="mol-title" style="color:var(--acid-base);">Molècules d'exemple</div>
+      <div class="mol-canvas-wrap">
+        <div class="mol-card">
+          <canvas id="mol-acetic" width="220" height="160"></canvas>
+          <div class="mol-card-name">Àcid acètic</div>
+        </div>
+        <div class="mol-card">
+          <canvas id="mol-aspirin" width="220" height="160"></canvas>
+          <div class="mol-card-name">Aspirina (AAS)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practice links -->
+    <div class="practice-pills reveal">
+      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
+      <a class="practice-pill ab" href="practica_S01.html">S01</a>
+      <a class="practice-pill ab" href="practica_S02a.html">S02a</a>
+      <a class="practice-pill ab" href="practica_S02b.html">S02b</a>
+      <a class="practice-pill ab" href="practica_S03.html">S03</a>
+      <a class="practice-pill ab" href="practica_D01.html">D01</a>
+      <a class="practice-pill ab" href="practica_D02.html">D02</a>
+      <a class="practice-pill ab" href="practica_D03.html">D03</a>
+      <a class="practice-pill ab" href="practica_D04.html">D04</a>
+      <a class="practice-pill ab" href="practica_D05.html">D05</a>
+      <a class="practice-pill ab" href="practica_D06.html">D06</a>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- SECTION 2: COMPLEXACIÓ                            -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="reaction-section" id="sec-complex">
+    <div class="reaction-header cx reveal">
+      <div class="reaction-header-accent"></div>
+      <div>
+        <span class="rh-badge">Tipus 2</span>
+        <h2>Complexació</h2>
+      </div>
+    </div>
+
+    <p class="section-text reveal">
+      Un <strong>lligand</strong> (normalment l'EDTA) forma un complex estable amb un ió metàl·lic.
+      L'EDTA té 6 punts de coordinació — 2 àtoms de N i 4 grups COO⁻ — que envolten el metall com una gàbia.
+    </p>
+
+    <div class="rxn-eq reveal">
+      M²⁺ + EDTA⁴⁻ <span class="arrow">⟶</span> [M-EDTA]²⁻
+    </div>
+
+    <!-- EDTA wrap animation -->
+    <div class="anim-container cx reveal">
+      <div class="anim-label">Animació interactiva</div>
+      <div class="edta-scene" id="edta-scene">
+        <div class="edta-center" id="edta-center">M²⁺</div>
+        <svg class="edta-svg" viewBox="0 0 200 200">
+          <path class="edta-arm" d="M100,76 Q65,35 38,65"/>
+          <path class="edta-arm" d="M100,76 Q135,35 162,65"/>
+          <path class="edta-arm" d="M76,100 Q28,88 33,132"/>
+          <path class="edta-arm" d="M124,100 Q172,88 167,132"/>
+          <path class="edta-arm" d="M88,122 Q55,165 60,158"/>
+          <path class="edta-arm" d="M112,122 Q145,165 140,158"/>
+        </svg>
+        <span class="edta-label" style="left:18px;top:50px;">N</span>
+        <span class="edta-label" style="right:18px;top:50px;">N</span>
+        <span class="edta-label" style="left:8px;top:122px;">COO⁻</span>
+        <span class="edta-label" style="right:2px;top:122px;">COO⁻</span>
+        <span class="edta-label" style="left:38px;top:155px;">COO⁻</span>
+        <span class="edta-label" style="right:30px;top:155px;">COO⁻</span>
+      </div>
+      <button class="anim-btn cx" id="edta-btn">Formar complex ➜</button>
+    </div>
+
+    <div class="concept-box cx reveal">
+      <h4>Concepte clau</h4>
+      <p>L'EDTA reacciona 1:1 amb <strong>qualsevol</strong> catió metàl·lic divalent. Per això el podem usar per determinar Ca²⁺, Mg²⁺, Cu²⁺, Zn²⁺... L'indicador metalocròmic (NET, murexida) canvia de color quan el metall passa de l'indicador a l'EDTA.</p>
+    </div>
+
+    <!-- Molecule -->
+    <div class="mol-container reveal">
+      <div class="mol-title" style="color:var(--complex);">Molècula d'exemple</div>
+      <div class="mol-canvas-wrap">
+        <div class="mol-card">
+          <canvas id="mol-edta" width="280" height="200"></canvas>
+          <div class="mol-card-name">EDTA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practice links -->
+    <div class="practice-pills reveal">
+      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
+      <a class="practice-pill cx" href="practica_S04.html">S04a</a>
+      <a class="practice-pill cx" href="practica_S04b.html">S04b</a>
+      <a class="practice-pill cx" href="practica_D07.html">D07</a>
+      <a class="practice-pill cx" href="practica_D08.html">D08</a>
+      <a class="practice-pill cx" href="practica_D09.html">D09</a>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- SECTION 3: REDOX                                  -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="reaction-section" id="sec-redox">
+    <div class="reaction-header rx reveal">
+      <div class="reaction-header-accent"></div>
+      <div>
+        <span class="rh-badge">Tipus 3</span>
+        <h2>Redox</h2>
+      </div>
+    </div>
+
+    <p class="section-text reveal">
+      En una reacció redox, <strong>electrons</strong> es transfereixen d'una espècie (el reductor, que s'oxida) a una altra (l'oxidant, que es redueix).
+      El nombre d'oxidació canvia: el reductor augmenta i l'oxidant disminueix.
+    </p>
+
+    <div class="rxn-eq reveal">
+      Red <span class="arrow">⟶</span> Ox + ne⁻ &nbsp;&nbsp;|&nbsp;&nbsp; Ox + ne⁻ <span class="arrow">⟶</span> Red
+    </div>
+
+    <!-- Electron orbit animation -->
+    <div class="anim-container rx reveal">
+      <div class="anim-label">Animació interactiva</div>
+      <div class="orbit-scene" id="orbit-scene">
+        <!-- Reductant atom (Fe) -->
+        <div class="atom" id="atom-red">
+          <div class="orbit-ring r1"></div>
+          <div class="orbit-ring r2"></div>
+          <div class="nucleus reductant">
+            <span>Fe</span>
+            <span class="ox-num" id="ox-red">+2</span>
+          </div>
+          <div class="electron orbiting" id="e1" style="--orbit-r:35px;--orbit-speed:1.8s;animation-delay:0s;"></div>
+          <div class="electron orbiting" id="e2" style="--orbit-r:35px;--orbit-speed:1.8s;animation-delay:-0.9s;"></div>
+          <div class="electron orbiting" id="e3" style="--orbit-r:50px;--orbit-speed:2.5s;animation-delay:-0.5s;"></div>
+        </div>
+
+        <div class="orbit-arrow" id="orbit-arrow">⚡</div>
+
+        <!-- Oxidant atom (Mn) -->
+        <div class="atom" id="atom-ox">
+          <div class="orbit-ring r1"></div>
+          <div class="orbit-ring r2"></div>
+          <div class="nucleus oxidant">
+            <span>Mn</span>
+            <span class="ox-num" id="ox-ox">+7</span>
+          </div>
+          <div class="electron orbiting" id="e4" style="--orbit-r:35px;--orbit-speed:2s;animation-delay:-0.3s;"></div>
+          <div class="electron orbiting" id="e5" style="--orbit-r:50px;--orbit-speed:2.8s;animation-delay:-1.2s;"></div>
+        </div>
+      </div>
+      <button class="anim-btn rx" id="redox-btn">Transferir electrons ⚡</button>
+    </div>
+
+    <div class="concept-box rx reveal">
+      <h4>Concepte clau</h4>
+      <p>Molts oxidants tenen <strong>color propi</strong> (KMnO₄ és violeta, Ce⁴⁺ és groc, I₂ és marró). Quan s'esgota l'analit reductor, l'oxidant en excés apareix i el canvi de color indica el punt final — sovint <strong>no cal indicador</strong>.</p>
+    </div>
+
+    <!-- Molecule -->
+    <div class="mol-container reveal">
+      <div class="mol-title" style="color:var(--redox);">Molècula d'exemple</div>
+      <div class="mol-canvas-wrap">
+        <div class="mol-card">
+          <canvas id="mol-ascorbic" width="220" height="180"></canvas>
+          <div class="mol-card-name">Àcid ascòrbic (vit. C)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practice links -->
+    <div class="practice-pills reveal">
+      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
+      <a class="practice-pill rx" href="practica_S05.html">S05</a>
+      <a class="practice-pill rx" href="practica_S06.html">S06</a>
+      <a class="practice-pill rx" href="practica_S07.html">S07</a>
+      <a class="practice-pill rx" href="practica_D10.html">D10</a>
+      <a class="practice-pill rx" href="practica_D11.html">D11</a>
+      <a class="practice-pill rx" href="practica_D12.html">D12</a>
+      <a class="practice-pill rx" href="practica_D13.html">D13</a>
+      <a class="practice-pill rx" href="practica_D14.html">D14</a>
+      <a class="practice-pill rx" href="practica_D15.html">D15</a>
+      <a class="practice-pill rx" href="practica_D16.html">D16</a>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- SECTION 4: PRECIPITACIÓ                           -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="reaction-section" id="sec-precip">
+    <div class="reaction-header pr reveal">
+      <div class="reaction-header-accent"></div>
+      <div>
+        <span class="rh-badge">Tipus 4</span>
+        <h2>Precipitació</h2>
+      </div>
+    </div>
+
+    <p class="section-text reveal">
+      Dos ions en solució es combinen per formar un <strong>sòlid insoluble</strong> (precipitat).
+      Si la concentració del producte iònic supera la K<sub>ps</sub>, el sòlid es forma espontàniament.
+    </p>
+
+    <div class="rxn-eq reveal">
+      Ag⁺(aq) + Cl⁻(aq) <span class="arrow">⟶</span> AgCl(s) ↓
+    </div>
+
+    <!-- Crystal formation animation -->
+    <div class="anim-container pr reveal">
+      <div class="anim-label">Animació interactiva</div>
+      <div class="crystal-scene" id="crystal-scene">
+        <!-- Ions placed by JS -->
+      </div>
+      <button class="anim-btn pr" id="crystal-btn">Precipitar! ↓</button>
+    </div>
+
+    <div class="concept-box pr reveal">
+      <h4>Concepte clau</h4>
+      <p>Al punt d'equivalència, s'ha afegit la quantitat exacta de valorant per precipitar tot l'analit. L'<strong>indicador</strong> de Mohr (CrO₄²⁻) forma un segon precipitat vermell (Ag₂CrO₄) quan ja no queda Cl⁻ per reaccionar amb Ag⁺. El mètode de Volhard funciona a la inversa: un retorn amb KSCN.</p>
+    </div>
+
+    <!-- Practice links -->
+    <div class="practice-pills reveal">
+      <span style="font-size:0.72rem;font-weight:700;color:var(--gray-500);margin-right:0.25rem;">Pràctiques:</span>
+      <a class="practice-pill pr" href="practica_S08.html">S08</a>
+      <a class="practice-pill pr" href="practica_S09.html">S09</a>
+      <a class="practice-pill pr" href="practica_D17a.html">D17a</a>
+      <a class="practice-pill pr" href="practica_D17b.html">D17b</a>
+      <a class="practice-pill pr" href="practica_D17c.html">D17c</a>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- COMPARISON TABLE                                  -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="transition-section reveal">
+    <div class="divider-line"></div>
+    <h2>Comparativa</h2>
+    <p>Les quatre famílies, costat a costat.</p>
+  </div>
+
+  <div class="compare-table-wrap reveal">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-ab">Àcid-base</th>
+          <th class="col-cx">Complexació</th>
+          <th class="col-rx">Redox</th>
+          <th class="col-pr">Precipitació</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Què es transfereix</td>
+          <td>Protons (H⁺)</td>
+          <td>Parells d'e⁻ (lligand → metall)</td>
+          <td>Electrons (Red → Ox)</td>
+          <td>Res — els ions s'uneixen</td>
+        </tr>
+        <tr>
+          <td>Valorant típic</td>
+          <td>NaOH, HCl, HClO₄</td>
+          <td>EDTA</td>
+          <td>KMnO₄, Ce(IV), I₂/Na₂S₂O₃</td>
+          <td>AgNO₃, KSCN</td>
+        </tr>
+        <tr>
+          <td>Indicador</td>
+          <td>Fenolftaleïna, taronja de metil</td>
+          <td>NET, murexida</td>
+          <td>Color propi / difenilamina / midó</td>
+          <td>CrO₄²⁻ (Mohr), Fe³⁺ (Volhard)</td>
+        </tr>
+        <tr>
+          <td>Senyal al punt final</td>
+          <td>Canvi de pH → color</td>
+          <td>Metall: indicador → EDTA</td>
+          <td>Canvi de color del valorant</td>
+          <td>Precipitat de color diferent</td>
+        </tr>
+        <tr>
+          <td>Pràctiques</td>
+          <td>10</td>
+          <td>5</td>
+          <td>10</td>
+          <td>5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- QUICK-REFERENCE IDENTIFICATION CARDS              -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="rules-title reveal">🔎 Com identificar el tipus de reacció</div>
+
+  <div class="identify-cards reveal">
+    <div class="identify-card ab">
+      <div class="identify-card-icon">🔵</div>
+      <div>
+        <h4>Àcid-base</h4>
+        <p>Veus <strong>NaOH, HCl, H₂SO₄, fenolftaleïna</strong>? Es parla de <strong>pH o neutralització</strong>? → Àcid-base.</p>
+      </div>
+    </div>
+    <div class="identify-card cx">
+      <div class="identify-card-icon">🟢</div>
+      <div>
+        <h4>Complexació</h4>
+        <p>Apareix <strong>EDTA, NET, murexida, tampó pH 10</strong>? Es determina un <strong>metall divalent</strong>? → Complexació.</p>
+      </div>
+    </div>
+    <div class="identify-card rx">
+      <div class="identify-card-icon">🟠</div>
+      <div>
+        <h4>Redox</h4>
+        <p>Veus <strong>KMnO₄, Ce(IV), I₂, Na₂S₂O₃, midó</strong>? Es parla de <strong>nombres d'oxidació</strong>? → Redox.</p>
+      </div>
+    </div>
+    <div class="identify-card pr">
+      <div class="identify-card-icon">🟣</div>
+      <div>
+        <h4>Precipitació</h4>
+        <p>Apareix <strong>AgNO₃, KSCN, CrO₄²⁻</strong>? Es forma un <strong>sòlid blanc (o vermell)</strong>? → Precipitació.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════ Footer ═══════ -->
+<footer class="site-footer">
+  <p>
+    Adrián Gómez Sánchez &middot; Universitat de Barcelona &middot; Facultat de Química &middot; Dept. d'Enginyeria Química i Química Analítica &middot; &copy; 2026
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- Scripts                                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<script>
+// ── Scroll reveal ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── SmilesDrawer molecule rendering ──
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const molecules = [
+      { smiles: 'CC(O)=O', id: 'mol-acetic', w: 220, h: 160 },
+      { smiles: 'CC(=O)Oc1ccccc1C(O)=O', id: 'mol-aspirin', w: 220, h: 160 },
+      { smiles: 'OC(=O)CN(CCN(CC(O)=O)CC(O)=O)CC(O)=O', id: 'mol-edta', w: 280, h: 200 },
+      { smiles: 'OC1OC(=C(O)C1O)CO', id: 'mol-ascorbic', w: 220, h: 180 },
+    ];
+    molecules.forEach(m => {
+      const canvas = document.getElementById(m.id);
+      if (!canvas) return;
+      const drawer = new SmilesDrawer.SmiDrawer({ width: m.w, height: m.h });
+      drawer.draw(m.smiles, canvas, 'light');
+    });
+  } catch(e) {
+    console.warn('SmilesDrawer not available:', e);
+  }
+});
+
+
+// ══════════════════════════════════════
+// 1. Proton Transfer (Àcid-base)
+// ══════════════════════════════════════
+let protonState = 'ready';
+
+document.getElementById('proton-btn').addEventListener('click', () => {
+  const dot  = document.getElementById('proton-dot');
+  const acid = document.getElementById('acid-mol');
+  const base = document.getElementById('base-mol');
+  const btn  = document.getElementById('proton-btn');
+
+  if (protonState === 'ready') {
+    // Step 1: show the proton at the acid
+    dot.classList.add('show');
+    // Step 2: fly to the base
+    setTimeout(() => {
+      dot.classList.add('at-base');
+      acid.classList.add('done');
+      acid.textContent = 'A⁻';
+    }, 350);
+    // Step 3: absorb into base
+    setTimeout(() => {
+      base.classList.add('done');
+      base.textContent = 'BH⁺';
+      dot.style.opacity = '0';
+      protonState = 'transferred';
+      btn.textContent = '↻ Reiniciar';
+    }, 1200);
+  } else {
+    // Reset
+    dot.className = 'proton-dot';
+    dot.style.opacity = '';
+    acid.className = 'proton-mol acid';
+    acid.textContent = 'HA';
+    base.className = 'proton-mol base';
+    base.textContent = 'B';
+    protonState = 'ready';
+    btn.textContent = 'Transferir protó ➜';
+  }
+});
+
+
+// ══════════════════════════════════════
+// 2. EDTA Wrap (Complexació)
+// ══════════════════════════════════════
+let edtaState = 'ready';
+
+document.getElementById('edta-btn').addEventListener('click', () => {
+  const arms   = document.querySelectorAll('.edta-arm');
+  const labels = document.querySelectorAll('.edta-label');
+  const center = document.getElementById('edta-center');
+  const btn    = document.getElementById('edta-btn');
+
+  if (edtaState === 'ready') {
+    arms.forEach(arm => arm.classList.add('wrapped'));
+    labels.forEach(lbl => lbl.classList.add('show'));
+    center.classList.add('wrapped');
+    center.textContent = '[M-EDTA]²⁻';
+    center.style.fontSize = '0.5rem';
+    edtaState = 'wrapped';
+    btn.textContent = '↻ Reiniciar';
+  } else {
+    arms.forEach(arm => arm.classList.remove('wrapped'));
+    labels.forEach(lbl => lbl.classList.remove('show'));
+    center.classList.remove('wrapped');
+    center.textContent = 'M²⁺';
+    center.style.fontSize = '';
+    edtaState = 'ready';
+    btn.textContent = 'Formar complex ➜';
+  }
+});
+
+
+// ══════════════════════════════════════
+// 3. Electron Transfer (Redox)
+// ══════════════════════════════════════
+let redoxState = 'ready';
+
+document.getElementById('redox-btn').addEventListener('click', () => {
+  const btn   = document.getElementById('redox-btn');
+  const arrow = document.getElementById('orbit-arrow');
+  const oxRed = document.getElementById('ox-red');
+  const oxOx  = document.getElementById('ox-ox');
+  const e1    = document.getElementById('e1');
+
+  if (redoxState === 'ready') {
+    // Show transfer arrow
+    arrow.classList.add('show');
+
+    // Detach electron from reductant → fly to oxidant
+    setTimeout(() => {
+      e1.classList.remove('orbiting');
+      e1.classList.add('transferring');
+      // Position electron at oxidant atom area
+      const atomRed = document.getElementById('atom-red');
+      const atomOx  = document.getElementById('atom-ox');
+      const dx = atomOx.getBoundingClientRect().left - atomRed.getBoundingClientRect().left;
+      e1.style.transform = `translateX(${dx}px) translateY(0)`;
+
+      // Update oxidation numbers
+      oxRed.textContent = '+3';
+      oxOx.textContent  = '+2';
+    }, 300);
+
+    setTimeout(() => {
+      // Re-orbit at new atom
+      e1.classList.remove('transferring');
+      e1.style.transform = '';
+      // Move e1 to oxidant atom
+      const atomOx = document.getElementById('atom-ox');
+      atomOx.appendChild(e1);
+      e1.style.setProperty('--orbit-r', '50px');
+      e1.style.setProperty('--orbit-speed', '2.8s');
+      e1.style.animationDelay = '-1.8s';
+      e1.classList.add('orbiting');
+      arrow.classList.remove('show');
+      redoxState = 'transferred';
+      btn.textContent = '↻ Reiniciar';
+    }, 1400);
+  } else {
+    // Reset: move electron back
+    e1.classList.remove('orbiting', 'transferring');
+    e1.style.transform = '';
+    e1.style.setProperty('--orbit-r', '35px');
+    e1.style.setProperty('--orbit-speed', '1.8s');
+    e1.style.animationDelay = '0s';
+    document.getElementById('atom-red').appendChild(e1);
+    e1.classList.add('orbiting');
+    oxRed.textContent = '+2';
+    oxOx.textContent  = '+7';
+    redoxState = 'ready';
+    btn.textContent = 'Transferir electrons ⚡';
+  }
+});
+
+
+// ══════════════════════════════════════
+// 4. Crystal Formation (Precipitació)
+// ══════════════════════════════════════
+let crystalState = 'ready';
+const crystalScene = document.getElementById('crystal-scene');
+const ionData = [];
+
+// Create 12 floating ions (alternating Ag⁺ / Cl⁻)
+for (let i = 0; i < 12; i++) {
+  const isAg = i % 2 === 0;
+  const ion = document.createElement('div');
+  ion.className = `crystal-ion ${isAg ? 'ag' : 'cl'} floating`;
+  ion.textContent = isAg ? 'Ag⁺' : 'Cl⁻';
+
+  const x = 8 + Math.random() * 62;
+  const y = 8 + Math.random() * 72;
+  ion.style.left = x + '%';
+  ion.style.top  = y + '%';
+
+  // Random float parameters
+  const rnd = () => ((Math.random() - 0.5) * 18) + 'px';
+  ion.style.setProperty('--dx1', rnd());
+  ion.style.setProperty('--dy1', rnd());
+  ion.style.setProperty('--dx2', rnd());
+  ion.style.setProperty('--dy2', rnd());
+  ion.style.setProperty('--dx3', rnd());
+  ion.style.setProperty('--dy3', rnd());
+  ion.style.setProperty('--float-dur', (2.5 + Math.random() * 2) + 's');
+  ion.style.animationDelay = (Math.random() * 3) + 's';
+
+  crystalScene.appendChild(ion);
+  ionData.push({ el: ion, origX: x, origY: y });
+}
+
+document.getElementById('crystal-btn').addEventListener('click', () => {
+  const btn = document.getElementById('crystal-btn');
+
+  if (crystalState === 'ready') {
+    // Snap into NaCl-type alternating grid at bottom
+    const cols = 6;
+    const startX = 12;
+    const startY = 62;
+    const spacingX = 13;
+    const spacingY = 15;
+
+    ionData.forEach((ion, i) => {
+      ion.el.classList.remove('floating');
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      ion.el.style.left = (startX + col * spacingX) + '%';
+      ion.el.style.top  = (startY + row * spacingY) + '%';
+    });
+
+    crystalScene.classList.add('turbid');
+    crystalState = 'crystallized';
+    btn.textContent = '↻ Reiniciar';
+  } else {
+    ionData.forEach(ion => {
+      ion.el.classList.add('floating');
+      ion.el.style.left = ion.origX + '%';
+      ion.el.style.top  = ion.origY + '%';
+    });
+    crystalScene.classList.remove('turbid');
+    crystalState = 'ready';
+    btn.textContent = 'Precipitar! ↓';
+  }
+});
+</script>
+
+</body>
+</html>

@@ -62,7 +62,7 @@
       <button class="menu-section-header" onclick="toggleSection('sec-seminaris')">
         <div class="menu-section-icon seminari">📋</div>
         <span class="menu-section-label">Seminaris</span>
-        <span class="menu-section-count">2</span>
+        <span class="menu-section-count">3</span>
         <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </button>
       <div class="menu-section-items">
@@ -73,6 +73,10 @@
         <button class="menu-item" data-page="SEM02" onclick="navigateTo('SEM02')">
           <span class="menu-item-code">S.2</span>
           Mesura de volums
+        </button>
+        <button class="menu-item" data-page="SEM03" onclick="navigateTo('SEM03')">
+          <span class="menu-item-code">S.3</span>
+          Tipus de reaccions
         </button>
       </div>
     </div>
@@ -127,7 +131,7 @@
         <div class="landing-card-body">
           <h3>Seminaris</h3>
           <p>Introducció al laboratori: pesada, material volumètric i tècniques bàsiques.</p>
-          <span class="card-count">2 seminaris</span>
+          <span class="card-count">3 seminaris</span>
         </div>
       </div>
       <div class="landing-card" onclick="openSection('sec-estandarditzacións')">
@@ -217,6 +221,7 @@ function buildPages() {
     { id: 'LLIBRETA', title: 'La llibreta de laboratori', type: 'seminari', typeLabel: 'Guia', section: 'Guies' },
     { id: 'SEM01', title: 'La pesada per diferència', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     { id: 'SEM02', title: 'Mesura de volums', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
+    { id: 'SEM03', title: 'Tipus de reaccions', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     ...estandarditzacións.map(e => ({...e, type: 'estandardització', typeLabel: 'Estandardització', section: 'Estandarditzacions'})),
     ...determinacions.map(d => ({...d, type: 'determinacio', typeLabel: 'Determinació', section: 'Determinacions'})),
   ];
@@ -273,6 +278,22 @@ function buildPages() {
           </div>
           <p class="embed-hint" style="margin-top:0.5rem;">
             <a href="seminari_volums.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+          </p>
+        </div>`;
+    } else if (item.id === 'SEM03') {
+      content = `
+        <div class="mobile-only">
+          <a class="open-fullpage-btn" href="seminari_reaccions.html">
+            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            Obrir seminari: Reaccions
+          </a>
+        </div>
+        <div class="desktop-only">
+          <div class="embed-container">
+            <iframe src="seminari_reaccions.html" loading="lazy" title="Seminari: Tipus de reaccions"></iframe>
+          </div>
+          <p class="embed-hint" style="margin-top:0.5rem;">
+            <a href="seminari_reaccions.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
           </p>
         </div>`;
     } else if (item.hasContent) {
