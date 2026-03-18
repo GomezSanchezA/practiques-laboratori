@@ -126,25 +126,15 @@
           <span class="card-count">Guia essencial</span>
         </div>
       </div>
-      <div class="landing-card" onclick="openSection('sec-seminaris')">
+      <div class="landing-card" onclick="navigateTo('hub-sem')">
         <div class="landing-card-icon" style="background:#fef3c7;">📋</div>
         <div class="landing-card-body">
           <h3>Seminaris</h3>
-          <p>Introducció al laboratori: pesada, material volumètric i tècniques bàsiques.</p>
+          <p>Introducció al laboratori: pesada, material volumètric, tipus de reaccions i tècniques bàsiques.</p>
           <span class="card-count">3 seminaris</span>
         </div>
       </div>
-      <div class="landing-card" onclick="navigateTo('SEM03')">
-        <div class="landing-card-icon" style="background:#fef3c7;">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        </div>
-        <div class="landing-card-body">
-          <h3>Tipus de reaccions</h3>
-          <p>Les 4 famílies de reaccions: àcid-base, complexació, redox i precipitació. Animacions interactives.</p>
-          <span class="card-count">Seminari interactiu</span>
-        </div>
-      </div>
-      <div class="landing-card" onclick="openSection('sec-estandarditzacións')">
+      <div class="landing-card" onclick="navigateTo('hub-est')">
         <div class="landing-card-icon" style="background:var(--blue-100);">🧪</div>
         <div class="landing-card-body">
           <h3>Estandarditzacions</h3>
@@ -152,7 +142,7 @@
           <span class="card-count">11 pràctiques (S01–S09)</span>
         </div>
       </div>
-      <div class="landing-card" onclick="openSection('sec-determinacions')">
+      <div class="landing-card" onclick="navigateTo('hub-det')">
         <div class="landing-card-icon" style="background:#e0e7ff;">🔬</div>
         <div class="landing-card-body">
           <h3>Determinacions</h3>
@@ -161,6 +151,48 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Hub: Seminaris -->
+  <div class="page" id="page-hub-sem">
+    <div class="page-header">
+      <div class="page-breadcrumb">
+        <a onclick="navigateTo('home')">Inici</a>
+        <span class="sep">/</span>
+        <span>Seminaris</span>
+      </div>
+      <h1 class="page-title">Seminaris</h1>
+      <p class="hub-subtitle">Sessions introductòries abans de començar les pràctiques al laboratori.</p>
+    </div>
+    <div class="hub-grid" id="hub-grid-sem"></div>
+  </div>
+
+  <!-- Hub: Estandarditzacions -->
+  <div class="page" id="page-hub-est">
+    <div class="page-header">
+      <div class="page-breadcrumb">
+        <a onclick="navigateTo('home')">Inici</a>
+        <span class="sep">/</span>
+        <span>Estandarditzacions</span>
+      </div>
+      <h1 class="page-title">Estandarditzacions</h1>
+      <p class="hub-subtitle">Preparació i valoració de solucions patró per a les determinacions posteriors.</p>
+    </div>
+    <div class="hub-grid" id="hub-grid-est"></div>
+  </div>
+
+  <!-- Hub: Determinacions -->
+  <div class="page" id="page-hub-det">
+    <div class="page-header">
+      <div class="page-breadcrumb">
+        <a onclick="navigateTo('home')">Inici</a>
+        <span class="sep">/</span>
+        <span>Determinacions</span>
+      </div>
+      <h1 class="page-title">Determinacions</h1>
+      <p class="hub-subtitle">Anàlisi quantitativa de mostres reals: fàrmacs, aliments, aigües i productes comercials.</p>
+    </div>
+    <div class="hub-grid" id="hub-grid-det"></div>
   </div>
 
   <div id="dynamic-pages"></div>
@@ -177,39 +209,39 @@
 const EDTA_URL = 'https://gomezsancheza.github.io/exempleIAG/';
 
 const estandarditzacións = [
-  { id: 'S01', title: "Estandardització de NaOH 0,1 mol/L", hasContent: true },
-  { id: 'S02a', title: "Estandardització de H₂SO₄ 0,01 mol/L", hasContent: true },
-  { id: 'S02b', title: "Estandardització de HCl 0,1 mol/L", hasContent: true },
-  { id: 'S03', title: "Estandardització de HClO₄ 0,1 mol/L en àcid acètic glacial", hasContent: true },
-  { id: 'S04a', title: "Estandardització d'EDTA 0,1 mol/L", hasContent: true },
-  { id: 'S04b', title: "Estandardització d'EDTA 0,02 mol/L", hasContent: true },
-  { id: 'S05', title: "Estandardització de KMnO₄ 0,02 mol/L", hasContent: true },
-  { id: 'S06', title: "Estandardització de Ce(IV) 0,05 mol/L", hasContent: true },
-  { id: 'S07', title: "Estandardització de Na₂S₂O₃ 0,1 mol/L", hasContent: true },
-  { id: 'S08', title: "Estandardització d'AgNO₃ 0,1 mol/L — Mohr", hasContent: true },
-  { id: 'S09', title: "Estandardització de KSCN 0,05 mol/L", hasContent: true },
+  { id: 'S01', title: "Estandardització de NaOH 0,1 mol/L", hasContent: true, rxn: 'ab' },
+  { id: 'S02a', title: "Estandardització de H₂SO₄ 0,01 mol/L", hasContent: true, rxn: 'ab' },
+  { id: 'S02b', title: "Estandardització de HCl 0,1 mol/L", hasContent: true, rxn: 'ab' },
+  { id: 'S03', title: "Estandardització de HClO₄ 0,1 mol/L en àcid acètic glacial", hasContent: true, rxn: 'ab' },
+  { id: 'S04a', title: "Estandardització d'EDTA 0,1 mol/L", hasContent: true, rxn: 'cx' },
+  { id: 'S04b', title: "Estandardització d'EDTA 0,02 mol/L", hasContent: true, rxn: 'cx' },
+  { id: 'S05', title: "Estandardització de KMnO₄ 0,02 mol/L", hasContent: true, rxn: 'rx' },
+  { id: 'S06', title: "Estandardització de Ce(IV) 0,05 mol/L", hasContent: true, rxn: 'rx' },
+  { id: 'S07', title: "Estandardització de Na₂S₂O₃ 0,1 mol/L", hasContent: true, rxn: 'rx' },
+  { id: 'S08', title: "Estandardització d'AgNO₃ 0,1 mol/L — Mohr", hasContent: true, rxn: 'pr' },
+  { id: 'S09', title: "Estandardització de KSCN 0,05 mol/L", hasContent: true, rxn: 'pr' },
 ];
 
 const determinacions = [
-  { id: 'D01', title: "Determinació de l'acidesa total d'un vinagre", hasContent: true },
-  { id: 'D02', title: "Determinació de l'hidrogencarbonat en una aigua", hasContent: true },
-  { id: 'D03', title: "Determinació d'àcid acetilsalicílic en comprimits analgèsics", hasContent: true },
-  { id: 'D04', title: "Determinació de l'índex o grau d'acidesa d'un oli vegetal", hasContent: true },
-  { id: 'D05', title: "Determinació d'amoxicil·lina en un antibiòtic", hasContent: true },
-  { id: 'D06', title: "Determinació de la puresa d'una mostra d'antipirina", hasContent: true },
-  { id: 'D07', title: "Determinació de la duresa de l'aigua: calci i magnesi", hasContent: true },
-  { id: 'D08', title: "Determinació del contingut de calci en un suplement nutricional oral", hasContent: true },
-  { id: 'D09', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode A)", hasContent: true },
-  { id: 'D10', title: "Determinació del clor actiu en un lleixiu", hasContent: true },
-  { id: 'D11', title: "Determinació del contingut de ferro en un medicament antianèmic", hasContent: true },
-  { id: 'D12', title: "Determinació de peròxid d'hidrogen en antisèptics i blanquejants", hasContent: true },
-  { id: 'D13', title: "Determinació de l'índex de permanganat d'un vi", hasContent: true },
-  { id: 'D14', title: "Determinació de l'índex de iode d'un oli vegetal", hasContent: true },
-  { id: 'D15', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode B)", hasContent: true },
-  { id: 'D16', title: "Determinació de l'àcid ascòrbic en un medicament", hasContent: true },
-  { id: 'D17a', title: "Determinació de Cl⁻ en aigua potable — Mohr", hasContent: true },
-  { id: 'D17b', title: "Determinació de Cl⁻ en sal de cuina — Mohr", hasContent: true },
-  { id: 'D17c', title: "Determinació de Br⁻ en comprimits — Volhard", hasContent: true },
+  { id: 'D01', title: "Determinació de l'acidesa total d'un vinagre", hasContent: true, rxn: 'ab' },
+  { id: 'D02', title: "Determinació de l'hidrogencarbonat en una aigua", hasContent: true, rxn: 'ab' },
+  { id: 'D03', title: "Determinació d'àcid acetilsalicílic en comprimits analgèsics", hasContent: true, rxn: 'ab' },
+  { id: 'D04', title: "Determinació de l'índex o grau d'acidesa d'un oli vegetal", hasContent: true, rxn: 'ab' },
+  { id: 'D05', title: "Determinació d'amoxicil·lina en un antibiòtic", hasContent: true, rxn: 'ab' },
+  { id: 'D06', title: "Determinació de la puresa d'una mostra d'antipirina", hasContent: true, rxn: 'ab' },
+  { id: 'D07', title: "Determinació de la duresa de l'aigua: calci i magnesi", hasContent: true, rxn: 'cx' },
+  { id: 'D08', title: "Determinació del contingut de calci en un suplement nutricional oral", hasContent: true, rxn: 'cx' },
+  { id: 'D09', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode A)", hasContent: true, rxn: 'cx' },
+  { id: 'D10', title: "Determinació del clor actiu en un lleixiu", hasContent: true, rxn: 'rx' },
+  { id: 'D11', title: "Determinació del contingut de ferro en un medicament antianèmic", hasContent: true, rxn: 'rx' },
+  { id: 'D12', title: "Determinació de peròxid d'hidrogen en antisèptics i blanquejants", hasContent: true, rxn: 'rx' },
+  { id: 'D13', title: "Determinació de l'índex de permanganat d'un vi", hasContent: true, rxn: 'rx' },
+  { id: 'D14', title: "Determinació de l'índex de iode d'un oli vegetal", hasContent: true, rxn: 'rx' },
+  { id: 'D15', title: "Determinació del contingut de coure en un fungicida fitosanitari (mètode B)", hasContent: true, rxn: 'rx' },
+  { id: 'D16', title: "Determinació de l'àcid ascòrbic en un medicament", hasContent: true, rxn: 'rx' },
+  { id: 'D17a', title: "Determinació de Cl⁻ en aigua potable — Mohr", hasContent: true, rxn: 'pr' },
+  { id: 'D17b', title: "Determinació de Cl⁻ en sal de cuina — Mohr", hasContent: true, rxn: 'pr' },
+  { id: 'D17c', title: "Determinació de Br⁻ en comprimits — Volhard", hasContent: true, rxn: 'pr' },
 ];
 
 // ═══════════ Build ═══════════
@@ -371,6 +403,49 @@ function buildPages() {
 buildMenuItems('estandarditzacións-items', estandarditzacións);
 buildMenuItems('determinacions-items', determinacions);
 buildPages();
+
+// Build hub grids
+const rxnLabels = { ab: 'Àcid-base', cx: 'Complexació', rx: 'Redox', pr: 'Precipitació' };
+function buildHubGrid(containerId, items) {
+  const grid = document.getElementById(containerId);
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'hub-card';
+    card.onclick = () => navigateTo(item.id);
+    card.innerHTML = `
+      <div class="hub-card-id ${item.rxn || ''}">${item.id}</div>
+      <div class="hub-card-body">
+        <div class="hub-card-title">${item.title}</div>
+        ${item.rxn ? `<span class="hub-card-tag ${item.rxn}">${rxnLabels[item.rxn]}</span>` : ''}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+const seminaris = [
+  { id: 'SEM01', title: 'La pesada per diferència', desc: 'Tècnica de pesada en balança analítica' },
+  { id: 'SEM02', title: 'Mesura de volums', desc: 'Pipetes, buretes i material volumètric' },
+  { id: 'SEM03', title: 'Tipus de reaccions', desc: 'Les 4 famílies: àcid-base, complexació, redox i precipitació' },
+];
+
+// Build seminari hub (special: no rxn type, just simple cards)
+(function() {
+  const grid = document.getElementById('hub-grid-sem');
+  seminaris.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'hub-card';
+    card.onclick = () => navigateTo(item.id);
+    card.innerHTML = `
+      <div class="hub-card-id" style="background:#f59e0b;">${item.id.replace('SEM0','S.')}</div>
+      <div class="hub-card-body">
+        <div class="hub-card-title">${item.title}</div>
+        <div style="font-size:0.72rem;color:var(--gray-500);margin-top:0.2rem;">${item.desc}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+})();
+
+buildHubGrid('hub-grid-est', estandarditzacións);
+buildHubGrid('hub-grid-det', determinacions);
 
 // ═══════════ Navigation ═══════════
 function navigateTo(pageId) {

@@ -397,6 +397,65 @@ body {
   border-radius: 6px;
 }
 
+/* ── Hub pages (intermediate) ── */
+.hub-subtitle {
+  font-size: 0.82rem; color: var(--gray-500); line-height: 1.5; margin-top: 0.25rem;
+}
+.hub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+.hub-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  -webkit-tap-highlight-color: transparent;
+}
+.hub-card:active { background: var(--blue-50); }
+@media (hover: hover) {
+  .hub-card:hover {
+    border-color: var(--blue-300);
+    box-shadow: 0 2px 10px rgba(37,99,235,0.08);
+  }
+}
+.hub-card-id {
+  font-size: 0.75rem; font-weight: 800; color: #fff;
+  min-width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hub-card-id.ab { background: var(--blue-500); }
+.hub-card-id.cx { background: #22c55e; }
+.hub-card-id.rx { background: #f59e0b; }
+.hub-card-id.pr { background: #8b5cf6; }
+.hub-card-body { flex: 1; min-width: 0; }
+.hub-card-title {
+  font-size: 0.85rem; font-weight: 600; color: var(--gray-800);
+  line-height: 1.35;
+}
+.hub-card-tag {
+  display: inline-block; margin-top: 0.3rem;
+  font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.3px; padding: 2px 7px; border-radius: 5px;
+}
+.hub-card-tag.ab { background: #eff6ff; color: var(--blue-600); }
+.hub-card-tag.cx { background: #f0fdf4; color: #16a34a; }
+.hub-card-tag.rx { background: #fffbeb; color: #d97706; }
+.hub-card-tag.pr { background: #f5f3ff; color: #7c3aed; }
+
+@media (min-width: 600px) {
+  .hub-grid { grid-template-columns: 1fr 1fr; }
+}
+
 /* ── Practice page ── */
 .page-header { margin-bottom: 1.25rem; }
 
