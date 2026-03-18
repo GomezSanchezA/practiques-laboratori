@@ -405,7 +405,6 @@ buildMenuItems('determinacions-items', determinacions);
 buildPages();
 
 // Build hub grids
-const rxnLabels = { ab: 'Àcid-base', cx: 'Complexació', rx: 'Redox', pr: 'Precipitació' };
 function buildHubGrid(containerId, items) {
   const grid = document.getElementById(containerId);
   items.forEach(item => {
@@ -413,10 +412,9 @@ function buildHubGrid(containerId, items) {
     card.className = 'hub-card';
     card.onclick = () => navigateTo(item.id);
     card.innerHTML = `
-      <div class="hub-card-id ${item.rxn || ''}">${item.id}</div>
+      <div class="hub-card-id">${item.id}</div>
       <div class="hub-card-body">
         <div class="hub-card-title">${item.title}</div>
-        ${item.rxn ? `<span class="hub-card-tag ${item.rxn}">${rxnLabels[item.rxn]}</span>` : ''}
       </div>`;
     grid.appendChild(card);
   });
