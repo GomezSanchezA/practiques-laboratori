@@ -41,37 +41,6 @@
     <p style="margin-top:0.5rem;">Al laboratori hi ha molts recipients de vidre: vasos, provetes, matrassos, pipetes, buretes. Tots contenen líquid, però <strong>no tots mesuren igual</strong>. Saber quin material escollir per a cada situació és una de les competències bàsiques que es valoren en aquestes pràctiques. Vegem quins serveixen per mesurar i quins no.</p>
   </div>
 
-  <!-- ────── WRONG: measuring with a beaker ────── -->
-  <div class="section-label wrong reveal">
-    <div class="section-label-icon">❌</div>
-    <h2>Com NO s'ha de mesurar</h2>
-  </div>
-
-  <div class="step-card wrong reveal">
-    <img class="step-card-img" src="img/volum_vas_01.webp" alt="Vas de precipitats: les marques són orientatives, impossíble saber si són 18 o 22 mL">
-    <div class="step-card-body">
-      <div class="step-number">!</div>
-      <h3>El vas de precipitats NO mesura</h3>
-      <p>Les marques del vas de precipitats són <strong>orientatives</strong> — serveixen per saber aproximadament quant líquid hi ha, però l'error pot ser del 10% o més. Si hi poseu "20 mL", podrien ser 18 o 22 mL. Per a un càlcul, això és inacceptable.</p>
-    </div>
-  </div>
-
-  <div class="step-card wrong reveal">
-    <img class="step-card-img" src="img/volum_proveta_02.webp" alt="Proveta graduada: millor que el vas, però les divisions són grans">
-    <div class="step-card-body">
-      <div class="step-number">!</div>
-      <h3>La proveta: millor, però no prou</h3>
-      <p>La proveta té divisions més fines, però l'error és d'<strong>±1 mL</strong>. Per afegir aigua o un reactiu en excés és suficient, però per mesurar un volum que apareixerà en un càlcul, no és prou precisa.</p>
-    </div>
-  </div>
-
-  <!-- ────── TRANSITION ────── -->
-  <div class="transition-section reveal">
-    <div class="divider-line"></div>
-    <h2>Llavors, què fem servir?</h2>
-    <p>Material volumètric de precisió. Cada un té el seu paper.</p>
-  </div>
-
   <!-- ═══════ SECTION 2: PRECISION HIERARCHY ═══════ -->
 
   <div class="section-label right reveal">
@@ -79,6 +48,8 @@
     <h2>La jerarquia de precisió</h2>
   </div>
 
+  <h3 class="reveal" style="margin-top:1rem; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--green-700);">Material volumètric de precisió</h3>
+  <p class="reveal" style="font-size:0.8rem; color:var(--gray-500); margin-bottom:0.5rem;">El volum que mesuren apareix directament als càlculs.</p>
   <div class="hierarchy reveal">
     <div class="hierarchy-item high">
       <div class="hierarchy-rank">1</div>
@@ -104,6 +75,11 @@
       </div>
       <div class="hierarchy-precision">±0,1 mL</div>
     </div>
+  </div>
+
+  <h3 class="reveal" style="margin-top:1.25rem; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray-500);">Material de menor precisió</h3>
+  <p class="reveal" style="font-size:0.8rem; color:var(--gray-400); margin-bottom:0.5rem;">Per afegir aigua, reactius en excés o mesurar volums aproximats. No per a càlculs.</p>
+  <div class="hierarchy reveal">
     <div class="hierarchy-item medium">
       <div class="hierarchy-rank">4</div>
       <div class="hierarchy-info">
@@ -124,7 +100,7 @@
       <div class="hierarchy-rank">6</div>
       <div class="hierarchy-info">
         <div class="hierarchy-name">Vas de precipitats</div>
-        <div class="hierarchy-desc">Orientatiu — MAI per mesurar</div>
+        <div class="hierarchy-desc">Orientatiu — mai per mesurar</div>
       </div>
       <div class="hierarchy-precision">~±10%</div>
     </div>
@@ -133,7 +109,7 @@
   <div class="highlight-box success reveal">
     <div class="highlight-icon">💡</div>
     <h3>Regla senzilla</h3>
-    <p>Si el volum que mesureu apareix en un càlcul → material de precisió (pipeta aforada, bureta, matràs aforat). Si només esteu afegint aigua o un reactiu en excés → proveta o vas.</p>
+    <p>Si el volum apareix en un càlcul → material volumètric de precisió (pipeta aforada, bureta, matràs aforat). Si esteu afegint aigua, tampó o un dissolvent on el volum exacte no importa → proveta o vas.</p>
   </div>
 
   <!-- ═══════ SECTION 3: MENISCUS ═══════ -->
@@ -348,6 +324,32 @@
   <div class="rule-card reveal">
     <div class="rule-icon">🎯</div>
     <div class="rule-text"><strong>Trieu el material adequat.</strong> Si el volum apareix en un càlcul → material de precisió. Si només afegiu aigua o un reactiu en excés → proveta o vas. Penseu-hi abans de començar.</div>
+  </div>
+
+  <!-- ═══════ SECTION: WRONG WAY (reminder) ═══════ -->
+
+  <div class="transition-section reveal">
+    <div class="divider-line"></div>
+    <h2>Errors freqüents</h2>
+    <p>Ara que coneixeu el material, vegem dos errors que es veuen sovint.</p>
+  </div>
+
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/volum_vas_01.webp" alt="Vas de precipitats: les marques són orientatives">
+    <div class="step-card-body">
+      <div class="step-number">!</div>
+      <h3>Mesurar amb un vas de precipitats</h3>
+      <p>Les marques del vas de precipitats són <strong>orientatives</strong> — l'error pot ser del 10% o més. Si hi poseu "20 mL", podrien ser 18 o 22 mL. El vas serveix per contenir, mesclar i escalfar, no per mesurar.</p>
+    </div>
+  </div>
+
+  <div class="step-card wrong reveal">
+    <img class="step-card-img" src="img/volum_proveta_02.webp" alt="Proveta graduada: millor que el vas, però les divisions són grans">
+    <div class="step-card-body">
+      <div class="step-number">!</div>
+      <h3>Usar la proveta per a un volum que va al càlcul</h3>
+      <p>La proveta té divisions més fines que el vas (error d'<strong>±1 mL</strong>), però no és material de precisió. Serveix per afegir aigua o un reactiu en excés — mai per mesurar un volum que apareixerà en una fórmula.</p>
+    </div>
   </div>
 
 </div>
