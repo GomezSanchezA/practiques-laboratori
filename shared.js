@@ -1,5 +1,11 @@
 /* ═══════════ shared.js — Practice pages (S01–S09, D01–D17c) ═══════════ */
 
+// ── Iframe detection ──
+// When embedded in index.html via iframe, hide back-bar and footer
+if (window.parent !== window) {
+  document.documentElement.classList.add('in-iframe');
+}
+
 // ── Tabs ──
 function showTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => {

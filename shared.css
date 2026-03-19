@@ -91,6 +91,17 @@ body {
   padding-bottom: calc(2rem + var(--safe-bottom));
 }
 
+/* ───────── Objectiu box ───────── */
+.highlight-box {
+  border-radius: 14px; padding: 1.25rem; margin-bottom: 1.25rem;
+}
+.highlight-box h3 {
+  font-size: 0.92rem; font-weight: 700; color: var(--blue-700); margin-bottom: 0.3rem;
+}
+.highlight-box p {
+  font-size: 0.85rem; color: var(--gray-600); line-height: 1.55;
+}
+
 /* ───────── Resum ───────── */
 .resum-section { margin-bottom: 1.5rem; }
 .resum-section h3 {
@@ -150,15 +161,14 @@ body {
   font-size: 0.82rem; color: var(--gray-600); line-height: 1.5;
 }
 .proc-note {
-  display: flex; align-items: flex-start; gap: 0.4rem; flex-wrap: wrap;
   margin-top: 0.4rem; padding: 0.5rem 0.65rem;
   border-radius: 8px; font-size: 0.78rem; line-height: 1.4;
+  overflow: hidden;
 }
-.proc-note > :not(.proc-note-icon) { flex: 1; min-width: 0; }
 .proc-note.warn { background: var(--amber-50); color: var(--amber-700); }
 .proc-note.danger { background: var(--red-50); color: var(--red-700); }
 .proc-note.info { background: var(--blue-50); color: var(--blue-700); }
-.proc-note-icon { flex-shrink: 0; }
+.proc-note-icon { float: left; margin-right: 0.4rem; }
 
 /* ───────── Simulator ───────── */
 .sim-wrap {
@@ -275,6 +285,11 @@ body {
 .site-footer p {
   font-size: 0.7rem; color: var(--gray-400); line-height: 1.6;
 }
+
+/* ───────── Embedded in iframe (inside index.html) ───────── */
+.in-iframe .back-bar { display: none; }
+.in-iframe .hero { margin-top: 0; }
+.in-iframe .site-footer { display: none; }
 
 /* ───────── Desktop ───────── */
 @media (min-width: 768px) {

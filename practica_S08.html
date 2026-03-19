@@ -27,7 +27,7 @@
 
 <!-- Back bar -->
 <div class="back-bar">
-  <a class="back-btn" href="index.html">
+  <a class="back-btn" href="index.html" target="_top">
     <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
     Índex
   </a>
@@ -173,10 +173,11 @@
       <div class="sim-apparatus">
         <svg viewBox="0 0 220 340" width="220" height="340">
           <defs>
+            <!-- Amber glass (bureta topàcia — AgNO₃ és fotosensible) -->
             <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#fff" stop-opacity="0.15"/>
-              <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
-              <stop offset="100%" stop-color="#fff" stop-opacity="0.1"/>
+              <stop offset="0%" stop-color="#92400e" stop-opacity="0.25"/>
+              <stop offset="30%" stop-color="#b45309" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#92400e" stop-opacity="0.2"/>
             </linearGradient>
             <linearGradient id="agnoG" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="rgba(200,200,200,0.25)"/>
@@ -197,21 +198,25 @@
           <rect x="87" y="45" width="14" height="6" rx="2" fill="#64748b"/>
           <rect x="87" y="185" width="14" height="6" rx="2" fill="#64748b"/>
 
-          <rect x="101" y="10" width="18" height="200" rx="2" fill="rgba(226,232,240,0.3)" stroke="#cbd5e1" stroke-width="1.5"/>
+          <!-- Amber/topàcia glass tube -->
+          <rect x="101" y="10" width="18" height="200" rx="2" fill="rgba(180,130,50,0.25)" stroke="#b45309" stroke-width="1.5"/>
           <rect x="101" y="10" width="18" height="200" rx="2" fill="url(#glassG)"/>
 
           <rect id="buretaLiquid" x="101" y="10" width="18" height="200" rx="1" fill="url(#agnoG)" clip-path="url(#buretaClip)"/>
 
+          <!-- Bureta de 5 mL (escala) -->
           <line x1="119" y1="18" x2="125" y2="18" stroke="#94a3b8" stroke-width="0.8"/>
           <text x="127" y="21" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">0</text>
-          <line x1="119" y1="56" x2="124" y2="56" stroke="#94a3b8" stroke-width="0.5"/>
+          <line x1="119" y1="56" x2="125" y2="56" stroke="#94a3b8" stroke-width="0.8"/>
+          <text x="127" y="59" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">1</text>
           <line x1="119" y1="94" x2="125" y2="94" stroke="#94a3b8" stroke-width="0.8"/>
-          <text x="127" y="97" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">10</text>
-          <line x1="119" y1="132" x2="124" y2="132" stroke="#94a3b8" stroke-width="0.5"/>
+          <text x="127" y="97" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">2</text>
+          <line x1="119" y1="132" x2="125" y2="132" stroke="#94a3b8" stroke-width="0.8"/>
+          <text x="127" y="135" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">3</text>
           <line x1="119" y1="170" x2="125" y2="170" stroke="#94a3b8" stroke-width="0.8"/>
-          <text x="127" y="173" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">20</text>
+          <text x="127" y="173" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">4</text>
           <line x1="119" y1="200" x2="125" y2="200" stroke="#94a3b8" stroke-width="0.8"/>
-          <text x="127" y="203" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">25</text>
+          <text x="127" y="203" font-size="7" fill="#94a3b8" font-family="Inter,sans-serif">5</text>
 
           <rect x="98" y="8" width="24" height="4" rx="2" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
           <rect x="105" y="210" width="10" height="8" rx="2" fill="#64748b"/>
@@ -332,7 +337,7 @@
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
         <div class="consell-label tip">El pH ha de ser entre 6,5 i 9</div>
-        El mètode de Mohr només funciona en aquest rang de pH. A pH àcid, el CrO₄²⁻ es transforma en Cr₂O₇²⁻ (dicromat, taronja) i l'indicador no funciona. A pH bàsic, precipita AgOH. Amb NaCl en aigua desionitzada, el pH sol ser neutre — no cal ajustar-lo.
+        El mètode de Mohr només funciona en aquest rang de pH. A pH àcid, el CrO₄²⁻ es transforma en Cr₂O₇²⁻ (dicromat, taronja) i l'indicador no funciona. A pH bàsic, els ions OH⁻ precipiten Ag₂O (òxid de plata), que interfereix en la valoració. Si el pH és inferior a 6,5, ajusteu-lo amb carbonat o hidrogencarbonat de sodi.
       </div>
     </div>
 
@@ -387,7 +392,7 @@ function updateSim() {
   const v = parseInt(slider.value);
   const ratio = v / 1000;
 
-  const vol = (ratio * 25).toFixed(1).replace('.', ',');
+  const vol = (ratio * 5).toFixed(2).replace('.', ',');
   volLabel.textContent = vol;
 
   // Bureta level

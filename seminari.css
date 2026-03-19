@@ -555,6 +555,11 @@ body {
   font-size: 0.7rem; color: var(--gray-400); line-height: 1.6;
 }
 
+/* ───────── Embedded in iframe (inside index.html) ───────── */
+.in-iframe .back-bar { display: none; }
+.in-iframe .hero { margin-top: 0; }
+.in-iframe .site-footer { display: none; }
+
 /* ───────── Desktop ───────── */
 @media (min-width: 768px) {
   .hero { padding: 4rem 2rem 3rem; }
