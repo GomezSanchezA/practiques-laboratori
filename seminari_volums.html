@@ -109,7 +109,18 @@
   <div class="highlight-box success reveal">
     <div class="highlight-icon">💡</div>
     <h3>Regla senzilla</h3>
-    <p>Si el volum apareix en un càlcul → material volumètric de precisió (pipeta aforada, bureta, matràs aforat). Si esteu afegint aigua, tampó o un dissolvent on el volum exacte no importa → proveta o vas.</p>
+    <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="background:var(--green-100); color:var(--green-700); font-weight:700; padding:0.25rem 0.6rem; border-radius:6px; font-size:0.78rem; white-space:nowrap;">El volum apareix al càlcul</span>
+        <span style="font-size:0.85rem; color:var(--gray-400);">&#10132;</span>
+        <span style="font-size:0.82rem;">Material de precisió <strong>(pipeta aforada, bureta, matràs aforat)</strong></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="background:var(--gray-100); color:var(--gray-600); font-weight:700; padding:0.25rem 0.6rem; border-radius:6px; font-size:0.78rem; white-space:nowrap;">Aigua, tampó, dissolvent...</span>
+        <span style="font-size:0.85rem; color:var(--gray-400);">&#10132;</span>
+        <span style="font-size:0.82rem;">Proveta o vas</span>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════ SECTION 3: MENISCUS ═══════ -->
@@ -120,13 +131,48 @@
     <p>Abans de parlar de cada material, cal saber llegir correctament.</p>
   </div>
 
+  <div class="highlight-box info reveal">
+    <div class="highlight-icon">👁️</div>
+    <h3>El menisc</h3>
+    <p>L'aigua forma una corba (menisc) quan toca el vidre. La lectura correcta és sempre la <strong>part inferior de la corba</strong>, amb els ulls <strong>al mateix nivell</strong> que el líquid.</p>
+  </div>
+
   <div class="step-card reveal" style="border-color: var(--amber-100);">
     <img class="step-card-img" src="img/volum_menisc_bureta_03.webp" alt="Menisc en una bureta: la part inferior de la corba cau entre 20,7 i 20,8 mL — lectura correcta: 20,75 mL">
     <div class="step-card-body">
-      <h3>El menisc i l'error de paral·laxi</h3>
-      <p>L'aigua forma una corba (menisc) quan toca el vidre. La lectura correcta és sempre la <strong>part inferior de la corba</strong>, amb els ulls <strong>al mateix nivell</strong> que el líquid.</p>
-      <p style="margin-top:0.5rem;">En aquesta imatge, la part inferior del menisc cau <strong>entre les marques de 20,7 i 20,8 mL</strong>. Com que està aproximadament al mig, estimem el segon decimal: la lectura correcta és <strong>20,75 mL</strong>. La bureta té divisions cada 0,1 mL, però la vostra vista us permet estimar fins a <strong>0,05 mL</strong> — és a dir, podeu decidir si el menisc toca la línia (20,70), cau al mig (20,75) o quasi toca la següent (20,80).</p>
-      <p style="margin-top:0.5rem;">Si mireu des de dalt → llegireu menys del real. Si mireu des de baix → llegireu més. Això es diu <strong>error de paral·laxi</strong> i afecta totes les lectures volumètriques.</p>
+      <h3>Lectura a la bureta</h3>
+      <p>La part inferior del menisc cau <strong>entre les marques de 20,7 i 20,8 mL</strong>. Com que està aproximadament al mig, estimem el segon decimal: la lectura correcta és <strong>20,75 mL</strong>.</p>
+      <p style="margin-top:0.5rem;">La bureta té divisions cada 0,1 mL, però la vostra vista us permet estimar fins a <strong>0,05 mL</strong> — podeu decidir si el menisc toca la línia (20,70), cau al mig (20,75) o quasi toca la següent (20,80).</p>
+    </div>
+  </div>
+
+  <div class="step-card reveal" style="border-color: var(--amber-100);">
+    <img class="step-card-img" src="img/volum_menisc_matras_04.webp" alt="Menisc en un matràs aforat: el menisc ha de ser tangent a la línia d'aforament">
+    <div class="step-card-body">
+      <h3>Lectura al matràs aforat</h3>
+      <p>El matràs aforat té <strong>una sola marca</strong>. Afegiu líquid fins que la part inferior del menisc sigui <strong>tangent a la línia d'aforament</strong>. Aquí no cal estimar decimals — només cal que toqui la línia exactament.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box error reveal">
+    <div class="highlight-icon">⚠️</div>
+    <h3>L'error de paral·laxi</h3>
+    <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="background:var(--red-100); color:var(--red-700); font-weight:700; padding:0.25rem 0.6rem; border-radius:6px; font-size:0.78rem; white-space:nowrap;">Mireu des de dalt</span>
+        <span style="font-size:0.85rem; color:var(--gray-400);">&#10132;</span>
+        <span style="font-size:0.82rem;">Llegireu <strong>menys</strong> del valor real</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="background:var(--red-100); color:var(--red-700); font-weight:700; padding:0.25rem 0.6rem; border-radius:6px; font-size:0.78rem; white-space:nowrap;">Mireu des de baix</span>
+        <span style="font-size:0.85rem; color:var(--gray-400);">&#10132;</span>
+        <span style="font-size:0.82rem;">Llegireu <strong>més</strong> del valor real</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="background:var(--green-100); color:var(--green-700); font-weight:700; padding:0.25rem 0.6rem; border-radius:6px; font-size:0.78rem; white-space:nowrap;">Ulls al mateix nivell</span>
+        <span style="font-size:0.85rem; color:var(--gray-400);">&#10132;</span>
+        <span style="font-size:0.82rem;">Lectura <strong>correcta</strong></span>
+      </div>
     </div>
   </div>
 
