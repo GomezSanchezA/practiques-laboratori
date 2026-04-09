@@ -22,7 +22,6 @@
   <div class="navbar-title">
     <span class="accent">Pràctiques</span> de Laboratori
   </div>
-  <div class="navbar-subtitle">Química Analítica — Grau de Farmàcia (UB)</div>
 </nav>
 
 <!-- ═══════════ Overlay ═══════════ -->
@@ -62,7 +61,7 @@
       <button class="menu-section-header" onclick="toggleSection('sec-seminaris')">
         <div class="menu-section-icon seminari">📋</div>
         <span class="menu-section-label">Seminaris</span>
-        <span class="menu-section-count">3</span>
+        <span class="menu-section-count">4</span>
         <svg class="menu-section-chevron" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </button>
       <div class="menu-section-items">
@@ -77,6 +76,10 @@
         <button class="menu-item" data-page="SEM03" onclick="navigateTo('SEM03')">
           <span class="menu-item-code">S.3</span>
           Tipus de reaccions
+        </button>
+        <button class="menu-item" data-page="SEM04" onclick="navigateTo('SEM04')">
+          <span class="menu-item-code">S.4</span>
+          Xifres significatives
         </button>
       </div>
     </div>
@@ -114,7 +117,6 @@
         <svg viewBox="0 0 24 24"><path d="M7 2v2h1v7.15C6.16 12.33 5 14.42 5 17c0 3.87 3.13 7 7 7s7-3.13 7-7c0-2.58-1.16-4.67-3-6.15V4h1V2H7zm2 2h6v7.89l.5.35C17.04 13.47 18 15.1 18 17c0 2.76-2.24 5-5 5s-5-2.24-5-5c0-1.9.96-3.53 2.5-4.76l.5-.35V4z"/></svg>
       </div>
       <h1>Pràctiques de Laboratori</h1>
-      <p>Química Analítica — Grau de Farmàcia, Universitat de Barcelona</p>
     </div>
 
     <div class="landing-cards">
@@ -131,7 +133,7 @@
         <div class="landing-card-body">
           <h3>Seminaris</h3>
           <p>Introducció al laboratori: pesada, material volumètric, tipus de reaccions i tècniques bàsiques.</p>
-          <span class="card-count">3 seminaris</span>
+          <span class="card-count">4 seminaris</span>
         </div>
       </div>
       <div class="landing-card" onclick="navigateTo('hub-est')">
@@ -200,7 +202,8 @@
 
 <footer class="site-footer">
   <p>
-    Adrián Gómez Sánchez &middot; Universitat de Barcelona &middot; Facultat de Química &middot; Dept. d'Enginyeria Química i Química Analítica &middot; &copy; 2026
+    Adrián Gómez Sánchez &middot; Universitat de Barcelona &middot; Facultat de Química &middot; Dept. d'Enginyeria Química i Química Analítica &middot; &copy; 2026<br>
+    Basat en <em>Pràctiques de Química Analítica Bàsica</em> (Text docent 396): Cristina Ariño, Gemma Fonrodona, Montserrat Llauradó i Lluís Puignou (UB, 2a ed., Barcelona, febrer 2023).
   </p>
 </footer>
 
@@ -264,6 +267,7 @@ function buildPages() {
     { id: 'SEM01', title: 'La pesada per diferència', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     { id: 'SEM02', title: 'Mesura de volums', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     { id: 'SEM03', title: 'Tipus de reaccions', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
+    { id: 'SEM04', title: 'Xifres significatives', type: 'seminari', typeLabel: 'Seminari', section: 'Seminaris' },
     ...estandarditzacións.map(e => ({...e, type: 'estandardització', typeLabel: 'Estandardització', section: 'Estandarditzacions'})),
     ...determinacions.map(d => ({...d, type: 'determinacio', typeLabel: 'Determinació', section: 'Determinacions'})),
   ];
@@ -336,6 +340,22 @@ function buildPages() {
           </div>
           <p class="embed-hint" style="margin-top:0.5rem;">
             <a href="seminari_reaccions.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
+          </p>
+        </div>`;
+    } else if (item.id === 'SEM04') {
+      content = `
+        <div class="mobile-only">
+          <a class="open-fullpage-btn" href="seminari_xifres_significatives.html">
+            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            Obrir seminari: Xifres significatives
+          </a>
+        </div>
+        <div class="desktop-only">
+          <div class="embed-container">
+            <iframe src="seminari_xifres_significatives.html" loading="lazy" title="Seminari: Xifres significatives"></iframe>
+          </div>
+          <p class="embed-hint" style="margin-top:0.5rem;">
+            <a href="seminari_xifres_significatives.html" style="color:var(--blue-500);text-decoration:none;font-weight:500;">Obrir a pantalla completa &rarr;</a>
           </p>
         </div>`;
     } else if (item.hasContent) {
@@ -423,6 +443,7 @@ const seminaris = [
   { id: 'SEM01', title: 'La pesada per diferència', desc: 'Tècnica de pesada en balança analítica' },
   { id: 'SEM02', title: 'Mesura de volums', desc: 'Pipetes, buretes i material volumètric' },
   { id: 'SEM03', title: 'Tipus de reaccions', desc: 'Les 4 famílies: àcid-base, complexació, redox i precipitació' },
+  { id: 'SEM04', title: 'Xifres significatives', desc: 'Com anotar dades i resultats amb la precisió correcta' },
 ];
 
 // Build seminari hub (special: no rxn type, just simple cards)

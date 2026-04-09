@@ -153,6 +153,11 @@ body {
 .section-label.amber .section-label-icon { background: var(--amber-100); }
 .section-label.amber h2 { color: var(--amber-700); }
 
+/* Keep first content block visually attached to section heading */
+.section-label + .highlight-box {
+  margin-top: 0.35rem;
+}
+
 /* ───────── Step cards ───────── */
 .step-card {
   background: #fff;
