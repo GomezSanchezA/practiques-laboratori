@@ -199,9 +199,9 @@
             </linearGradient>
             <!-- KMnO4 liquid in bureta (purple/violet) -->
             <linearGradient id="kmno4G" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(168,85,247,0.6)"/>
-              <stop offset="50%" stop-color="rgba(147,51,234,0.5)"/>
-              <stop offset="100%" stop-color="rgba(168,85,247,0.6)"/>
+              <stop offset="0%" stop-color="rgba(42,0,80,0.95)"/>
+              <stop offset="50%" stop-color="rgba(18,0,38,0.98)"/>
+              <stop offset="100%" stop-color="rgba(55,0,100,0.95)"/>
             </linearGradient>
             <!-- Clip for bureta liquid -->
             <clipPath id="buretaClip">
@@ -366,6 +366,7 @@ const EQ_POINT = 800; // 80% of slider
 const COLORLESS = { r:200, g:200, b:200 };
 const FAINT_PINK = { r:168, g:85, b:247 };
 const ENDPOINT_PINK = { r:168, g:85, b:247 };
+const EXCESS_VIOLET = { r:76, g:29, b:149 };
 
 let lastV = 0;
 let dropTimeout = null;
@@ -417,12 +418,19 @@ function updateSim() {
     labelBg = 'rgba(168,85,247,0.55)';
     labelColor = '#fff';
     status = "Esteu a punt! El rosa triga a desaparèixer. Afegiu mitja gota i espereu 30 segons complets.";
-  } else {
+  } else if (v < EQ_POINT * 1.06) {
     fillColor = lerpRGBA(ENDPOINT_PINK, ENDPOINT_PINK, 1, 0.35);
     labelText = '✓ ROSA PERSISTENT — Punt final';
     labelBg = 'rgba(168,85,247,0.75)';
     labelColor = '#fff';
     status = "Tot l'oxalat s'ha consumit. L'excés de KMnO₄ ja no es redueix i la dissolució manté un rosa pàl·lid persistent ≥ 30 s.";
+  } else {
+    const t = Math.min(1, (v - EQ_POINT * 1.06) / (1000 - EQ_POINT * 1.06));
+    fillColor = lerpRGBA(ENDPOINT_PINK, EXCESS_VIOLET, t, 0.35 + t * 0.25);
+    labelText = 'Violeta — us heu passat';
+    labelBg = 'rgba(76,29,149,0.9)';
+    labelColor = '#fff';
+    status = "Heu afegit massa KMnO₄. El punt final era un rosa pàl·lid persistent; el violeta indica un excés clar de permanganat.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);

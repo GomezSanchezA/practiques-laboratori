@@ -410,18 +410,29 @@ function updateSim() {
     labelBg = 'rgba(170,170,165,0.9)';
     labelColor = '#333';
     status = "Queda molt poc Ag⁺. Aneu gota a gota i agiteu fort! Observeu si apareix una coloració taronja que no desapareix en agitar.";
-  } else {
+  } else if (v < EQ_POINT * 1.08) {
     // ENDPOINT — orange-red FeSCN2+
-    const t = Math.min(1, (v - EQ_POINT) / (1000 - EQ_POINT));
+    const t = (v - EQ_POINT) / (EQ_POINT * 0.08);
     turbidityAlpha = 0.45;
     particleAlpha = 0.9;
     sedimentAlpha = 0.5;
     liquidAlpha = 0.04;
-    endpointAlpha = 0.12 + t * 0.35;
+    endpointAlpha = 0.12 + t * 0.18;
     labelText = '✓ TARONJA-VERMELL — Punt final';
     labelBg = 'rgba(234,88,12,0.85)';
     labelColor = '#fff';
-    status = "Tot l'Ag⁺ ha precipitat com AgSCN. El SCN⁻ en excés forma [FeSCN]²⁺ taronja-vermell amb el Fe³⁺. Coloració persistent ≥ 30 s.";
+    status = "Tot l'Ag⁺ ha precipitat com AgSCN. El SCN⁻ en excés forma [FeSCN]²⁺ taronja-vermell amb el Fe³⁺. La primera coloració persistent ≥ 30 s és el punt final.";
+  } else {
+    const t = Math.min(1, (v - EQ_POINT * 1.08) / (1000 - EQ_POINT * 1.08));
+    turbidityAlpha = 0.45;
+    particleAlpha = 0.9;
+    sedimentAlpha = 0.5;
+    liquidAlpha = 0.03;
+    endpointAlpha = 0.32 + t * 0.3;
+    labelText = 'Taronja-vermell intens — excés de KSCN';
+    labelBg = 'rgba(154,52,18,0.9)';
+    labelColor = '#fff';
+    status = "Us heu passat del punt final. Un taronja-vermell massa intens indica excés de SCN⁻; el volum ja no és fiable.";
   }
 
   // Apply

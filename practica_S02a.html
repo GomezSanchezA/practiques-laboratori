@@ -408,13 +408,21 @@ function updateSim() {
     labelBg = 'rgba(234,88,30,0.8)';
     labelColor = '#fff';
     status = "El color és gairebé roig. Atureu, bulliu 2-3 min per expulsar el CO₂, refredeu i observeu el color.";
-  } else {
+  } else if (v < EQ_POINT * 1.08) {
     // Red — endpoint reached
     fillColor = `rgba(220,38,38,0.45)`;
     labelText = '✓ ROIG — Punt final (després d\'ebullició)';
     labelBg = 'rgba(220,38,38,0.8)';
     labelColor = '#fff';
     status = "Roig persistent ≥ 30 s després de bullir i refredar. Tot el carbonat ha reaccionat i el CO₂ s'ha expulsat. Punt final!";
+  } else {
+    // Excess acid — red becomes too intense
+    const t = Math.min(1, (v - EQ_POINT * 1.08) / (1000 - EQ_POINT * 1.08));
+    fillColor = `rgba(185,28,28,${0.55 + t * 0.2})`;
+    labelText = 'Roig intens — excés d\'HCl';
+    labelBg = 'rgba(127,29,29,0.9)';
+    labelColor = '#fff';
+    status = "Us heu passat del punt final. El roig intens indica un excés clar d'àcid; el volum ja no correspon només a la neutralització del carbonat.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);

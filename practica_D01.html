@@ -341,12 +341,19 @@ function updateSim() {
     labelBg = 'rgba(236,72,153,0.4)';
     labelColor = '#fff';
     status = "Queda molt poc àcid. Les gotes de NaOH fan un flash rosa que desapareix. Aneu gota a gota!";
-  } else {
+  } else if (v < EQ_POINT * 1.08) {
     fillColor = 'rgba(236,72,153,0.4)';
     labelText = '✓ ROSA PERSISTENT — Punt final';
     labelBg = 'rgba(236,72,153,0.75)';
     labelColor = '#fff';
-    status = "Tot l'àcid acètic ha estat neutralitzat. La primera gota de NaOH en excés fa pujar el pH i la fenolftaleïna vira a rosa persistent (>= 30 s).";
+    status = "Tot l'àcid acètic ha estat neutralitzat. La primera gota de NaOH en excés fa pujar el pH i la fenolftaleïna vira a rosa persistent (>= 30 s). No continueu afegint NaOH.";
+  } else {
+    const t = Math.min(1, (v - EQ_POINT * 1.08) / (1000 - EQ_POINT * 1.08));
+    fillColor = `rgba(236,72,153,${0.45 + t * 0.25})`;
+    labelText = 'Rosa intens — excés de NaOH';
+    labelBg = 'rgba(190,24,93,0.9)';
+    labelColor = '#fff';
+    status = "Us heu passat del punt final. El rosa intens indica un excés clar de NaOH; el volum ja no representa només la neutralització de l'àcid acètic.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);

@@ -375,13 +375,21 @@ function updateSim() {
     labelBg = 'rgba(234,88,30,0.8)';
     labelColor = '#fff';
     status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu 30 segons.";
-  } else {
+  } else if (v < EQ_POINT * 1.08) {
     // Red — endpoint
     fillColor = `rgba(220,38,38,0.45)`;
     labelText = '✓ ROIG — Punt final';
     labelBg = 'rgba(220,38,38,0.8)';
     labelColor = '#fff';
     status = "Roig persistent ≥ 30 s. Tot el TRIS ha reaccionat amb l'HCl. No cal bullir. Punt final!";
+  } else {
+    // Excess acid — red becomes too intense
+    const t = Math.min(1, (v - EQ_POINT * 1.08) / (1000 - EQ_POINT * 1.08));
+    fillColor = `rgba(185,28,28,${0.55 + t * 0.2})`;
+    labelText = 'Roig intens — excés d\'HCl';
+    labelBg = 'rgba(127,29,29,0.9)';
+    labelColor = '#fff';
+    status = "Us heu passat del punt final. El roig intens indica excés d'HCl; el punt final era el primer roig persistent, no un roig cada vegada més fort.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);

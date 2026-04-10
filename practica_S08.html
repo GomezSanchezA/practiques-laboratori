@@ -455,18 +455,29 @@ function updateSim() {
     labelBg = 'rgba(170,170,165,0.9)';
     labelColor = '#333';
     status = "Queda molt poc Cl⁻. Aneu gota a gota i observeu si apareix una coloració vermellosa persistent en afegir cada gota.";
-  } else {
+  } else if (v < EQ_POINT * 1.08) {
     // ENDPOINT — red Ag2CrO4 precipitate appears
-    const t = Math.min(1, (v - EQ_POINT) / (1000 - EQ_POINT));
+    const t = (v - EQ_POINT) / (EQ_POINT * 0.08);
     turbidityAlpha = 0.5;
     particleAlpha = 0.9;
     sedimentAlpha = 0.55;
     liquidAlpha = 0.05;
-    endpointAlpha = 0.1 + t * 0.35; // red tint grows
+    endpointAlpha = 0.1 + t * 0.18; // first persistent red tint
     labelText = '✓ VERMELL — Punt final (Ag₂CrO₄)';
     labelBg = 'rgba(185,28,28,0.85)';
     labelColor = '#fff';
-    status = "Tot el Cl⁻ ha precipitat. L'excés d'Ag⁺ reacciona amb CrO₄²⁻ formant Ag₂CrO₄ vermell. Coloració vermellosa persistent ≥ 30 s.";
+    status = "Tot el Cl⁻ ha precipitat. L'excés d'Ag⁺ reacciona amb CrO₄²⁻ formant Ag₂CrO₄ vermell. La primera coloració vermellosa persistent ≥ 30 s és el punt final.";
+  } else {
+    const t = Math.min(1, (v - EQ_POINT * 1.08) / (1000 - EQ_POINT * 1.08));
+    turbidityAlpha = 0.5;
+    particleAlpha = 0.9;
+    sedimentAlpha = 0.55;
+    liquidAlpha = 0.04;
+    endpointAlpha = 0.3 + t * 0.28;
+    labelText = 'Vermell intens — excés d\'AgNO₃';
+    labelBg = 'rgba(127,29,29,0.9)';
+    labelColor = '#fff';
+    status = "Us heu passat del punt final. Una coloració vermella molt intensa indica massa AgNO₃; el volum ja no és fiable.";
   }
 
   // Apply to SVG elements
