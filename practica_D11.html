@@ -279,6 +279,14 @@
     <div class="consell-card">
       <div class="consell-icon tip">💡</div>
       <div class="consell-text">
+        <div class="consell-label tip">Verd?! Què creieu que ha passat?</div>
+        <strong>Us heu passat del punt final.</strong> El primer blau pàl·lid persistent era el senyal per aturar-vos. Si continueu afegint Ce(IV), el seu color groc es barreja amb el blau pàl·lid de la ferroïna oxidada i pot aparèixer un to verdós o groc-verdós.
+      </div>
+    </div>
+
+    <div class="consell-card">
+      <div class="consell-icon tip">💡</div>
+      <div class="consell-text">
         <div class="consell-label tip">Rapidesa és clau</div>
         <strong>Dissoleu, filtreu i valoreu sense pausa.</strong> El Fe²⁺ s'oxida en contacte amb l'aire. Per això l'àcid es bull (per eliminar O₂) i es refreda just abans d'usar-lo. No deixeu la dissolució destapada.
       </div>
@@ -321,6 +329,8 @@ const EQ_POINT = 800; // 80% of slider
 const RED       = { r:220, g:38,  b:38  }; // vermell/taronja (ferroïna)
 const TRANSITION= { r:160, g:100, b:140 }; // transició
 const PALE_BLUE = { r:147, g:197, b:253 }; // blau pàl·lid
+const OVER_GREEN= { r:120, g:170, b:120 }; // excés de Ce(IV): blau + groc
+const OVER_YELL = { r:234, g:179, b:8   }; // excés important de Ce(IV)
 
 let lastV = 0;
 let dropTimeout = null;
@@ -365,11 +375,23 @@ function updateSim() {
     labelText = 'Quasi blau — mitja gota!';
     labelBg = 'rgba(140,140,180,0.8)';
     status = "Esteu a punt! Una sola gota pot ser la diferència. Afegiu mitja gota i espereu.";
-  } else {
+  } else if (v < EQ_POINT * 1.06) {
     fillColor = lerpRGBA(PALE_BLUE, PALE_BLUE, 1, 0.35);
     labelText = '✓ BLAU PÀL·LID — Punt final';
     labelBg = 'rgba(100,150,220,0.85)';
     status = "Tot el Fe²⁺ de la mostra ha estat oxidat a Fe³⁺ pel Ce(IV). El Ce(IV) en excés ha oxidat la ferroïna, que ara mostra el seu color blau pàl·lid.";
+  } else if (v < EQ_POINT * 1.18) {
+    const t = (v - EQ_POINT * 1.06) / (EQ_POINT * 0.12);
+    fillColor = lerpRGBA(PALE_BLUE, OVER_GREEN, t, 0.38);
+    labelText = 'Verdós — us esteu passant';
+    labelBg = 'rgba(90,150,120,0.85)';
+    status = "Ja heu passat el punt final. L'excés de Ce(IV) (groc) es barreja visualment amb la ferroïna oxidada (blau pàl·lid) i pot donar un to verdós.";
+  } else {
+    const t = Math.min(1, (v - EQ_POINT * 1.18) / (1000 - EQ_POINT * 1.18));
+    fillColor = lerpRGBA(OVER_GREEN, OVER_YELL, t, 0.42);
+    labelText = 'Groc/verdós — excés de Ce(IV)';
+    labelBg = 'rgba(180,140,20,0.9)';
+    status = "Hi ha un excés important de Ce(IV). Aquesta valoració ja està sobrepassada: el volum anotat seria massa alt i el resultat de ferro sortiria sobreestimat.";
   }
 
   flaskLiquid.setAttribute('fill', fillColor);
