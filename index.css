@@ -339,6 +339,25 @@ body {
   color: var(--gray-500);
 }
 
+.home-notice {
+  background: var(--blue-50);
+  border: 1px solid var(--blue-200);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  margin: 0.25rem 0 1rem;
+}
+.home-notice h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--blue-800);
+  margin-bottom: 0.3rem;
+}
+.home-notice p {
+  font-size: 0.79rem;
+  color: var(--gray-700);
+  line-height: 1.45;
+}
+
 .landing-cards {
   display: flex;
   flex-direction: column;
