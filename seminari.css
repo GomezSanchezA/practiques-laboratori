@@ -549,6 +549,17 @@ body {
 .phase-label.after { color: var(--green-600); }
 .phase-label::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
 
+/* ───────── Math (MathJax) ───────── */
+.content .mjx-container[jax="CHTML"] {
+  max-width: 100%;
+}
+.content .mjx-container[jax="CHTML"][display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.15rem;
+}
+
 /* ───────── Footer ───────── */
 .site-footer {
   text-align: center;
